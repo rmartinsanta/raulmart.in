@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tag1 on Mi referencia</title>
-    <link>http://example.org/es/tags/tag1/</link>
+    <link>https://raulmart.in/es/tags/tag1/</link>
     <description>Recent content in tag1 on Mi referencia</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://example.org/es/tags/tag1/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://raulmart.in/es/tags/tag1/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>El titulo del post</title>
-      <link>http://example.org/es/posts/my-first-post/</link>
+      <link>https://raulmart.in/es/posts/my-first-post/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/es/posts/my-first-post/</guid>
+      <guid>https://raulmart.in/es/posts/my-first-post/</guid>
       <description>Mi primer blog post Aqui asdasdasd
 SUb Que pasa
 /bin/bash -e que pacha gentusa </description>

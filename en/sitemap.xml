@@ -3,106 +3,106 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://raulmart.in/</loc>
     <lastmod>2020-01-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/"
+                href="https://raulmart.in/es/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/"
+                href="https://raulmart.in/"
                 />
   </url>
   
   <url>
-    <loc>http://example.org/posts/my-first-post/</loc>
+    <loc>https://raulmart.in/posts/my-first-post/</loc>
     <lastmod>2020-01-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/posts/my-first-post/"
+                href="https://raulmart.in/es/posts/my-first-post/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/posts/my-first-post/"
+                href="https://raulmart.in/posts/my-first-post/"
                 />
   </url>
   
   <url>
-    <loc>http://example.org/posts/</loc>
+    <loc>https://raulmart.in/posts/</loc>
     <lastmod>2020-01-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/posts/"
+                href="https://raulmart.in/es/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/posts/"
+                href="https://raulmart.in/posts/"
                 />
   </url>
   
   <url>
-    <loc>http://example.org/tags/tag1/</loc>
+    <loc>https://raulmart.in/tags/tag1/</loc>
     <lastmod>2020-01-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/tags/tag1/"
+                href="https://raulmart.in/es/tags/tag1/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/tags/tag1/"
+                href="https://raulmart.in/tags/tag1/"
                 />
   </url>
   
   <url>
-    <loc>http://example.org/tags/tag2/</loc>
+    <loc>https://raulmart.in/tags/tag2/</loc>
     <lastmod>2020-01-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/tags/tag2/"
+                href="https://raulmart.in/es/tags/tag2/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/tags/tag2/"
+                href="https://raulmart.in/tags/tag2/"
                 />
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://raulmart.in/tags/</loc>
     <lastmod>2020-01-13T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/tags/"
+                href="https://raulmart.in/es/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/tags/"
+                href="https://raulmart.in/tags/"
                 />
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://raulmart.in/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="http://example.org/es/categories/"
+                href="https://raulmart.in/es/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://example.org/categories/"
+                href="https://raulmart.in/categories/"
                 />
   </url>
   

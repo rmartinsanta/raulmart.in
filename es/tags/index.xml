@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Mi referencia</title>
-    <link>http://example.org/es/tags/</link>
+    <link>https://raulmart.in/es/tags/</link>
     <description>Recent content in Tags on Mi referencia</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://example.org/es/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://raulmart.in/es/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>tag1</title>
-      <link>http://example.org/es/tags/tag1/</link>
+      <link>https://raulmart.in/es/tags/tag1/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/es/tags/tag1/</guid>
+      <guid>https://raulmart.in/es/tags/tag1/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tag2</title>
-      <link>http://example.org/es/tags/tag2/</link>
+      <link>https://raulmart.in/es/tags/tag2/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/es/tags/tag2/</guid>
+      <guid>https://raulmart.in/es/tags/tag2/</guid>
       <description></description>
     </item>
     
