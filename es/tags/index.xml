@@ -6,26 +6,17 @@
     <description>Recent content in Tags on Mi referencia</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://raulmart.in/es/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>tag1</title>
-      <link>https://raulmart.in/es/tags/tag1/</link>
-      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      <title>blog</title>
+      <link>https://raulmart.in/es/tags/blog/</link>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://raulmart.in/es/tags/tag1/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tag2</title>
-      <link>https://raulmart.in/es/tags/tag2/</link>
-      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://raulmart.in/es/tags/tag2/</guid>
+      <guid>https://raulmart.in/es/tags/blog/</guid>
       <description></description>
     </item>
     
