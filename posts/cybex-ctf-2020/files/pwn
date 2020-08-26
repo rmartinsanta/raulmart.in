@@ -1,0 +1,24 @@
+pwn
+
+2147483647
+-2147483647
+
+Fase 3
+X: 4294967294 (-2), es maxint * 2
+Y: 1339
+
+Fase 4:
+x > 1337
+x² - 153153 = 417061379
+
+X**2 = 417214532
+
+
+for (int i = 1337; i < Integer.MAX_VALUE; i++) {
+	int result = i * i - 153153;
+	if(result == 417061379){
+		System.out.println(i);
+    }
+}
+
+

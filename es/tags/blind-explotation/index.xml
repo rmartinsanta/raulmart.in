@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blind explotation on Blog</title>
+    <link>https://raulmart.in/es/tags/blind-explotation/</link>
+    <description>Recent content in blind explotation on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://raulmart.in/es/tags/blind-explotation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Blind Hacker - fwhibbit 2020</title>
+      <link>https://raulmart.in/es/posts/fwhibbit-c0r0n4con-blindhacker/</link>
+      <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/es/posts/fwhibbit-c0r0n4con-blindhacker/</guid>
+      <description>Blind Hacker - fwhibbit 2020 Hoy vamos a atacar el nuevo reto web del CTF fwhibbit 2020, si no habéis participado os recomiendo registraros y probar los retos, están muy currados.
+Introducción En este reto tenemos un Bot de Telegram, @blindhackerchallbot, el cual &amp;ldquo;analizará&amp;rdquo; la URL que le pidamos. La nota nos dice que existe un servidor web en http://blind_hacker por lo que supondremos que será accesible solo desde el bot de Telegram, teniendo que aprovecharnos del bot para intentar explotarlo.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>blog on Mi referencia</title>
+    <title>blog on Blog</title>
     <link>https://raulmart.in/es/tags/blog/</link>
-    <description>Recent content in blog on Mi referencia</description>
+    <description>Recent content in blog on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
     <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://raulmart.in/es/tags/blog/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +17,7 @@
       <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://raulmart.in/es/posts/my-first-post/</guid>
-      <description>Construyendo la web Para construir la web hemos optado por usar Hugo como generador de sitios estáticos, de forma que podamos automatizar el mantenimiento y despliegue, que realizaremos mediante GitHub Actions.
+      <description>Construyendo la web Para construir la web hemos optado por usar Hugo como generador de sitios estáticos, de forma que podamos automatizar el mantenimiento y despliegue, que realizaremos mediante Travis y GitHub pages.
 Hugo Hugo es un generador de sitios estáticos escrito en Go.
 Para instalarlo y crear la página web inicial, hemos utilizado las instrucciones disponibles en la documentación oficial.
 El tema elegido como base es &amp;ldquo;Terminal&amp;rdquo;, sobre el cual realizaremos todas las modificaciones necesarias.</description>

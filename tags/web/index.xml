@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web on Blog</title>
+    <link>https://raulmart.in/tags/web/</link>
+    <description>Recent content in web on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 16 Jul 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://raulmart.in/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Una Al Mes - Julio 2020</title>
+      <link>https://raulmart.in/posts/uam-julio/</link>
+      <pubDate>Thu, 16 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/uam-julio/</guid>
+      <description>UAM - Julio Volvemos a la carga con el reto mensual de Una Al Mes, ¿qué troleada nos esperará hoy?
+Reconocimiento inicial Nos encontramos una web en la que podemos registrarnos e iniciar sesión.
+Revisando el código de la web vemos el siguiente fragmento de JavaScript ofuscado:
+javascript    document.getElementById(&amp;#34;item&amp;#34;).focus(); var _0x1e50=[&amp;#39;TOD&amp;#39;,&amp;#39;log&amp;#39;,&amp;#39;ish&amp;#39;,&amp;#39;):\x20&amp;#39;,&amp;#39;\x20an&amp;#39;,&amp;#39;int&amp;#39;,&amp;#39;nic&amp;#39;,&amp;#39;ow\x20&amp;#39;,&amp;#39;men&amp;#39;,&amp;#39;iro&amp;#39;,&amp;#39;le\x20&amp;#39;,&amp;#39;ple&amp;#39;,&amp;#39;O(h&amp;#39;,&amp;#39;the&amp;#39;]; (function(_0x886df4,_0x1e50a1){var _0x21eb8f=function(_0x40e947){while(--_0x40e947){_0x886df4[&amp;#39;push&amp;#39;](_0x886df4[&amp;#39;shift&amp;#39;]());}};_0x21eb8f(&amp;#43;&amp;#43;_0x1e50a1);}(_0x1e50,0x87));var _0x21eb=function(_0x886df4,_0x1e50a1){_0x886df4=_0x886df4-0x0;var _0x21eb8f=_0x1e50[_0x886df4];return _0x21eb8f;};function hi(){console[_0x21eb(&amp;#39;0x6&amp;#39;)](_0x21eb(&amp;#39;0x5&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x3&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xc&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x0&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xb&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x8&amp;#39;)&amp;#43;&amp;#39;Fin&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x7&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x9&amp;#39;)&amp;#43;&amp;#39;d\x20e&amp;#39;&amp;#43;&amp;#39;nab&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x1&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x4&amp;#39;)&amp;#43;&amp;#39;\x20pr&amp;#39;&amp;#43;_0x21eb(&amp;#39;0xa&amp;#39;)&amp;#43;&amp;#39;\x20im&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x2&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xd&amp;#39;)&amp;#43;&amp;#39;tat&amp;#39;&amp;#43;&amp;#39;ion&amp;#39;);}   Limpiando y ordenando un poco
+javascript    var data=[&amp;#39;TOD&amp;#39;,&amp;#39;log&amp;#39;,&amp;#39;ish&amp;#39;,&amp;#39;):\x20&amp;#39;,&amp;#39;\x20an&amp;#39;,&amp;#39;int&amp;#39;,&amp;#39;nic&amp;#39;,&amp;#39;ow\x20&amp;#39;,&amp;#39;men&amp;#39;,&amp;#39;iro&amp;#39;,&amp;#39;le\x20&amp;#39;,&amp;#39;ple&amp;#39;,&amp;#39;O(h&amp;#39;,&amp;#39;the&amp;#39;]; (function(data, index) { var reorder = function(index) { while (--index) { data.</description>
+    </item>
+    
+  </channel>
+</rss>

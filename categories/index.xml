@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on My reference</title>
+    <title>Categories on Blog</title>
     <link>https://raulmart.in/categories/</link>
-    <description>Recent content in Categories on My reference</description>
+    <description>Recent content in Categories on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
     
 	<atom:link href="https://raulmart.in/categories/index.xml" rel="self" type="application/rss+xml" />
     

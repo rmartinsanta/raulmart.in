@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cybex 2020 on Blog</title>
+    <link>https://raulmart.in/es/tags/cybex-2020/</link>
+    <description>Recent content in Cybex 2020 on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://raulmart.in/es/tags/cybex-2020/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cybex 2020 CTF</title>
+      <link>https://raulmart.in/es/posts/cybex-ctf-2020/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/es/posts/cybex-ctf-2020/</guid>
+      <description>Cybex 2020 Challenges Writeup Reversing Serial Se trata de un ejecutable .NET, utilizando IDA obtenemos la flag directamente, puesto que no esta ofuscada.
+Loadme Para este reto utilicé GHidra, aunque IDA podría haber funcionado exactamente igual. Viendo las funciones que exporta la DLL, vemos &amp;ldquo;catchMe&amp;rdquo;. Dentro de ella, podemos ver un array de valores en hexadecimal, al que se le aplica un XOR en un bucle for. Aplicando la clave XOR del bucle al array en hexadecimal obtenemos la flag.</description>
+    </item>
+    
+  </channel>
+</rss>

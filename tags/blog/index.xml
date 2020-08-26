@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog on Blog</title>
+    <link>https://raulmart.in/tags/blog/</link>
+    <description>Recent content in blog on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 18 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://raulmart.in/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Creating the blog</title>
+      <link>https://raulmart.in/posts/my-first-post/</link>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/my-first-post/</guid>
+      <description>Building the web To build the web we have chosen to use Hugo as a generator of static sites, so that we can automate the maintenance and deployment, which we will perform through Travis and GitHub pages.
+Hugo Hugo is a static site generator written in Go.
+We have used the instructions available in the [official documentation] (https://gohugo.io/getting-started/installing/) for the installation and initial configuration.
+The theme chosen as the base is [&amp;ldquo;Terminal&amp;rdquo;] (https://themes.</description>
+    </item>
+    
+  </channel>
+</rss>

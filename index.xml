@@ -1,25 +1,128 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My reference</title>
+    <title>Blog</title>
     <link>https://raulmart.in/</link>
-    <description>Recent content on My reference</description>
+    <description>Recent content on Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <language>en</language>
+    <lastBuildDate>Thu, 16 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://raulmart.in/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Post title</title>
+      <title>About us</title>
+      <link>https://raulmart.in/about/</link>
+      <pubDate>Fri, 17 Jul 2020 00:49:01 +0200</pubDate>
+      
+      <guid>https://raulmart.in/about/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Test page</title>
+      <link>https://raulmart.in/test/</link>
+      <pubDate>Fri, 17 Jul 2020 00:49:01 +0200</pubDate>
+      
+      <guid>https://raulmart.in/test/</guid>
+      <description>javascript    function get(url, callback) { let xmlhttp=new XMLHttpRequest(); xmlhttp.onreadystatechange=function(){ if (xmlhttp.readyState == XMLHttpRequest.DONE) { callback(xmlhttp); } } xmlhttp.open(&amp;#34;GET&amp;#34;, url); xmlhttp.send(); function get(url, callback) function get(url, callback) { let xmlhttp=new XMLHttpRequest(); xmlhttp.onreadystatechange=function(){ if (xmlhttp.readyState == XMLHttpRequest.DONE) { callback(xmlhttp); } } xmlhttp.open(&amp;#34;GET&amp;#34;, url); xmlhttp.send(); function get(url, callback) function get(url, callback) { let xmlhttp=new XMLHttpRequest(); xmlhttp.onreadystatechange=function(){ if (xmlhttp.readyState == XMLHttpRequest.DONE) { callback(xmlhttp); } } xmlhttp.open(&amp;#34;GET&amp;#34;, url); xmlhttp.send(); function get(url, callback) function get(url, callback) { let xmlhttp=new XMLHttpRequest(); xmlhttp.</description>
+    </item>
+    
+    <item>
+      <title>Una Al Mes - Julio 2020</title>
+      <link>https://raulmart.in/posts/uam-julio/</link>
+      <pubDate>Thu, 16 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/uam-julio/</guid>
+      <description>UAM - Julio Volvemos a la carga con el reto mensual de Una Al Mes, ¿qué troleada nos esperará hoy?
+Reconocimiento inicial Nos encontramos una web en la que podemos registrarnos e iniciar sesión.
+Revisando el código de la web vemos el siguiente fragmento de JavaScript ofuscado:
+javascript    document.getElementById(&amp;#34;item&amp;#34;).focus(); var _0x1e50=[&amp;#39;TOD&amp;#39;,&amp;#39;log&amp;#39;,&amp;#39;ish&amp;#39;,&amp;#39;):\x20&amp;#39;,&amp;#39;\x20an&amp;#39;,&amp;#39;int&amp;#39;,&amp;#39;nic&amp;#39;,&amp;#39;ow\x20&amp;#39;,&amp;#39;men&amp;#39;,&amp;#39;iro&amp;#39;,&amp;#39;le\x20&amp;#39;,&amp;#39;ple&amp;#39;,&amp;#39;O(h&amp;#39;,&amp;#39;the&amp;#39;]; (function(_0x886df4,_0x1e50a1){var _0x21eb8f=function(_0x40e947){while(--_0x40e947){_0x886df4[&amp;#39;push&amp;#39;](_0x886df4[&amp;#39;shift&amp;#39;]());}};_0x21eb8f(&amp;#43;&amp;#43;_0x1e50a1);}(_0x1e50,0x87));var _0x21eb=function(_0x886df4,_0x1e50a1){_0x886df4=_0x886df4-0x0;var _0x21eb8f=_0x1e50[_0x886df4];return _0x21eb8f;};function hi(){console[_0x21eb(&amp;#39;0x6&amp;#39;)](_0x21eb(&amp;#39;0x5&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x3&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xc&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x0&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xb&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x8&amp;#39;)&amp;#43;&amp;#39;Fin&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x7&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x9&amp;#39;)&amp;#43;&amp;#39;d\x20e&amp;#39;&amp;#43;&amp;#39;nab&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x1&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0x4&amp;#39;)&amp;#43;&amp;#39;\x20pr&amp;#39;&amp;#43;_0x21eb(&amp;#39;0xa&amp;#39;)&amp;#43;&amp;#39;\x20im&amp;#39;&amp;#43;_0x21eb(&amp;#39;0x2&amp;#39;)&amp;#43;_0x21eb(&amp;#39;0xd&amp;#39;)&amp;#43;&amp;#39;tat&amp;#39;&amp;#43;&amp;#39;ion&amp;#39;);}   Limpiando y ordenando un poco
+javascript    var data=[&amp;#39;TOD&amp;#39;,&amp;#39;log&amp;#39;,&amp;#39;ish&amp;#39;,&amp;#39;):\x20&amp;#39;,&amp;#39;\x20an&amp;#39;,&amp;#39;int&amp;#39;,&amp;#39;nic&amp;#39;,&amp;#39;ow\x20&amp;#39;,&amp;#39;men&amp;#39;,&amp;#39;iro&amp;#39;,&amp;#39;le\x20&amp;#39;,&amp;#39;ple&amp;#39;,&amp;#39;O(h&amp;#39;,&amp;#39;the&amp;#39;]; (function(data, index) { var reorder = function(index) { while (--index) { data.</description>
+    </item>
+    
+    <item>
+      <title>Cybex 2020 CTF</title>
+      <link>https://raulmart.in/posts/cybex-ctf-2020/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/cybex-ctf-2020/</guid>
+      <description>Cybex 2020 Challenges Writeup Reversing Serial .NET executable, using IDA we get the flag directly, since it is not obfuscated.
+Loadme For this challenge I used GHidra, although IDA could have worked exactly the same. Looking at the functions that the DLL exports, we see &amp;ldquo;catchMe&amp;rdquo;. Inside it, we can see an array of values in hexadecimal, to which an XOR is applied in a for loop. Applying the XOR key of the loop to the hexadecimal array we obtain the flag.</description>
+    </item>
+    
+    <item>
+      <title>Obscurity HTB WriteUp</title>
+      <link>https://raulmart.in/posts/obscure-writeup/</link>
+      <pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/obscure-writeup/</guid>
+      <description>HTB Obscurity writeup HackTheBox Obscurity machine write up, easy Linux machine. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.168 Obscurity $ sudo nmap -sV -sC -sT -O -o nmapinitial obscurity   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET Nmap scan report for Obscurity (10.</description>
+    </item>
+    
+    <item>
+      <title>Mango HTB WriteUp</title>
+      <link>https://raulmart.in/posts/mango-writeup/</link>
+      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/mango-writeup/</guid>
+      <description>HTB Mango writeup Linux &amp;lsquo;Medium&amp;rsquo; machine, with an interesting name that reminds me of a certain DB. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.171 Mango $ sudo nmap -sV -sC -sT -O -o nmapinitial Mango   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-02-14 12:29 CET Nmap scan report for Mango (10.</description>
+    </item>
+    
+    <item>
+      <title>H-c0n 2020 qualifier Papify (1&amp;2)</title>
+      <link>https://raulmart.in/posts/h-c0n-papify-writeup/</link>
+      <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/h-c0n-papify-writeup/</guid>
+      <description>H-c0n 2020 qualifier Papify (1&amp;amp;2) Papify is an exploitation challenge where we are given a Docker image description. The container is basically what is running on the adress provided nc ctf.h-c0n.com 60003.
+Most of the steps are common between v1 and v2, except for the method used for the libc leak.
+Gathering information This is the file structure: Bash    ./papify2: docker-compose.yml Dockerfile share tmp xinetd ./papify2/share: chall flag pwn .</description>
+    </item>
+    
+    <item>
+      <title>OpenAdmin HTB WriteUp</title>
+      <link>https://raulmart.in/posts/openadmin-writeup/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/openadmin-writeup/</guid>
+      <description>HTB OpenAdmin writeup HackTheBox OpenAdmin machine write up, easy Linux machine. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.171 OpenAdmin $ sudo nmap -sV -sC -sT -O -o nmapinitial OpenAdmin   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET Nmap scan report for OpenAdmin (10.</description>
+    </item>
+    
+    <item>
+      <title>Postman HTB WriteUp</title>
+      <link>https://raulmart.in/posts/postman-writeup/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/postman-writeup/</guid>
+      <description>HTB Postman writeup &amp;lsquo;Easy&amp;rsquo; machine, user was a bit of a challenge, rooting was easier. The process is: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # add to hosts and scan sudo echo &amp;#34;10.10.10.160 postman&amp;#34; &amp;gt;/etc/hosts sudo nmap -sV -sC -sT -O -o nmapinitial Postman   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-27 02:33 CET Nmap scan report for postman (10.</description>
+    </item>
+    
+    <item>
+      <title>Traverxec HTB WriteUp</title>
+      <link>https://raulmart.in/posts/traverxec-writeup/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/traverxec-writeup/</guid>
+      <description>HTB Traverxec writeup &amp;lsquo;Easy&amp;rsquo; machine, user was a bit of a challenge, rooting was easier. The process is: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.165 Traverxec $ sudo nmap -sV -sC -sT -O -o nmapinitial Traverxec   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-29 13:51 CET Nmap scan report for Traverxec (10.</description>
+    </item>
+    
+    <item>
+      <title>Creating the blog</title>
       <link>https://raulmart.in/posts/my-first-post/</link>
-      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 18 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://raulmart.in/posts/my-first-post/</guid>
-      <description>My first blog post Aqui asdasdasd
-SUb What test asdsa
-/bin/bash -e que pacha gentusa </description>
+      <description>Building the web To build the web we have chosen to use Hugo as a generator of static sites, so that we can automate the maintenance and deployment, which we will perform through Travis and GitHub pages.
+Hugo Hugo is a static site generator written in Go.
+We have used the instructions available in the [official documentation] (https://gohugo.io/getting-started/installing/) for the installation and initial configuration.
+The theme chosen as the base is [&amp;ldquo;Terminal&amp;rdquo;] (https://themes.</description>
     </item>
     
   </channel>

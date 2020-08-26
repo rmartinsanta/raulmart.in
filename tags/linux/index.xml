@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Blog</title>
+    <link>https://raulmart.in/tags/linux/</link>
+    <description>Recent content in linux on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 16 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://raulmart.in/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Obscurity HTB WriteUp</title>
+      <link>https://raulmart.in/posts/obscure-writeup/</link>
+      <pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/obscure-writeup/</guid>
+      <description>HTB Obscurity writeup HackTheBox Obscurity machine write up, easy Linux machine. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.168 Obscurity $ sudo nmap -sV -sC -sT -O -o nmapinitial obscurity   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET Nmap scan report for Obscurity (10.</description>
+    </item>
+    
+    <item>
+      <title>Mango HTB WriteUp</title>
+      <link>https://raulmart.in/posts/mango-writeup/</link>
+      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/mango-writeup/</guid>
+      <description>HTB Mango writeup Linux &amp;lsquo;Medium&amp;rsquo; machine, with an interesting name that reminds me of a certain DB. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.171 Mango $ sudo nmap -sV -sC -sT -O -o nmapinitial Mango   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-02-14 12:29 CET Nmap scan report for Mango (10.</description>
+    </item>
+    
+    <item>
+      <title>H-c0n 2020 qualifier Papify (1&amp;2)</title>
+      <link>https://raulmart.in/posts/h-c0n-papify-writeup/</link>
+      <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/h-c0n-papify-writeup/</guid>
+      <description>H-c0n 2020 qualifier Papify (1&amp;amp;2) Papify is an exploitation challenge where we are given a Docker image description. The container is basically what is running on the adress provided nc ctf.h-c0n.com 60003.
+Most of the steps are common between v1 and v2, except for the method used for the libc leak.
+Gathering information This is the file structure: Bash    ./papify2: docker-compose.yml Dockerfile share tmp xinetd ./papify2/share: chall flag pwn .</description>
+    </item>
+    
+    <item>
+      <title>OpenAdmin HTB WriteUp</title>
+      <link>https://raulmart.in/posts/openadmin-writeup/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/openadmin-writeup/</guid>
+      <description>HTB OpenAdmin writeup HackTheBox OpenAdmin machine write up, easy Linux machine. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.171 OpenAdmin $ sudo nmap -sV -sC -sT -O -o nmapinitial OpenAdmin   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET Nmap scan report for OpenAdmin (10.</description>
+    </item>
+    
+    <item>
+      <title>Postman HTB WriteUp</title>
+      <link>https://raulmart.in/posts/postman-writeup/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/postman-writeup/</guid>
+      <description>HTB Postman writeup &amp;lsquo;Easy&amp;rsquo; machine, user was a bit of a challenge, rooting was easier. The process is: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # add to hosts and scan sudo echo &amp;#34;10.10.10.160 postman&amp;#34; &amp;gt;/etc/hosts sudo nmap -sV -sC -sT -O -o nmapinitial Postman   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-27 02:33 CET Nmap scan report for postman (10.</description>
+    </item>
+    
+    <item>
+      <title>Traverxec HTB WriteUp</title>
+      <link>https://raulmart.in/posts/traverxec-writeup/</link>
+      <pubDate>Sun, 19 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/traverxec-writeup/</guid>
+      <description>HTB Traverxec writeup &amp;lsquo;Easy&amp;rsquo; machine, user was a bit of a challenge, rooting was easier. The process is: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.165 Traverxec $ sudo nmap -sV -sC -sT -O -o nmapinitial Traverxec   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-29 13:51 CET Nmap scan report for Traverxec (10.</description>
+    </item>
+    
+  </channel>
+</rss>

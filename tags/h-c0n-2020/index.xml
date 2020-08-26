@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>H-c0n 2020 on Blog</title>
+    <link>https://raulmart.in/tags/h-c0n-2020/</link>
+    <description>Recent content in H-c0n 2020 on Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 21 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://raulmart.in/tags/h-c0n-2020/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>H-c0n 2020 qualifier Papify (1&amp;2)</title>
+      <link>https://raulmart.in/posts/h-c0n-papify-writeup/</link>
+      <pubDate>Tue, 21 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://raulmart.in/posts/h-c0n-papify-writeup/</guid>
+      <description>H-c0n 2020 qualifier Papify (1&amp;amp;2) Papify is an exploitation challenge where we are given a Docker image description. The container is basically what is running on the adress provided nc ctf.h-c0n.com 60003.
+Most of the steps are common between v1 and v2, except for the method used for the libc leak.
+Gathering information This is the file structure: Bash    ./papify2: docker-compose.yml Dockerfile share tmp xinetd ./papify2/share: chall flag pwn .</description>
+    </item>
+    
+  </channel>
+</rss>
